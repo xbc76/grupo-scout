@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grupo Scout | Aventura, valores y amistad</title>
+<meta name="description" content="Página web de un grupo scout. Actividades, agenda, acampadas, scouters, preguntas frecuentes y contacto.">
+<style>
+:root{
+  --blue:#123f2a; --blue2:#0b321f; --yellow:#eee6d2; --dark:#123f2a;
+  --light:#f7f3e8; --white:#fff; --muted:#62655f; --green:#174f35;
+  --orange:#ef7518; --line:#e6dfcf;
+  --shadow:0 10px 28px rgba(39,50,39,.10); --radius:12px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--dark);background:var(--light)}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+header{position:sticky;top:0;z-index:50;background:#f8f5ec;border-bottom:1px solid var(--line)}
+.nav{max-width:1250px;margin:auto;display:flex;align-items:center;gap:26px;padding:12px 24px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;color:#17251d;text-decoration:none;white-space:nowrap;letter-spacing:.4px}
+.logo-mark{width:45px;height:45px;border-radius:9px;background:#123f2a;display:grid;place-items:center;color:#fff;font-size:22px}
+nav{display:flex;gap:4px;margin-left:auto;flex-wrap:nowrap}
+nav button{border:0;background:transparent;padding:10px 14px;border-radius:9px;color:#29332d;font-weight:500;letter-spacing:.5px}
+nav button:hover,nav button.active{background:#eee6d2;color:#193c29}
+.admin-btn{background:#123f2a!important;color:#fff!important}
+main{min-height:70vh}
+.hero{min-height:0;display:block;background:#f8f5ec}
+.hero-inner{max-width:1250px;width:100%;margin:auto;padding:72px 24px 65px;color:#123f2a;display:grid;grid-template-columns:1.05fr .95fr;gap:55px;align-items:center}
+.eyebrow{text-transform:uppercase;letter-spacing:2px;font-weight:800;color:var(--orange);font-size:14px}
+.hero h1{font-size:clamp(42px,5vw,66px);line-height:1.02;max-width:800px;margin:14px 0;color:#123f2a}.hero-inner:after{content:'';min-height:390px;border-radius:12px;background:linear-gradient(90deg,rgba(18,63,42,.05),rgba(18,63,42,0)),url('https://images.unsplash.com/photo-1478827536114-da961b7a4a1b?auto=format&fit=crop&w=1200&q=85') center/cover;box-shadow:0 0 0 10px #eee6d2}
+.hero p{font-size:17px;max-width:680px;line-height:1.65;color:#62655f}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}
+.btn{border:0;border-radius:12px;padding:13px 18px;font-weight:800}
+.btn-primary{background:var(--orange);color:#fff}.btn-light{background:#fff;color:#123f2a;border:1px solid #ddd5c5}
+.btn-danger{background:#d84848;color:#fff}.btn-secondary{background:#e9f1f6;color:#19394c}
+.section{max-width:1250px;margin:auto;padding:68px 24px;background:#f8f5ec}
+.section-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:28px}
+.section h2{font-size:36px;margin:0 0 8px;color:#123f2a}.lead{color:var(--muted);max-width:760px;line-height:1.6}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.card{background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);border:1px solid #e7dfd0}
+.card.clickable{cursor:pointer;transition:.2s}.card.clickable:hover{transform:translateY(-4px)}
+.card img{width:100%;height:210px;object-fit:cover;display:block}
+.card-body{padding:20px}.card h3{margin:0 0 8px;font-size:21px}.date{color:#174f35;font-weight:800;font-size:14px}.muted{color:var(--muted)}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:25px}
+.feature{background:transparent;padding:20px 0;border-radius:0;box-shadow:none;border-top:1px solid var(--line)}.feature b{font-size:18px;color:#174f35}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.gallery img{width:100%;height:180px;object-fit:cover;border-radius:12px;cursor:pointer}
+.faq{background:#fff;border-radius:14px;margin:10px 0;padding:0 18px;box-shadow:0 5px 18px rgba(0,0,0,.06)}
+.faq summary{padding:18px 0;font-weight:800;cursor:pointer}.faq div{padding:0 0 18px;color:var(--muted);line-height:1.6}
+.form-wrap{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+.form{background:#fff;padding:28px;border-radius:18px;box-shadow:var(--shadow)}
+label{display:block;font-weight:800;margin:14px 0 7px}input,select,textarea{width:100%;padding:12px 13px;border:1px solid #ccd9e2;border-radius:10px;background:#fff}textarea{min-height:130px;resize:vertical}
+.notice{padding:14px;border-radius:12px;background:#eef8ff;border:1px solid #cde9fa;color:#2d5d79;margin-bottom:16px}
+footer{background:#0b351f;color:#f1f0e8;padding:45px 22px;text-align:left}.footer-inner{max-width:1250px;margin:auto}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.68);display:none;align-items:center;justify-content:center;padding:20px;z-index:100}.modal.open{display:flex}
+.modal-box{background:#fff;max-width:850px;width:100%;max-height:90vh;overflow:auto;border-radius:20px;position:relative}.modal-close{position:absolute;right:14px;top:12px;border:0;background:#fff;width:38px;height:38px;border-radius:50%;font-size:24px;box-shadow:0 2px 12px rgba(0,0,0,.15);z-index:2}
+.modal-content{padding:30px}.modal-content>img.cover{width:100%;max-height:400px;object-fit:cover;border-radius:14px}.modal-content p{line-height:1.7;color:#566b79}
+.lightbox img{max-width:94vw;max-height:86vh;object-fit:contain;border-radius:10px}.lightbox{background:rgba(0,0,0,.92)}
+.admin{display:none}.admin.show{display:block}.admin-nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}.admin-nav button{border:0;padding:10px 14px;border-radius:10px;background:#e7eef3;font-weight:800}.admin-nav button.active{background:var(--blue);color:#fff}
+.admin-panel{background:#fff;padding:24px;border-radius:18px;box-shadow:var(--shadow);margin-bottom:20px}.admin-item{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;border-bottom:1px solid #e7eef3;padding:13px 0}.admin-actions{display:flex;gap:7px;flex-wrap:wrap}.small{font-size:13px}
+.empty{padding:30px;text-align:center;background:#fff;border-radius:16px;color:var(--muted)}
+.toast{position:fixed;bottom:20px;right:20px;background:#10202d;color:#fff;padding:14px 18px;border-radius:12px;box-shadow:var(--shadow);display:none;z-index:200}.toast.show{display:block}
+@media(max-width:850px){.grid,.features,.form-wrap{grid-template-columns:1fr 1fr}nav{display:none}.grid .card img{height:190px}}
+@media(max-width:600px){.grid,.features,.form-wrap{grid-template-columns:1fr}.hero-inner{grid-template-columns:1fr;padding:52px 18px}.hero-inner:after{min-height:280px}.section{padding:52px 16px}.section h2{font-size:30px}.nav{overflow:visible}.logo{font-size:12px}}
+
+
+.mobile-menu-btn{display:none;border:0;background:#123f2a;color:#fff;width:44px;height:42px;border-radius:9px;font-size:24px;line-height:1}
+@media(max-width:850px){
+  .nav{position:relative;flex-wrap:wrap}
+  .mobile-menu-btn{display:grid;place-items:center;margin-left:auto}
+  #mainNav{
+    display:none;
+    position:absolute;
+    top:69px;
+    left:12px;
+    right:12px;
+    flex-direction:column;
+    gap:4px;
+    padding:10px;
+    background:#f8f5ec;
+    border:1px solid #e6dfcf;
+    border-radius:12px;
+    box-shadow:0 12px 30px rgba(39,50,39,.16);
+  }
+  #mainNav.mobile-open{display:flex}
+  #mainNav button{width:100%;text-align:left;padding:13px 14px}
+  #mainNav .admin-btn{text-align:center}
+}
+@media(min-width:851px){
+  #mainNav{display:flex!important}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="nav">
+<a class="logo" href="#inicio" onclick="showPage('inicio')"><span class="logo-mark">⚜</span><span id="brandName">Grupo Scout Aventura</span></a>
+<button class="mobile-menu-btn" aria-label="Abrir menú" onclick="toggleMobileMenu()">☰</button>
+<nav id="mainNav">
+<button onclick="showPage('inicio')">Inicio</button><button onclick="showPage('agenda')">Agenda</button><button onclick="showPage('acampadas')">Acampadas</button><button onclick="showPage('scouters')">Scouters</button><button onclick="showPage('faq')">Preguntas frecuentes</button><button onclick="showPage('formulario')">Formulario</button>
+<button class="admin-btn" onclick="location.href='admin/'">⚙ Administración</button>
+</nav>
+</div>
+</header>
+
+<main id="public">
+<section id="inicio" class="page">
+<div class="hero"><div class="hero-inner">
+<div>
+<div class="eyebrow" id="heroSubtitle">ASOCIACIÓN EDUCATIVA SCOUT</div>
+<h1 id="heroTitle">Aventura y amistad</h1>
+<p id="heroText">En el Grupo Scout Agnes Baden Powell, como parte de ASDE – Scouts de España, utilizamos el Método Scout, una forma de educar basada en la experiencia, la participación y los valores.</p>
+<p>Trabajamos mediante:</p>
+<div class="feature"><b>Aprender.</b><p class="muted">Haciendo actividades prácticas, retos y experiencias reales que permiten desarrollar habilidades, confianza y autonomía.</p></div>
+<div class="feature"><b>Educación en valores.</b><p class="muted">Promovemos la igualdad de género, el respeto al medio ambiente, el uso responsable de las TIC, la paz, la seguridad vial, la igualdad de oportunidades y el consumo responsable.</p></div>
+<div class="feature"><b>Pequeños grupos.</b><p class="muted">Niños, seisenas y patrullas que fomentan el trabajo en equipo, la convivencia y la responsabilidad compartida.</p></div>
+<div class="feature"><b>Progresión personal.</b><p class="muted">Cada educando avanza a su ritmo mediante objetivos, insignias y retos adaptados a su edad.</p></div>
+<div class="feature"><b>Vida en la naturaleza.</b><p class="muted">Rutas, juegos y campamentos que fortalecen la autosuficiencia, la aventura y el respeto por el entorno.</p></div>
+<div class="feature"><b>Participación y compromiso.</b><p class="muted">Niños y jóvenes toman decisiones, proponen ideas y se comprometen con su crecimiento y con el grupo.</p></div>
+<div class="feature"><b>Acompañamiento adulto.</b><p class="muted">Scouters voluntarios que guían desde el respeto, la cercanía y la seguridad.</p></div>
+</div>
+</div></div>
+
+</section>
+
+<section id="agenda" class="page" style="display:none"><div class="section"><div class="section-head"><div><h2>Agenda</h2><p class="lead">Próximas actividades del grupo. Pulsa una tarjeta para consultar todos los detalles.</p></div></div><div id="agendaGrid" class="grid"></div></div></section>
+
+<section id="acampadas" class="page" style="display:none"><div class="section"><div class="section-head"><div><h2>Acampadas</h2><p class="lead">Revive nuestras aventuras a través de fotos e historias.</p></div></div><div id="campGrid" class="grid"></div></div></section>
+
+<section id="scouters" class="page" style="display:none"><div class="section"><div class="section-head"><div><h2>Scouters</h2><p class="lead">El equipo voluntario que acompaña y educa a nuestros grupos.</p></div></div><div id="scoutGrid" class="grid"></div></div></section>
+
+<section id="faq" class="page" style="display:none"><div class="section"><div class="section-head"><div><h2>Preguntas frecuentes</h2><p class="lead">Las dudas más habituales de las familias que quieren conocernos.</p></div></div><div id="faqList"></div></div></section>
+
+<section id="formulario" class="page" style="display:none"><div class="section"><div class="section-head"><div><h2>¿Quieres conocernos?</h2><p class="lead">Déjanos tus datos y nos pondremos en contacto contigo.</p></div></div>
+<div class="form-wrap"><div class="form"><div class="notice">Este formulario es un ejemplo funcional. En una instalación real, configura un servicio de correo o backend para recibir las notificaciones.</div>
+<form id="contactForm"><label>Nombre del interesado *</label><input name="interesado" required><label>Nombre del padre/madre/tutor</label><input name="tutor"><label>Teléfono *</label><input name="telefono" type="tel" required><label>Edad *</label><input name="edad" type="number" min="5" max="99" required><label>Grupo scout</label><select name="grupo" id="grupoSelect"></select><label>Mensaje</label><textarea name="mensaje" placeholder="Cuéntanos qué te gustaría saber..."></textarea><button class="btn btn-primary" type="submit">Enviar solicitud</button></form></div>
+<div><div class="feature"><h3>¿Qué grupo corresponde?</h3><p class="muted">La distribución por edades puede adaptarse a la organización de cada grupo scout.</p><ul id="groupInfo"></ul></div></div></div></div></section>
+
+<section id="admin" class="page admin" style="display:none"><div class="section"><div class="section-head"><div><h2>Administración</h2><p class="lead">Gestiona el contenido de la web desde aquí.</p></div><button class="btn btn-secondary" onclick="logoutAdmin()">Cerrar sesión</button></div>
+<div class="admin-nav"><button onclick="adminTab('inicio')">Inicio</button><button onclick="adminTab('agenda')">Agenda</button><button onclick="adminTab('acampadas')">Acampadas</button><button onclick="adminTab('scouters')">Scouters</button><button onclick="adminTab('faq')">FAQ</button><button onclick="adminTab('ajustes')">Correos y acceso</button></div>
+<div id="adminContent"></div></div></section>
+</main>
+
+<footer><div class="footer-inner"><strong id="footerName">Grupo Scout Aventura</strong><p>Educación, naturaleza, servicio y amistad.</p><p class="small">Web de ejemplo editable desde Administración.</p></div></footer>
+
+<div id="modal" class="modal" onclick="if(event.target===this)closeModal()"><div class="modal-box"><button class="modal-close" onclick="closeModal()">×</button><div id="modalContent" class="modal-content"></div></div></div>
+<div id="lightbox" class="modal lightbox" onclick="closeLightbox()"><img id="lightboxImg" alt="Imagen ampliada"></div>
+<div id="toast" class="toast"></div>
+
+<script>
+const KEY='scout_web_demo_v1';
+const defaults={
+settings:{groupName:'Grupo Scout Aventura',adminEmails:['xavibc1976@gmail.com'],notifyEmails:['xavibc1976@gmail.com'],groups:[
+{name:'Castores',age:'5–7 años'},{name:'Manada / Lobatos',age:'8–11 años'},{name:'Exploradores',age:'12–14 años'},{name:'Pioneros',age:'15–17 años'},{name:'Rovers',age:'18–21 años'}
+]},
+home:{subtitle:'ASOCIACIÓN EDUCATIVA SCOUT',title:'Aventura y amistad',text:'En el Grupo Scout Agnes Baden Powell, como parte de ASDE – Scouts de España, utilizamos el Método Scout, una forma de educar basada en la experiencia, la participación y los valores.'},
+agenda:[
+{id:1,title:'Reunión de grupo y juegos',start:'2026-09-05T10:30',end:'',image:'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1000&q=80',text:'Una mañana para reencontrarnos, jugar, conocer a las nuevas familias y presentar el programa del trimestre.'},
+{id:2,title:'Ruta y día de campo',start:'2026-09-19T09:00',end:'2026-09-19T18:00',image:'https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=1000&q=80',text:'Ruta sencilla por el entorno natural con juegos, comida compartida y actividades por ramas.'},
+{id:3,title:'Acampada de otoño',start:'2026-10-10T09:00',end:'2026-10-11T17:00',image:'https://images.unsplash.com/photo-1504851149312-7a075b496cc7?auto=format&fit=crop&w=1000&q=80',text:'Fin de semana de convivencia, orientación, talleres, canciones y vida en campamento.'}
+],
+camps:[
+{id:1,title:'Campamento de verano 2026',date:'2026-07-18',cover:'https://images.unsplash.com/photo-1478827536114-da961b7a4a1b?auto=format&fit=crop&w=1200&q=85',text:'Una semana llena de aventuras, juegos, talleres, rutas y momentos inolvidables. Esta ficha sirve como ejemplo de cómo quedará una memoria de campamento.',images:['https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=1000&q=80','https://images.unsplash.com/photo-1523987355523-c7b5b84c0d8a?auto=format&fit=crop&w=1000&q=80','https://images.unsplash.com/photo-1475483768296-6163e08872a1?auto=format&fit=crop&w=1000&q=80']},
+{id:2,title:'Acampada de primavera',date:'2026-04-11',cover:'https://images.unsplash.com/photo-1464278533981-50106e6176b1?auto=format&fit=crop&w=1200&q=85',text:'Un fin de semana de naturaleza y convivencia.',images:['https://images.unsplash.com/photo-1473445361085-b9a07f55608b?auto=format&fit=crop&w=1000&q=80','https://images.unsplash.com/photo-1445307806294-bff7f67ff225?auto=format&fit=crop&w=1000&q=80']}
+],
+scouters:[
+{id:1,name:'Ana García',role:'Responsable de grupo',image:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=700&q=80',text:'Acompaña la coordinación general y la planificación educativa del grupo.'},
+{id:2,name:'Carlos Martín',role:'Scouter de Manada',image:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=700&q=80',text:'Acompaña a la Manada en sus aventuras y progresión personal.'},
+{id:3,name:'Lucía Romero',role:'Scouter de Exploradores',image:'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=700&q=80',text:'Trabaja autonomía, técnica scout, convivencia y servicio.'}
+],
+faq:[
+{q:'¿A partir de qué edad se puede entrar?',a:'Depende de la estructura del grupo. En este ejemplo aparecen ramas desde Castores hasta Rovers. Puedes modificar las edades desde Administración.'},
+{q:'¿Hace falta experiencia previa?',a:'No. El escultismo está pensado para aprender haciendo y cada rama adapta las actividades a la edad.'},
+{q:'¿Qué hay que llevar a una acampada?',a:'El grupo entrega antes de cada actividad una lista adaptada al lugar, duración y condiciones meteorológicas.'},
+{q:'¿Cómo puedo probar antes de apuntarme?',a:'Puedes usar el formulario de contacto para pedir información y acordar una visita o una actividad de prueba.'}
+]};
+let data=JSON.parse(localStorage.getItem(KEY)||'null')||structuredClone(defaults);
+let adminLogged=false, currentAdminTab='inicio';
+function save(){localStorage.setItem(KEY,JSON.stringify(data))}
+function fmtDate(s){if(!s)return '';let d=new Date(s);return d.toLocaleString('es-ES',{dateStyle:'long',timeStyle:s.includes('T')?'short':undefined})}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function showPage(id){
+document.getElementById('mainNav')?.classList.remove('mobile-open');
+document.querySelectorAll('.page').forEach(x=>x.style.display='none');
+const el=document.getElementById(id); if(el)el.style.display=id==='admin'?'block':'block';
+if(id==='agenda')renderAgenda(); if(id==='acampadas')renderCamps(); if(id==='scouters')renderScouters(); if(id==='faq')renderFaq(); if(id==='formulario')renderForm();
+window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleMobileMenu(){
+  document.getElementById('mainNav').classList.toggle('mobile-open');
+}
+function renderHome(){document.getElementById('brandName').textContent=data.settings.groupName;document.getElementById('footerName').textContent=data.settings.groupName;document.getElementById('heroSubtitle').textContent=data.home.subtitle;document.getElementById('heroTitle').textContent=data.home.title;document.getElementById('heroText').textContent=data.home.text}
+function renderAgenda(){const g=document.getElementById('agendaGrid');g.innerHTML=data.agenda.length?data.agenda.map(x=>`<article class="card clickable" onclick="openAgenda(${x.id})"><img src="${esc(x.image)}" onerror="this.style.display='none'"><div class="card-body"><div class="date">${esc(fmtDate(x.start))}${x.end?' · hasta '+esc(fmtDate(x.end)):''}</div><h3>${esc(x.title)}</h3><p class="muted">${esc(x.text.slice(0,120))}…</p></div></article>`).join(''):'<div class="empty">No hay próximos eventos.</div>'}
+function openAgenda(id){const x=data.agenda.find(a=>a.id===id);openModal(`<img class="cover" src="${esc(x.image)}"><div class="date">${esc(fmtDate(x.start))}${x.end?' · hasta '+esc(fmtDate(x.end)):''}</div><h2>${esc(x.title)}</h2><p>${esc(x.text)}</p>`)}
+function renderCamps(){const g=document.getElementById('campGrid');g.innerHTML=data.camps.map(x=>`<article class="card clickable" onclick="openCamp(${x.id})"><img src="${esc(x.cover)}"><div class="card-body"><div class="date">${esc(fmtDate(x.date))}</div><h3>${esc(x.title)}</h3></div></article>`).join('')}
+function openCamp(id){const x=data.camps.find(a=>a.id===id);openModal(`<img class="cover" src="${esc(x.cover)}"><div class="date">${esc(fmtDate(x.date))}</div><h2>${esc(x.title)}</h2><p>${esc(x.text)}</p><div class="gallery">${x.images.map(i=>`<img src="${esc(i)}" onclick="event.stopPropagation();openLightbox('${esc(i)}')">`).join('')}</div>`)}
+function renderScouters(){document.getElementById('scoutGrid').innerHTML=data.scouters.map(x=>`<article class="card clickable" onclick="openScouter(${x.id})"><img src="${esc(x.image)}"><div class="card-body"><h3>${esc(x.name)}</h3><div class="date">${esc(x.role)}</div></div></article>`).join('')}
+function openScouter(id){const x=data.scouters.find(a=>a.id===id);openModal(`<img class="cover" src="${esc(x.image)}"><h2>${esc(x.name)}</h2><div class="date">${esc(x.role)}</div><p>${esc(x.text)}</p>`)}
+function renderFaq(){document.getElementById('faqList').innerHTML=data.faq.map(x=>`<details class="faq"><summary>${esc(x.q)}</summary><div>${esc(x.a)}</div></details>`).join('')}
+function renderForm(){document.getElementById('grupoSelect').innerHTML=data.settings.groups.map(g=>`<option>${esc(g.name)}</option>`).join('');document.getElementById('groupInfo').innerHTML=data.settings.groups.map(g=>`<li><b>${esc(g.name)}</b>: ${esc(g.age)}</li>`).join('')}
+function openModal(html){document.getElementById('modalContent').innerHTML=html;document.getElementById('modal').classList.add('open')}
+function closeModal(){document.getElementById('modal').classList.remove('open')}
+function openLightbox(src){document.getElementById('lightboxImg').src=src;document.getElementById('lightbox').classList.add('open')}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('open')}
+function toast(t){const x=document.getElementById('toast');x.textContent=t;x.classList.add('show');setTimeout(()=>x.classList.remove('show'),3000)}
+function openAdmin(){const email=prompt('Correo autorizado para acceder a Administración:');if(!email)return;if(data.settings.adminEmails.map(x=>x.toLowerCase()).includes(email.trim().toLowerCase())){adminLogged=true;showPage('admin');document.getElementById('admin').classList.add('show');adminTab('inicio')}else alert('Este correo no está autorizado.')}
+function logoutAdmin(){adminLogged=false;showPage('inicio')}
+function adminTab(tab){currentAdminTab=tab;renderAdmin()}
+function renderAdmin(){
+const c=document.getElementById('adminContent');
+if(currentAdminTab==='inicio')c.innerHTML=`<div class="admin-panel"><h3>Portada</h3><label>Nombre del grupo</label><input id="aGroup" value="${esc(data.settings.groupName)}"><label>Sobre título</label><input id="aSub" value="${esc(data.home.subtitle)}"><label>Título</label><input id="aTitle" value="${esc(data.home.title)}"><label>Texto</label><textarea id="aText">${esc(data.home.text)}</textarea><br><br><button class="btn btn-primary" onclick="saveHome()">Guardar cambios</button></div>`;
+else if(currentAdminTab==='agenda')c.innerHTML=editorList('Agenda','agenda',x=>`<b>${esc(x.title)}</b><br><span class="small muted">${esc(fmtDate(x.start))}</span>`);
+else if(currentAdminTab==='acampadas')c.innerHTML=editorList('Acampadas','camps',x=>`<b>${esc(x.title)}</b><br><span class="small muted">${esc(fmtDate(x.date))}</span>`);
+else if(currentAdminTab==='scouters')c.innerHTML=editorList('Scouters','scouters',x=>`<b>${esc(x.name)}</b> · ${esc(x.role)}`);
+else if(currentAdminTab==='faq')c.innerHTML=editorList('Preguntas frecuentes','faq',x=>`<b>${esc(x.q)}</b>`);
+else c.innerHTML=`<div class="admin-panel"><h3>Correos de notificación</h3><p class="muted">Los formularios pueden configurarse para enviar avisos a estas direcciones cuando conectes un backend o servicio de formularios.</p><div id="notifyList">${data.settings.notifyEmails.map((e,i)=>`<div class="admin-item"><input value="${esc(e)}" onchange="data.settings.notifyEmails[${i}]=this.value;save()"><button class="btn btn-danger" onclick="data.settings.notifyEmails.splice(${i},1);save();renderAdmin()">Eliminar</button></div>`).join('')}</div><br><button class="btn btn-secondary" onclick="data.settings.notifyEmails.push('');save();renderAdmin()">+ Añadir correo</button></div>
+<div class="admin-panel"><h3>Acceso a Administración</h3><p class="muted">Estas direcciones pueden entrar en modo administración. El correo protegido no se puede borrar.</p>${data.settings.adminEmails.map((e,i)=>`<div class="admin-item"><div><b>${esc(e)}</b>${i===0?' <span class="small">· protegido</span>':''}</div>${i===0?'':'<button class="btn btn-danger" onclick="data.settings.adminEmails.splice('+i+',1);save();renderAdmin()">Eliminar</button>'}</div>`).join('')}<br><button class="btn btn-secondary" onclick="addAdminEmail()">+ Añadir correo autorizado</button></div>`;
+}
+function editorList(title,key,summary){
+let html=`<div class="admin-panel"><div class="section-head"><h3>${title}</h3><button class="btn btn-primary" onclick="addItem('${key}')">+ Añadir</button></div>`;
+html+=data[key].map(x=>`<div class="admin-item"><div>${summary(x)}</div><div class="admin-actions"><button class="btn btn-secondary" onclick="editItem('${key}',${x.id??data[key].indexOf(x)})">Editar</button><button class="btn btn-danger" onclick="deleteItem('${key}',${x.id??data[key].indexOf(x)})">Eliminar</button></div></div>`).join('');
+return html+'</div>';
+}
+function addAdminEmail(){const e=prompt('Correo que podrá acceder a Administración:');if(e){data.settings.adminEmails.push(e.trim());save();renderAdmin()}}
+function saveHome(){data.settings.groupName=document.getElementById('aGroup').value;data.home.subtitle=document.getElementById('aSub').value;data.home.title=document.getElementById('aTitle').value;data.home.text=document.getElementById('aText').value;save();renderHome();toast('Portada guardada')}
+function deleteItem(key,id){if(confirm('¿Eliminar este elemento?')){data[key]=data[key].filter(x=>(x.id??data[key].indexOf(x))!==id);save();renderAdmin()}}
+function editItem(key,id){
+const arr=data[key];const x=arr.find(a=>(a.id??arr.indexOf(a))===id);let fields='';
+if(key==='agenda')fields=`Título|title|${x.title}|text|${x.text}|Fecha/hora inicio|start|${x.start}|Fecha/hora fin (opcional)|end|${x.end}|Imagen URL|image|${x.image}`;
+if(key==='camps')fields=`Título|title|${x.title}|Fecha|date|${x.date}|Portada URL|cover|${x.cover}|Texto|text|${x.text}|Imágenes (una URL por línea)|images|${x.images.join('\\n')}`;
+if(key==='scouters')fields=`Nombre|name|${x.name}|Cargo|role|${x.role}|Imagen URL|image|${x.image}|Texto|text|${x.text}`;
+if(key==='faq')fields=`Pregunta|q|${x.q}|Respuesta|a|${x.a}`;
+const parts=fields.split('|');let form='';
+for(let i=0;i<parts.length;i+=3){let label=parts[i],name=parts[i+1],val=parts[i+2];form+=`<label>${esc(label)}</label>${name==='text'||name==='a'||name==='images'?`<textarea data-field="${name}">${esc(val)}</textarea>`:`<input data-field="${name}" value="${esc(val)}" ${name==='start'||name==='end'||name==='date'?'type="datetime-local"':''}>`}`}
+openModal(`<h2>Editar</h2>${form}<br><button class="btn btn-primary" onclick="saveEdited('${key}',${id})">Guardar</button>`);
+}
+function saveEdited(key,id){const x=data[key].find(a=>(a.id??data[key].indexOf(a))===id);document.querySelectorAll('#modalContent [data-field]').forEach(el=>{let v=el.value;if(el.dataset.field==='images')v=v.split('\\n').map(s=>s.trim()).filter(Boolean);x[el.dataset.field]=v});save();closeModal();renderAdmin();toast('Cambios guardados')}
+function addItem(key){
+let x;
+if(key==='agenda')x={id:Date.now(),title:'Nuevo evento',start:'2026-09-01T10:00',end:'',image:'https://images.unsplash.com/photo-1504150558240-0b4fd8946624?auto=format&fit=crop&w=1000&q=80',text:'Descripción del evento.'};
+if(key==='camps')x={id:Date.now(),title:'Nueva acampada',date:'2026-09-01',cover:'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=1200&q=80',text:'Descripción de la acampada.',images:[]};
+if(key==='scouters')x={id:Date.now(),name:'Nuevo scouter',role:'Cargo',image:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=700&q=80',text:'Texto explicativo.'};
+if(key==='faq')x={q:'Nueva pregunta',a:'Nueva respuesta'};
+data[key].push(x);save();renderAdmin();toast('Elemento añadido. Pulsa Editar para completarlo.')}
+document.getElementById('contactForm').addEventListener('submit',e=>{e.preventDefault();const f=new FormData(e.target);const subject=encodeURIComponent('Nueva solicitud de información scout');let body='Nombre interesado: '+f.get('interesado')+'\\nPadre/madre/tutor: '+f.get('tutor')+'\\nTeléfono: '+f.get('telefono')+'\\nEdad: '+f.get('edad')+'\\nGrupo: '+f.get('grupo')+'\\nMensaje: '+f.get('mensaje');let to=data.settings.notifyEmails.join(',');location.href=`mailto:${to}?subject=${subject}&body=${encodeURIComponent(body)}`;toast('Se ha preparado el correo de solicitud');e.target.reset()});
+renderHome();renderAgenda();renderCamps();renderScouters();renderFaq();renderForm();
+</script>
+<script>
+window.data={inicio:{},agenda:[],camps:[],scouters:[],faq:[]};
+async function loadSiteData(){
+ const files=[["inicio","datos/inicio.json"],["agenda","datos/agenda.json"],["camps","datos/acampadas.json"],["scouters","datos/scouters.json"],["faq","datos/faq.json"]];
+ try{await Promise.all(files.map(async x=>{const r=await fetch(x[1]+"?v="+Date.now());if(!r.ok)throw Error(x[1]);window.data[x[0]]=await r.json()}));if(window.renderAll)window.renderAll()}
+ catch(e){console.error(e)}
+}
+document.addEventListener("DOMContentLoaded",loadSiteData);
+</script></body>
+</html>
