@@ -124,6 +124,19 @@ footer{background:#0b351f;color:#f1f0e8;padding:45px 22px;text-align:left}.foote
 .msg-status-contactado{background:#1f7a4d;color:#fff}
 .msg-btn-leido{background:#1e6fa8;color:#fff}
 .msg-btn-contactado{background:#1f7a4d;color:#fff}
+.msg-filter-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.msg-filter-tabs button{border:2px solid transparent;padding:8px 16px;border-radius:20px;font-weight:800;font-size:13px;cursor:pointer}
+.msg-filter-tabs button.active{border-color:currentColor}
+.msg-filter-tabs button[data-filter="todos"]{background:#e7eef3;color:#173a57}
+.msg-filter-tabs button[data-filter="todos"].active{background:#173a57;color:#fff}
+.msg-filter-tabs button[data-filter="pendiente"]{background:#f7c600;color:#5c4600}
+.msg-filter-tabs button[data-filter="pendiente"].active{box-shadow:0 0 0 2px #5c4600 inset}
+.msg-filter-tabs button[data-filter="leido"]{background:#1e6fa8;color:#fff}
+.msg-filter-tabs button[data-filter="leido"].active{box-shadow:0 0 0 2px #0b3a55 inset}
+.msg-filter-tabs button[data-filter="contactado"]{background:#1f7a4d;color:#fff}
+.msg-filter-tabs button[data-filter="contactado"].active{box-shadow:0 0 0 2px #0d3a24 inset}
+.msg-search-box{margin:10px 0 16px}
+.msg-search-box input{width:100%;padding:11px 14px;border-radius:10px;border:1px solid #ccd9e2;font-size:14px;box-sizing:border-box}
 .icon-pick-btn svg{width:22px;height:22px;fill:none;stroke:var(--dark);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .icon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:8px;margin-top:12px;max-height:340px;overflow:auto}
 .icon-grid-btn{width:100%;aspect-ratio:1;border:1px solid #ccd9e2;border-radius:10px;background:#f6f4ed;display:flex;align-items:center;justify-content:center;cursor:pointer}
@@ -1523,12 +1536,13 @@ else if(currentAdminTab==='estadisticas'){c.innerHTML=renderStatsPanel();loadSta
 else if(currentAdminTab==='skins')c.innerHTML=renderSkinsPanel();
 else c.innerHTML=renderAccesoPanel();}
 function addAdminUser(){
-openModal(`<div><h2>Nuevo administrador</h2><p class="field-help">Se creará una cuenta de acceso real (Firebase). La contraseña que pongas aquí será la que use esa persona para entrar.</p><label>Nombre</label><input id="newAdminName"><label>Correo</label><input id="newAdminEmail" type="email"><label>Contraseña (mínimo 6 caracteres)</label><input id="newAdminPass" type="text"><div style="margin-top:18px"><button class="btn btn-primary" id="createAdminBtn" onclick="createAdminUser()">Crear administrador</button></div></div>`);
+openModal(`<div><h2>Nuevo administrador</h2><p class="field-help">Se creará una cuenta de acceso real (Firebase). La contraseña que pongas aquí será la que use esa persona para entrar.</p><label>Nombre</label><input id="newAdminName"><label>Correo</label><input id="newAdminEmail" type="email"><label>Contraseña (mínimo 6 caracteres)</label><input id="newAdminPass" type="text"><label class="access-toggle" style="margin-top:14px"><input type="checkbox" id="newAdminManage"> Puede gestionar el acceso</label><div style="margin-top:18px"><button class="btn btn-primary" id="createAdminBtn" onclick="createAdminUser()">Crear administrador</button></div></div>`);
 }
 function createAdminUser(){
 const name=(document.getElementById('newAdminName').value||'').trim();
 const email=(document.getElementById('newAdminEmail').value||'').trim().toLowerCase();
 const pass=document.getElementById('newAdminPass').value||'';
+const canManageAccess=document.getElementById('newAdminManage').checked;
 if(!name||!email||!pass||pass.length<6){alert('Rellena nombre, correo y una contraseña de al menos 6 caracteres.');return}
 if(data.settings.adminUsers.find(u=>(u.email||'').trim().toLowerCase()===email)){alert('Ya existe un administrador con ese correo.');return}
 const btn=document.getElementById('createAdminBtn');
@@ -1538,7 +1552,7 @@ const secondaryAuth=secondaryApp.auth();
 secondaryAuth.createUserWithEmailAndPassword(email,pass).then(function(){
 return secondaryAuth.signOut();
 }).then(function(){
-data.settings.adminUsers.push({name:name,email:email,canManageAccess:false});
+data.settings.adminUsers.push({name:name,email:email,canManageAccess:canManageAccess});
 save();closeModal();renderAdmin();
 toast('Administrador creado correctamente.');
 }).catch(function(err){
@@ -1814,6 +1828,8 @@ if(key==='aviso')renderAvisoLegal();
 if(key==='privacidad')renderPrivacidad();
 toast('Texto guardado');
 }
+let msgFilterStatus='todos';
+let msgSearchQuery='';
 function renderMessagesPanel(){
 const msgs=data.messages||[];
 let h=`<div class="admin-panel"><h3>Mensajes</h3><p class="small muted">Solicitudes enviadas desde el formulario de contacto de la web. Se sincronizan en tiempo real entre todos los administradores.</p>`;
@@ -1821,7 +1837,32 @@ if(!msgs.length){
 h+=`<p class="muted">Todavía no se ha recibido ningún mensaje.</p></div>`;
 return h;
 }
-h+=msgs.map(m=>{
+h+=`<div class="msg-filter-tabs">
+<button data-filter="todos" class="${msgFilterStatus==='todos'?'active':''}" onclick="setMsgFilter('todos')">Todos</button>
+<button data-filter="pendiente" class="${msgFilterStatus==='pendiente'?'active':''}" onclick="setMsgFilter('pendiente')">Pendiente</button>
+<button data-filter="leido" class="${msgFilterStatus==='leido'?'active':''}" onclick="setMsgFilter('leido')">Leído</button>
+<button data-filter="contactado" class="${msgFilterStatus==='contactado'?'active':''}" onclick="setMsgFilter('contactado')">Contactado</button>
+</div>
+<div class="msg-search-box"><input type="text" placeholder="Buscar por nombre del niño/a o del padre/madre..." value="${esc(msgSearchQuery)}" oninput="filterMsgSearch(this.value)"></div>
+<div id="msgListContainer">${renderMsgListItems()}</div>
+</div>`;
+return h;
+}
+function renderMsgListItems(){
+const msgs=data.messages||[];
+const q=msgSearchQuery.trim().toLowerCase();
+const filtered=msgs.filter(m=>{
+const estado=m.estado||'pendiente';
+if(msgFilterStatus!=='todos'&&estado!==msgFilterStatus)return false;
+if(q){
+const interesado=(m.interesado||'').toLowerCase();
+const tutor=(m.tutor||'').toLowerCase();
+if(!interesado.includes(q)&&!tutor.includes(q))return false;
+}
+return true;
+});
+if(!filtered.length)return '<p class="muted">No hay mensajes que coincidan con el filtro o la búsqueda.</p>';
+return filtered.map(m=>{
 const estado=m.estado||'pendiente';
 const badge=`<span class="msg-status-badge msg-status-${estado}">${estado==='contactado'?'Contactado':estado==='leido'?'Leído':'Pendiente'}</span>`;
 return `<div class="admin-item clickable" onclick="openMessageModal('${m.id}')"><div>
@@ -1830,8 +1871,17 @@ ${!m.leido?'<span class="small" style="color:#c0392b;font-weight:800">● Nuevo<
 <span class="small muted">${esc(fmtDate(m.date))}</span>
 </div><div class="admin-actions">${badge}</div></div>`;
 }).join('');
-h+=`</div>`;
-return h;
+}
+function setMsgFilter(status){
+msgFilterStatus=status;
+document.querySelectorAll('.msg-filter-tabs button').forEach(b=>b.classList.toggle('active',b.dataset.filter===status));
+const c=document.getElementById('msgListContainer');
+if(c)c.innerHTML=renderMsgListItems();
+}
+function filterMsgSearch(value){
+msgSearchQuery=value;
+const c=document.getElementById('msgListContainer');
+if(c)c.innerHTML=renderMsgListItems();
 }
 function openMessageModal(id){
 const m=data.messages.find(x=>x.id===id);
