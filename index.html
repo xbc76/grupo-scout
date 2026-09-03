@@ -978,22 +978,30 @@ let adminLogged=false, currentAdminUser=null, currentAdminTab='textos';
 let lastSyncedJson=null;
 function save(){
   localStorage.setItem(KEY,JSON.stringify(data));
-  if(!adminLogged)return;
-  const payload=JSON.parse(JSON.stringify(data));
-  delete payload.messages;
-  if(payload.settings&&payload.settings.adminUsers){
-    payload.settings.adminUsers=payload.settings.adminUsers.map(u=>({name:u.name,email:u.email,locked:!!u.locked,canManageAccess:!!u.canManageAccess}));
-  }
-  const payloadJson=JSON.stringify(payload);
-  if(payloadJson.length>900000){
-    toast('⚠️ El contenido pesa demasiado para guardarse en el servidor (límite 1 MB). Reduce el tamaño o número de imágenes/documentos.');
+  if(!adminLogged){
+    console.warn('save(): no se envía al servidor porque no hay sesión de administrador activa.');
     return;
   }
-  lastSyncedJson=payloadJson;
-  fbDb.collection('site').doc('content').set({json:payloadJson,updatedAt:firebase.firestore.FieldValue.serverTimestamp()}).catch(function(err){
-    console.error('Error guardando en el servidor:',err);
-    toast('⚠️ No se pudo sincronizar con el servidor: '+(err.message||err));
-  });
+  try{
+    const payload=JSON.parse(JSON.stringify(data));
+    delete payload.messages;
+    if(payload.settings&&payload.settings.adminUsers){
+      payload.settings.adminUsers=payload.settings.adminUsers.map(u=>({name:u.name,email:u.email,locked:!!u.locked,canManageAccess:!!u.canManageAccess}));
+    }
+    const payloadJson=JSON.stringify(payload);
+    if(payloadJson.length>650000){
+      alert('⚠️ ATENCIÓN: este cambio pesa demasiado y NO se ha guardado en el servidor (así que no lo verán los demás administradores ni tú al recargar la página). Borra o reduce alguna imagen/documento y vuelve a intentarlo.\n\nTamaño actual: '+Math.round(payloadJson.length/1024)+' KB de un máximo de unos 1000 KB.');
+      return;
+    }
+    lastSyncedJson=payloadJson;
+    fbDb.collection('site').doc('content').set({json:payloadJson,updatedAt:firebase.firestore.FieldValue.serverTimestamp()}).catch(function(err){
+      console.error('Error guardando en el servidor:',err);
+      alert('⚠️ ATENCIÓN: no se ha podido guardar este cambio en el servidor. Puede que no se refleje para otros administradores ni al recargar la página.\n\nDetalle técnico: '+(err.message||err));
+    });
+  }catch(e){
+    console.error('Error inesperado al guardar:',e);
+    alert('⚠️ Ha ocurrido un error inesperado al guardar. El cambio puede no haberse sincronizado.\n\nDetalle técnico: '+(e.message||e));
+  }
 }
 function renderEverything(){
   renderNav();
@@ -1346,7 +1354,7 @@ function readImageFile(input,previewId){
 const f=input.files&&input.files[0];
 if(!f)return;
 const p=document.getElementById(previewId);
-compressImageFile(f,1400,0.78).then(dataUrl=>{
+compressImageFile(f,1100,0.7).then(dataUrl=>{
 p.src=dataUrl;p.style.display='block';p.dataset.value=dataUrl;
 }).catch(()=>{
 const r=new FileReader();
@@ -1502,7 +1510,7 @@ function renderFooterContact(){
 const ctaBtn=document.getElementById('footerCtaBtn');
 if(ctaBtn){
 const formTab=data.settings.navTabs&&data.settings.navTabs.formulario;
-ctaBtn.style.display=(formTab&&formTab.hidden)?'none':'';
+ctaBtn.style.visibility=(formTab&&formTab.hidden)?'hidden':'';
 }
 const c=data.settings.contactInfo||{};
 const links=[];
@@ -1928,7 +1936,7 @@ if(key==='promociones')form=`<div><h2>Editar promoción</h2><label>Título</labe
 openModal(form)}
 function readGallery(input,id){
 [...(input.files||[])].forEach(f=>{
-compressImageFile(f,1400,0.78).then(dataUrl=>{
+compressImageFile(f,1100,0.7).then(dataUrl=>{
 const d=document.createElement('div');
 d.className='image-admin-item';
 d.dataset.newImage=dataUrl;
