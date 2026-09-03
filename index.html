@@ -85,6 +85,8 @@ footer{background:#0b351f;color:#f1f0e8;padding:45px 22px;text-align:left}.foote
 .admin-nav button.admin-tab-c3.active{background:#1f7a4d;color:#fff}
 .admin-nav button.admin-tab-c4{background:#1a1a1a;color:#fff}
 .admin-nav button.admin-tab-c4.active{background:#000;color:#fff;box-shadow:inset 0 0 0 2px #fff}
+.admin-nav button.admin-tab-warn{background:#e30613;color:#fff}
+.admin-nav button.admin-tab-warn.active{background:#a00410;color:#fff;box-shadow:inset 0 0 0 2px #fff}
 #admin .section{display:grid;grid-template-columns:200px 1fr;grid-template-areas:"head head" "nav content";gap:24px 30px;align-items:start}
 #admin .section-head{grid-area:head}
 #admin .admin-nav{grid-area:nav;flex-direction:column;gap:6px;margin-bottom:0;position:sticky;top:20px}
@@ -1272,10 +1274,14 @@ const items=[
 ];
 let h=items.map(([key,label,cls])=>`<button class="${cls}${currentAdminTab===key?' active':''}" onclick="adminTab('${key}')">${esc(label)}</button>`).join('');
 h+=`<button class="admin-tab-c4${currentAdminTab==='acceso'?' active':''}" onclick="adminTab('acceso')" data-tab="acceso">Acceso</button>`;
+h+=`<button class="admin-tab-warn${currentAdminTab==='almacenamiento'?' active':''}" onclick="adminTab('almacenamiento')" data-tab="almacenamiento">Almacenamiento</button>`;
 nav.innerHTML=h;
 const canAccess=currentAdminUser&&currentAdminUser.canManageAccess;
 const btn=nav.querySelector('[data-tab="acceso"]');
 if(btn)btn.style.display=canAccess?'':'none';
+const isProtected=currentAdminUser&&currentAdminUser.locked;
+const storageBtn=nav.querySelector('[data-tab="almacenamiento"]');
+if(storageBtn)storageBtn.style.display=isProtected?'':'none';
 }
 const RT_PALETTE=['#000000','#4d4d4d','#8a8a8a','#c0392b','#e0729a','#ff7518','#f2a541','#f7c600','#4fa662','#174f35','#0b8fa3','#3a8fc7','#8c1c24','#3d1f5c','#ffffff'];
 function richColorPopover(id,mode){const swatches=RT_PALETTE.map(c=>`<button type="button" class="rt-swatch" style="background:${c}" title="${c}" onclick="pickRichColor('${id}','${mode}','${c}')"></button>`).join('');
@@ -1456,9 +1462,12 @@ ${datosIconPreview(s.icon)}
 <b>${s.label?esc(s.label):'(sin nombre)'}</b><br>
 <span class="small muted">${s.value?esc(s.value):'Sin enlace'}</span>
 </div></div><div class="admin-actions"><button class="btn btn-danger" onclick="event.stopPropagation();removeSocialLink(${i})">Eliminar</button></div></div>`).join('');
-h+=`<br><button class="btn btn-secondary" onclick="addSocialLink()">+ Añadir</button>
-<h3 style="margin-top:28px">Almacenamiento de imágenes (GitHub)</h3>
-<p class="small muted">Cuando está configurado, las fotos que subas se guardan en tu repositorio de GitHub en vez de aquí, para no tener límite de espacio. El token no se muestra por seguridad una vez guardado; solo un administrador conectado puede leerlo.</p>
+h+=`<br><button class="btn btn-secondary" onclick="addSocialLink()">+ Añadir</button></div>`;
+return h;
+}
+function renderAlmacenamientoPanel(){
+return `<div class="admin-panel"><h3>Almacenamiento de imágenes (GitHub)</h3>
+<p class="small muted">Cuando está configurado, las fotos que subas se guardan en tu repositorio de GitHub en vez de aquí, para no tener límite de espacio. El token no se muestra por seguridad una vez guardado.</p>
 <div id="githubConfigStatus" class="small muted" style="margin-bottom:10px">Cargando estado…</div>
 <label>Usuario/organización de GitHub</label><input id="ghOwner" placeholder="ej: xbc76">
 <label>Nombre del repositorio</label><input id="ghRepo" placeholder="ej: grupo-scout">
@@ -1466,7 +1475,6 @@ h+=`<br><button class="btn btn-secondary" onclick="addSocialLink()">+ Añadir</b
 <label>Token de acceso (empieza por github_pat_...)</label><input id="ghToken" type="password" placeholder="Pega aquí el token para guardarlo o cambiarlo">
 <div style="margin-top:10px"><button class="btn btn-primary" onclick="saveGithubConfig()">Guardar configuración</button></div>
 </div>`;
-return h;
 }
 function loadGithubConfigIntoForm(){
 const statusEl=document.getElementById('githubConfigStatus');
@@ -1621,10 +1629,14 @@ else if(currentAdminTab==='faq')c.innerHTML=renderFaqPanel();
 else if(currentAdminTab==='documentos')c.innerHTML=editorList(data.settings.navTabs.documentos.label||'Documentos','documents',x=>`<b>${esc(x.name)}</b><br><span class="small muted">${x.fileName?esc(x.fileName):'Sin archivo adjunto'}</span>`);
 else if(currentAdminTab==='promociones')c.innerHTML=renderPromocionesPanel();
 else if(currentAdminTab==='menu')c.innerHTML=renderMenuEditor();
-else if(currentAdminTab==='datos'){c.innerHTML=renderDatosPanel();loadGithubConfigIntoForm();}
+else if(currentAdminTab==='datos')c.innerHTML=renderDatosPanel();
 else if(currentAdminTab==='notificacion')c.innerHTML=renderNotificacionPanel();
 else if(currentAdminTab==='estadisticas'){c.innerHTML=renderStatsPanel();loadStats();renderStorageBreakdown();}
 else if(currentAdminTab==='skins')c.innerHTML=renderSkinsPanel();
+else if(currentAdminTab==='almacenamiento'){
+if(currentAdminUser&&currentAdminUser.locked){c.innerHTML=renderAlmacenamientoPanel();loadGithubConfigIntoForm();}
+else{c.innerHTML='<div class="admin-panel"><p class="muted">No tienes permiso para ver esta sección.</p></div>';}
+}
 else c.innerHTML=renderAccesoPanel();}
 function addAdminUser(){
 openModal(`<div><h2>Nuevo administrador</h2><p class="field-help">Se creará una cuenta de acceso real (Firebase). La contraseña que pongas aquí será la que use esa persona para entrar.</p><label>Nombre</label><input id="newAdminName"><label>Correo</label><input id="newAdminEmail" type="email"><label>Contraseña (mínimo 6 caracteres)</label><input id="newAdminPass" type="text"><label class="access-toggle" style="margin-top:14px"><input type="checkbox" id="newAdminManage"> Puede gestionar el acceso</label><div style="margin-top:18px"><button class="btn btn-primary" id="createAdminBtn" onclick="createAdminUser()">Crear administrador</button></div></div>`);
@@ -1678,7 +1690,7 @@ return `<div class="admin-panel"><h3>Estadísticas</h3><p class="field-help">Vis
 <h4 style="margin-top:22px">Últimos 14 días</h4>
 <div id="statsByDate"></div>
 <h4 style="margin-top:22px">Espacio usado en el servidor</h4>
-<p class="field-help">Todo el contenido de la web comparte un único límite de 1 MB (≈1000 KB). Este desglose te muestra qué está ocupando más espacio, para que sepas qué foto o documento conviene reducir o quitar si te acercas al límite.</p>
+<p class="field-help" id="statsStorageHelp">Cargando…</p>
 <div id="statsStorage"></div>
 </div>`;
 }
@@ -1690,7 +1702,14 @@ const sectionLabels={home:'Inicio',page1:'Página 1',page2:'Página 2',page3:'P�
 const sizes=Object.keys(sectionLabels).map(k=>({label:sectionLabels[k],kb:payload[k]!==undefined?Math.round(JSON.stringify(payload[k]).length/1024):0})).sort((a,b)=>b.kb-a.kb);
 const maxKB=Math.max(1,...sizes.map(s=>s.kb));
 const el=document.getElementById('statsStorage');
+const helpEl=document.getElementById('statsStorageHelp');
 if(!el)return;
+const usingGithub=!!githubConfig;
+if(helpEl){
+helpEl.textContent=usingGithub
+?'Las imágenes se guardan en GitHub y no cuentan para este límite; aquí solo se contabiliza el texto y los ajustes de la web, que comparten un único límite de 1 MB (≈1000 KB).'
+:'Todo el contenido de la web (incluidas las imágenes, ya que aún no tienes GitHub configurado) comparte un único límite de 1 MB (≈1000 KB). Este desglose te muestra qué está ocupando más espacio.';
+}
 const overLimit=totalKB>950;
 el.innerHTML=`<div class="stats-summary-cards" style="margin-bottom:14px"><div class="stat-card" style="${overLimit?'background:#fdeaea':''}"><b style="${overLimit?'color:#c0392b':''}">${totalKB} KB</b><span>de ~1000 KB usados</span></div></div>`+
 sizes.filter(s=>s.kb>0).map(s=>`<div class="stat-bar-row"><span class="stat-bar-label">${esc(s.label)}</span><div class="stat-bar-track"><div class="stat-bar-fill" style="width:${Math.round(s.kb/maxKB*100)}%;${s.kb>200?'background:#c0392b':''}"></div></div><span class="stat-bar-count">${s.kb} KB</span></div>`).join('');
