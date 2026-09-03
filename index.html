@@ -1548,7 +1548,7 @@ else if(currentAdminTab==='promociones')c.innerHTML=renderPromocionesPanel();
 else if(currentAdminTab==='menu')c.innerHTML=renderMenuEditor();
 else if(currentAdminTab==='datos')c.innerHTML=renderDatosPanel();
 else if(currentAdminTab==='notificacion')c.innerHTML=renderNotificacionPanel();
-else if(currentAdminTab==='estadisticas'){c.innerHTML=renderStatsPanel();loadStats();}
+else if(currentAdminTab==='estadisticas'){c.innerHTML=renderStatsPanel();loadStats();renderStorageBreakdown();}
 else if(currentAdminTab==='skins')c.innerHTML=renderSkinsPanel();
 else c.innerHTML=renderAccesoPanel();}
 function addAdminUser(){
@@ -1602,7 +1602,23 @@ return `<div class="admin-panel"><h3>Estadísticas</h3><p class="field-help">Vis
 <div id="statsByPage"></div>
 <h4 style="margin-top:22px">Últimos 14 días</h4>
 <div id="statsByDate"></div>
+<h4 style="margin-top:22px">Espacio usado en el servidor</h4>
+<p class="field-help">Todo el contenido de la web comparte un único límite de 1 MB (≈1000 KB). Este desglose te muestra qué está ocupando más espacio, para que sepas qué foto o documento conviene reducir o quitar si te acercas al límite.</p>
+<div id="statsStorage"></div>
 </div>`;
+}
+function renderStorageBreakdown(){
+const payload=JSON.parse(JSON.stringify(data));
+delete payload.messages;
+const totalKB=Math.round(JSON.stringify(payload).length/1024);
+const sectionLabels={home:'Inicio',page1:'Página 1',page2:'Página 2',page3:'Página 3',agenda:'Agenda',camps:'Galería (acampadas)',scouters:'Scouters',faq:'FAQ',documents:'Documentos',promociones:'Promociones',legalPages:'Aviso legal / Privacidad',settings:'Ajustes (logo, contacto, skins, usuarios...)'};
+const sizes=Object.keys(sectionLabels).map(k=>({label:sectionLabels[k],kb:payload[k]!==undefined?Math.round(JSON.stringify(payload[k]).length/1024):0})).sort((a,b)=>b.kb-a.kb);
+const maxKB=Math.max(1,...sizes.map(s=>s.kb));
+const el=document.getElementById('statsStorage');
+if(!el)return;
+const overLimit=totalKB>950;
+el.innerHTML=`<div class="stats-summary-cards" style="margin-bottom:14px"><div class="stat-card" style="${overLimit?'background:#fdeaea':''}"><b style="${overLimit?'color:#c0392b':''}">${totalKB} KB</b><span>de ~1000 KB usados</span></div></div>`+
+sizes.filter(s=>s.kb>0).map(s=>`<div class="stat-bar-row"><span class="stat-bar-label">${esc(s.label)}</span><div class="stat-bar-track"><div class="stat-bar-fill" style="width:${Math.round(s.kb/maxKB*100)}%;${s.kb>200?'background:#c0392b':''}"></div></div><span class="stat-bar-count">${s.kb} KB</span></div>`).join('');
 }
 function loadStats(){
 fbDb.collection('stats').doc('summary').get().then(function(doc){
