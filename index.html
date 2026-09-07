@@ -695,6 +695,10 @@ body.skin-invierno{
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cg stroke='%233a8fc7' stroke-opacity='0.28' stroke-width='2'%3E%3Cline x1='20' y1='6' x2='20' y2='34'/%3E%3Cline x1='6' y1='20' x2='34' y2='20'/%3E%3Cline x1='10' y1='10' x2='30' y2='30'/%3E%3Cline x1='30' y1='10' x2='10' y2='30'/%3E%3C/g%3E%3Ccircle cx='65' cy='65' r='4' fill='%233a8fc7' fill-opacity='0.28'/%3E%3Ccircle cx='75' cy='55' r='3' fill='%233a8fc7' fill-opacity='0.28'/%3E%3C/svg%3E");
   background-attachment:fixed;
 }
+body.skin-personalizado{
+  --skin-h1:#0b438f;--skin-h2:#073873;--skin-border:#f7c600;--skin-btn:#ef7518;
+  background-color:#f7f3e8;
+}
 </style>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -925,6 +929,10 @@ data.settings.adminUsers.forEach(u=>{if(u.canManageAccess===undefined)u.canManag
 }
 if(!data.settings.navTabs) data.settings.navTabs=structuredClone(defaults.settings.navTabs);
 else Object.keys(defaults.settings.navTabs).forEach(k=>{if(!data.settings.navTabs[k])data.settings.navTabs[k]=structuredClone(defaults.settings.navTabs[k])});
+if(!data.settings.skinCustomizations)data.settings.skinCustomizations={};
+['halloween','navidad','primavera','verano','otono','invierno','personalizado'].forEach(k=>{
+if(!data.settings.skinCustomizations[k])data.settings.skinCustomizations[k]={bgImage:'',logo:''};
+});
 }
 normalizeData();
 const ICONS={
@@ -1380,7 +1388,8 @@ function clearRichFormatting(id){const e=document.getElementById(id);e.focus();d
 function insertRichLink(id){const e=document.getElementById(id);e.focus();const url=prompt('Introduce la URL del enlace (ej: https://...)');if(url)document.execCommand('createLink',false,url)}
 document.addEventListener('click',e=>{if(!e.target.closest('.rt-color-wrap'))document.querySelectorAll('.rt-color-popover.open').forEach(p=>p.classList.remove('open'))});
 function imageUploadField(id,value){return `<div class="upload-box"><input id="${id}" type="file" accept="image/*" onchange="readImageFile(this,'${id}Preview')"><button type="button" class="btn btn-secondary" onclick="clearImage('${id}Preview','${id}')">Quitar</button></div><img id="${id}Preview" class="upload-preview" src="${esc(value||'')}" data-value="${esc(value||'')}" ${value?'':'style="display:none"'}><div id="${id}PreviewStatus" class="field-help"></div><div class="field-help">Selecciona una imagen directamente desde el dispositivo.</div>`}
-function compressImageFile(file,maxDim,quality){
+function compressImageFile(file,maxDim,quality,format){
+format=format||'jpeg';
 return new Promise((resolve,reject)=>{
 const reader=new FileReader();
 reader.onload=function(e){
@@ -1395,7 +1404,7 @@ const canvas=document.createElement('canvas');
 canvas.width=w;canvas.height=h;
 const ctx=canvas.getContext('2d');
 ctx.drawImage(img,0,0,w,h);
-resolve(canvas.toDataURL('image/jpeg',quality));
+resolve(canvas.toDataURL('image/'+format,format==='png'?undefined:quality));
 };
 img.onerror=reject;
 img.src=e.target.result;
@@ -1406,8 +1415,10 @@ reader.readAsDataURL(file);
 }
 function uploadImageToGithub(dataUrl,prefix){
 if(!githubConfig)return Promise.reject(new Error('GitHub no configurado'));
+const isPng=dataUrl.indexOf('data:image/png')===0;
+const ext=isPng?'.png':'.jpg';
 const base64=dataUrl.split(',')[1];
-const filename=prefix+'-'+Date.now()+'-'+Math.random().toString(36).slice(2,8)+'.jpg';
+const filename=prefix+'-'+Date.now()+'-'+Math.random().toString(36).slice(2,8)+ext;
 const path='images/'+filename;
 const url='https://api.github.com/repos/'+githubConfig.owner+'/'+githubConfig.repo+'/contents/'+path;
 return fetch(url,{
@@ -1656,17 +1667,38 @@ openSocialEditModal(data.settings.socialLinks.length-1);
 }
 function removeSocialLink(i){data.settings.socialLinks.splice(i,1);save();renderAdmin();renderFooterContact()}
 const SKIN_DEFS={
-normal:{label:'Normal',previewColor:'#f7f3e8'},
-halloween:{label:'Halloween',previewColor:'#1a0d2e',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/halloween-bg.jpg'},
-navidad:{label:'Navidad',previewColor:'#fbf3ec',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/navidad-bg.jpg'},
-primavera:{label:'Primavera',previewColor:'#fdf3f6',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/primavera-bg.jpg'},
-verano:{label:'Verano',previewColor:'#f3fbfb',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/verano-bg.jpg'},
-otono:{label:'Otoño',previewColor:'#fbf4ec',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/otono-bg.jpg'},
-invierno:{label:'Invierno',previewColor:'#f2f8fc',previewPattern:'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'90\' height=\'90\'%3E%3Cg stroke=\'%233a8fc7\' stroke-opacity=\'0.28\' stroke-width=\'2\'%3E%3Cline x1=\'20\' y1=\'6\' x2=\'20\' y2=\'34\'/%3E%3Cline x1=\'6\' y1=\'20\' x2=\'34\' y2=\'20\'/%3E%3Cline x1=\'10\' y1=\'10\' x2=\'30\' y2=\'30\'/%3E%3Cline x1=\'30\' y1=\'10\' x2=\'10\' y2=\'30\'/%3E%3C/g%3E%3Ccircle cx=\'65\' cy=\'65\' r=\'4\' fill=\'%233a8fc7\' fill-opacity=\'0.28\'/%3E%3Ccircle cx=\'75\' cy=\'55\' r=\'3\' fill=\'%233a8fc7\' fill-opacity=\'0.28\'/%3E%3C/svg%3E'}
+normal:{label:'Normal',previewColor:'#f7f3e8',footerLogo:''},
+halloween:{label:'Halloween',previewColor:'#1a0d2e',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/halloween-bg.jpg',footerLogo:''},
+navidad:{label:'Navidad',previewColor:'#fbf3ec',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/navidad-bg.jpg',footerLogo:''},
+primavera:{label:'Primavera',previewColor:'#fdf3f6',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/primavera-bg.jpg',footerLogo:''},
+verano:{label:'Verano',previewColor:'#f3fbfb',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/verano-bg.jpg',footerLogo:''},
+otono:{label:'Otoño',previewColor:'#fbf4ec',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/otono-bg.jpg',footerLogo:''},
+invierno:{label:'Invierno',previewColor:'#f2f8fc',previewPattern:'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'90\' height=\'90\'%3E%3Cg stroke=\'%233a8fc7\' stroke-opacity=\'0.28\' stroke-width=\'2\'%3E%3Cline x1=\'20\' y1=\'6\' x2=\'20\' y2=\'34\'/%3E%3Cline x1=\'6\' y1=\'20\' x2=\'34\' y2=\'20\'/%3E%3Cline x1=\'10\' y1=\'10\' x2=\'30\' y2=\'30\'/%3E%3Cline x1=\'30\' y1=\'10\' x2=\'10\' y2=\'30\'/%3E%3C/g%3E%3Ccircle cx=\'65\' cy=\'65\' r=\'4\' fill=\'%233a8fc7\' fill-opacity=\'0.28\'/%3E%3Ccircle cx=\'75\' cy=\'55\' r=\'3\' fill=\'%233a8fc7\' fill-opacity=\'0.28\'/%3E%3C/svg%3E',footerLogo:''},
+personalizado:{label:'Personalizado',previewColor:'#f7f3e8',footerLogo:''}
 };
 function applySkin(skinKey){
 const key=SKIN_DEFS[skinKey]?skinKey:'normal';
 document.body.className=key==='normal'?'':'skin-'+key;
+const custom=data.settings.skinCustomizations&&data.settings.skinCustomizations[key];
+if(custom&&custom.bgImage){
+document.body.style.backgroundImage=`linear-gradient(rgba(255,255,255,.5),rgba(255,255,255,.5)),url("${custom.bgImage}")`;
+document.body.style.backgroundSize='cover';
+document.body.style.backgroundPosition='center top';
+document.body.style.backgroundRepeat='no-repeat';
+document.body.style.backgroundAttachment='fixed';
+}else{
+document.body.style.backgroundImage='';
+document.body.style.backgroundSize='';
+document.body.style.backgroundPosition='';
+document.body.style.backgroundRepeat='';
+document.body.style.backgroundAttachment='';
+}
+const logoEl=document.getElementById('footerLogo');
+if(logoEl){
+if(!logoEl.dataset.defaultSrc)logoEl.dataset.defaultSrc=logoEl.src;
+const customLogo=(custom&&custom.logo)||(SKIN_DEFS[key]&&SKIN_DEFS[key].footerLogo);
+logoEl.src=customLogo||logoEl.dataset.defaultSrc;
+}
 }
 function renderFooterLegalLinks(){
 const t=data.settings.navTabs;
@@ -1752,14 +1784,19 @@ if(btn){btn.disabled=false;btn.textContent='Crear administrador'}
 }
 function renderSkinsPanel(){
 const current=data.settings.skin||'normal';
-let h=`<div class="admin-panel"><h3>Skins</h3><p class="small muted">Elige cómo se ve la web. Cada skin cambia los colores y añade un fondo propio de cada época del año.</p>`;
+let h=`<div class="admin-panel"><h3>Skins</h3><p class="small muted">Pulsa una ficha para personalizar su fondo y logo. Usa el botón "Activar" para ponerla en marcha en la web.</p>`;
 h+=Object.keys(SKIN_DEFS).map(key=>{
 const def=SKIN_DEFS[key];
 const selected=current===key;
+const custom=data.settings.skinCustomizations&&data.settings.skinCustomizations[key];
+const effectiveImage=(custom&&custom.bgImage)||def.previewImage;
 const previewStyle=`width:52px;height:30px;border-radius:6px;box-shadow:0 0 0 1px #e0d7c2;background-color:${def.previewColor};background-size:cover;background-position:center;flex-shrink:0`+
-(def.previewImage?`;background-image:url('${def.previewImage}')`:def.previewPattern?`;background-image:url("${def.previewPattern}")`:'');
+(effectiveImage?`;background-image:url('${effectiveImage}')`:def.previewPattern?`;background-image:url("${def.previewPattern}")`:'');
 const preview=`<div style="${previewStyle}"></div>`;
-return `<div class="admin-item clickable" onclick="selectSkin('${key}')" style="${selected?'border-color:#1f7a4d;background:#eaf4ee':''}"><div class="datos-card-inner">${preview}<div><b>${esc(def.label)}</b></div></div><div class="admin-actions">${selected?'<span class="msg-status-badge msg-status-contactado">Activo</span>':''}</div></div>`;
+const activateBtn=selected
+?`<button class="btn" style="background:#1f7a4d;color:#fff" onclick="event.stopPropagation();selectSkin('${key}')">Activo</button>`
+:`<button class="btn" style="background:#ddd;color:#333" onclick="event.stopPropagation();selectSkin('${key}')">Activar</button>`;
+return `<div class="admin-item clickable" onclick="openSkinCustomizeModal('${key}')" style="${selected?'border-color:#1f7a4d;background:#eaf4ee':''}"><div class="datos-card-inner">${preview}<div><b>${esc(def.label)}</b></div></div><div class="admin-actions">${activateBtn}</div></div>`;
 }).join('');
 h+='</div>';
 return h;
@@ -1770,6 +1807,82 @@ save();
 applySkin(key);
 renderAdmin();
 toast('Skin actualizado: '+(SKIN_DEFS[key]?SKIN_DEFS[key].label:key));
+}
+function readLogoFile(input,previewId){
+const f=input.files&&input.files[0];
+if(!f)return;
+const p=document.getElementById(previewId);
+const statusEl=document.getElementById(previewId+'Status');
+const oldUrl=p.dataset.value;
+compressImageFile(f,500,1,'png').then(dataUrl=>{
+p.src=dataUrl;p.style.display='block';p.dataset.value=dataUrl;
+if(oldUrl)deleteImageFromGithub(oldUrl);
+if(githubConfig){
+if(statusEl){statusEl.textContent='⏳ Subiendo logo a GitHub, espera antes de guardar…';statusEl.style.color='#a15a2a'}
+uploadImageToGithub(dataUrl,'logo').then(githubUrl=>{
+p.dataset.value=githubUrl;
+if(statusEl){statusEl.textContent='✅ Logo subido a GitHub, ya puedes guardar.';statusEl.style.color='#1f7a4d'}
+}).catch(err=>{
+console.error('No se pudo subir el logo a GitHub:',err);
+if(statusEl){statusEl.textContent='⚠️ No se pudo subir a GitHub, se guardará dentro de la web.';statusEl.style.color='#c0392b'}
+});
+}
+}).catch(()=>{
+const r=new FileReader();
+r.onload=()=>{p.src=r.result;p.style.display='block';p.dataset.value=r.result};
+r.readAsDataURL(f);
+});
+}
+function openSkinCustomizeModal(key){
+if(key==='normal'){alert('El skin Normal no se puede modificar.');return}
+const def=SKIN_DEFS[key];
+const custom=data.settings.skinCustomizations[key]||{bgImage:'',logo:''};
+const hasCustom=!!(custom.bgImage||custom.logo);
+openModal(`<div>
+<h2>Personalizar: ${esc(def.label)}</h2>
+<p class="field-help">Sube una imagen de fondo y/o un logo propios para este skin. Si no subes algo, se usará el que ya tenía por defecto.</p>
+<label>Imagen de fondo</label>
+${imageUploadField('skinBgInput',custom.bgImage||def.previewImage||'')}
+<label style="margin-top:18px">Logo del pie de página</label>
+<div class="upload-box"><input id="skinLogoInput" type="file" accept="image/png,image/*" onchange="readLogoFile(this,'skinLogoInputPreview')"><button type="button" class="btn btn-secondary" onclick="clearImage('skinLogoInputPreview','skinLogoInput')">Quitar</button></div>
+<img id="skinLogoInputPreview" class="upload-preview" src="${esc(custom.logo||'')}" data-value="${esc(custom.logo||'')}" ${custom.logo?'':'style="display:none"'}>
+<div id="skinLogoInputPreviewStatus" class="field-help"></div>
+<div class="field-help">Recomendado: imagen PNG con fondo transparente.</div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
+<button class="btn btn-primary" onclick="saveSkinCustomization('${key}')">Guardar cambios</button>
+${hasCustom?`<button class="btn btn-danger" onclick="resetSkinCustomization('${key}')">Restablecer skin</button>`:''}
+</div>
+</div>`);
+}
+function saveSkinCustomization(key){
+const bgPreview=document.getElementById('skinBgInputPreview');
+const logoPreview=document.getElementById('skinLogoInputPreview');
+const bgValue=bgPreview&&bgPreview.dataset.value!==undefined?bgPreview.dataset.value:'';
+const logoValue=logoPreview&&logoPreview.dataset.value!==undefined?logoPreview.dataset.value:'';
+const def=SKIN_DEFS[key];
+data.settings.skinCustomizations[key]={
+bgImage:(bgValue&&bgValue!==def.previewImage)?bgValue:(data.settings.skinCustomizations[key].bgImage||''),
+logo:logoValue||''
+};
+save();
+closeModal();
+if((data.settings.skin||'normal')===key)applySkin(key);
+renderAdmin();
+toast('Skin personalizado guardado.');
+}
+function resetSkinCustomization(key){
+if(!confirm('¿Restablecer este skin a su estado original? Se eliminará el fondo y logo personalizados.'))return;
+const custom=data.settings.skinCustomizations[key];
+if(custom){
+if(custom.bgImage)deleteImageFromGithub(custom.bgImage);
+if(custom.logo)deleteImageFromGithub(custom.logo);
+}
+data.settings.skinCustomizations[key]={bgImage:'',logo:''};
+save();
+closeModal();
+if((data.settings.skin||'normal')===key)applySkin(key);
+renderAdmin();
+toast('Skin restablecido a su estado original.');
 }
 function renderStatsPanel(){
 return `<div class="admin-panel"><h3>Estadísticas</h3><p class="field-help">Visitas registradas desde que se activó este contador. Tus propias visitas mientras estás conectado como administrador no se cuentan.</p>
