@@ -692,13 +692,20 @@ body.skin-otono .home-rich-text,body.skin-otono .home-rich-text *{color:#1a1a1a!
 body.skin-invierno{
   --skin-h1:#2c5f8a;--skin-h2:#173a57;--skin-border:#e7f3fb;--skin-btn:#3a8fc7;
   background-color:#f2f8fc;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cg stroke='%233a8fc7' stroke-opacity='0.28' stroke-width='2'%3E%3Cline x1='20' y1='6' x2='20' y2='34'/%3E%3Cline x1='6' y1='20' x2='34' y2='20'/%3E%3Cline x1='10' y1='10' x2='30' y2='30'/%3E%3Cline x1='30' y1='10' x2='10' y2='30'/%3E%3C/g%3E%3Ccircle cx='65' cy='65' r='4' fill='%233a8fc7' fill-opacity='0.28'/%3E%3Ccircle cx='75' cy='55' r='3' fill='%233a8fc7' fill-opacity='0.28'/%3E%3C/svg%3E");
+  background-image:linear-gradient(rgba(255,255,255,.5),rgba(255,255,255,.5)),url("https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/invierno-bg.jpg");
+  background-size:cover;
+  background-position:center top;
+  background-repeat:no-repeat;
   background-attachment:fixed;
 }
+body.skin-invierno .lead{color:#1a1a1a!important}
+body.skin-invierno .home-rich-text,body.skin-invierno .home-rich-text *{color:#1a1a1a!important}
 body.skin-personalizado{
   --skin-h1:#0b438f;--skin-h2:#073873;--skin-border:#f7c600;--skin-btn:#ef7518;
   background-color:#f7f3e8;
 }
+body.skin-personalizado .lead{color:#1a1a1a!important}
+body.skin-personalizado .home-rich-text,body.skin-personalizado .home-rich-text *{color:#1a1a1a!important}
 </style>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -1432,8 +1439,16 @@ return resp.text().then(function(t){throw new Error('Error de GitHub ('+resp.sta
 return 'https://raw.githubusercontent.com/'+githubConfig.owner+'/'+githubConfig.repo+'/'+(githubConfig.branch||'main')+'/'+path;
 });
 }
+function isProtectedSkinAsset(imageUrl){
+if(!imageUrl)return false;
+return Object.values(SKIN_DEFS).some(def=>def.previewImage===imageUrl||def.footerLogo===imageUrl);
+}
 function deleteImageFromGithub(imageUrl){
 if(!githubConfig||!imageUrl)return Promise.resolve();
+if(isProtectedSkinAsset(imageUrl)){
+console.warn('Se ha evitado borrar una imagen protegida (fondo/logo por defecto de un skin):',imageUrl);
+return Promise.resolve();
+}
 const prefix='https://raw.githubusercontent.com/'+githubConfig.owner+'/'+githubConfig.repo+'/'+(githubConfig.branch||'main')+'/';
 if(!imageUrl.startsWith(prefix))return Promise.resolve();
 const path=imageUrl.slice(prefix.length);
@@ -1670,10 +1685,10 @@ const SKIN_DEFS={
 normal:{label:'Normal',previewColor:'#f7f3e8',footerLogo:''},
 halloween:{label:'Halloween',previewColor:'#1a0d2e',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/halloween-bg.jpg',footerLogo:''},
 navidad:{label:'Navidad',previewColor:'#fbf3ec',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/navidad-bg.jpg',footerLogo:''},
-primavera:{label:'Primavera',previewColor:'#fdf3f6',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/primavera-bg.jpg',footerLogo:''},
+primavera:{label:'Primavera',previewColor:'#fdf3f6',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/primavera-bg.jpg',footerLogo:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/primavera-logo.jpg'},
 verano:{label:'Verano',previewColor:'#f3fbfb',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/verano-bg.jpg',footerLogo:''},
-otono:{label:'Otoño',previewColor:'#fbf4ec',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/otono-bg.jpg',footerLogo:''},
-invierno:{label:'Invierno',previewColor:'#f2f8fc',previewPattern:'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'90\' height=\'90\'%3E%3Cg stroke=\'%233a8fc7\' stroke-opacity=\'0.28\' stroke-width=\'2\'%3E%3Cline x1=\'20\' y1=\'6\' x2=\'20\' y2=\'34\'/%3E%3Cline x1=\'6\' y1=\'20\' x2=\'34\' y2=\'20\'/%3E%3Cline x1=\'10\' y1=\'10\' x2=\'30\' y2=\'30\'/%3E%3Cline x1=\'30\' y1=\'10\' x2=\'10\' y2=\'30\'/%3E%3C/g%3E%3Ccircle cx=\'65\' cy=\'65\' r=\'4\' fill=\'%233a8fc7\' fill-opacity=\'0.28\'/%3E%3Ccircle cx=\'75\' cy=\'55\' r=\'3\' fill=\'%233a8fc7\' fill-opacity=\'0.28\'/%3E%3C/svg%3E',footerLogo:''},
+otono:{label:'Otoño',previewColor:'#fbf4ec',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/otono-bg.jpg',footerLogo:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/otono-logo.jpg'},
+invierno:{label:'Invierno',previewColor:'#f2f8fc',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/invierno-bg.jpg',footerLogo:''},
 personalizado:{label:'Personalizado',previewColor:'#f7f3e8',footerLogo:''}
 };
 function applySkin(skinKey){
