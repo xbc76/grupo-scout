@@ -83,6 +83,7 @@ main{min-height:70vh}
 .form-wrap>div:not(.form){order:1}
 .form{background:#fff;padding:28px;border-radius:18px;box-shadow:var(--shadow)}
 label{display:block;font-weight:800;margin:14px 0 7px}input,select,textarea{width:100%;padding:12px 13px;border:1px solid #ccd9e2;border-radius:10px;background:#fff}textarea{min-height:130px;resize:vertical}
+input[type="color"]{width:64px;height:42px;padding:3px;cursor:pointer}
 .notice{padding:14px;border-radius:12px;background:#eef8ff;border:1px solid #cde9fa;color:#2d5d79;margin-bottom:16px}
 footer{background:#0b351f;color:#f1f0e8;padding:45px 22px;text-align:left}.footer-inner{max-width:1250px;margin:auto;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:24px}.footer-left{flex:1 1 260px}.footer-right{display:flex;flex-direction:column;align-items:flex-end;gap:14px}.footer-legal-links{margin-top:0!important;opacity:.75}.footer-legal-links a{color:inherit;text-decoration:underline}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.68);display:none;align-items:center;justify-content:center;padding:20px;z-index:100}.modal.open{display:flex}
@@ -261,7 +262,7 @@ footer{background:#0b351f;color:#f1f0e8;padding:45px 22px;text-align:left}.foote
 }
 </style>
 <style id="scout-unified-nav">
-header{background:linear-gradient(180deg,var(--skin-h1),var(--skin-h2))!important;color:#fff!important;border-bottom:4px solid var(--skin-border)!important;box-shadow:0 2px 10px rgba(0,0,0,.12)!important}
+header{background:var(--custom-nav-bg,linear-gradient(180deg,var(--skin-h1),var(--skin-h2)))!important;color:#fff!important;border-bottom:4px solid var(--skin-border)!important;box-shadow:0 2px 10px rgba(0,0,0,.12)!important}
 header .nav{height:auto!important;min-height:84px!important;width:100%!important;display:flex!important;align-items:center!important;flex-wrap:wrap!important;padding:10px 16px!important;gap:0!important;box-sizing:border-box!important}
 .scout-brand{display:flex!important;align-items:center!important;gap:12px!important;margin:0 18px 0 2px!important;text-decoration:none!important;color:#fff!important;flex:0 0 auto!important}
 .scout-brand-logo{width:66px!important;height:60px!important;object-fit:contain!important;display:block!important}
@@ -294,13 +295,13 @@ header .nav{height:auto!important;min-height:84px!important;width:100%!important
  .scout-brand-logo{width:50px!important;height:46px!important}
  .scout-brand-name strong{font-size:14px!important}.scout-brand-name span{font-size:12px!important}
  .mobile-menu-btn{display:block!important;background:transparent!important;border:1px solid rgba(255,255,255,.4)!important;color:#fff!important;border-radius:6px!important;padding:7px 10px!important;font-size:20px!important}
- #mainNav{display:none!important;position:absolute!important;top:100%!important;left:12px!important;right:12px!important;width:auto!important;height:auto!important;flex-direction:column!important;flex-wrap:nowrap!important;background:linear-gradient(180deg,var(--skin-h1),var(--skin-h2))!important;border-radius:14px!important;box-shadow:0 14px 34px rgba(0,0,0,.35)!important;padding:8px!important;gap:2px!important;overflow-x:visible!important;overflow-y:auto!important;max-height:70vh!important;z-index:50!important;margin-top:8px!important}
+ #mainNav{display:none!important;position:absolute!important;top:100%!important;left:12px!important;right:12px!important;width:auto!important;height:auto!important;flex-direction:column!important;flex-wrap:nowrap!important;background:var(--custom-nav-bg,linear-gradient(180deg,var(--skin-h1),var(--skin-h2)))!important;border-radius:14px!important;box-shadow:0 14px 34px rgba(0,0,0,.35)!important;padding:8px!important;gap:2px!important;overflow-x:visible!important;overflow-y:auto!important;max-height:70vh!important;z-index:50!important;margin-top:8px!important}
  #mainNav.mobile-open{display:flex!important}
  #mainNav .scout-nav-link{height:48px!important;justify-content:flex-start!important;padding:0 14px!important;border-radius:9px!important}
  #mainNav .scout-nav-link:hover{transform:none!important;box-shadow:none!important;background:rgba(255,255,255,.14)!important}
  #mainNav .scout-nav-link.active:after{display:none!important}
 }
-</style><style id="scout-footer-palette">footer{background:var(--skin-h2)!important;color:#fff!important;border-top:4px solid var(--skin-border)!important}</style><style id="logo-visibility-fix">
+</style><style id="scout-footer-palette">footer{background:var(--custom-footer-bg,var(--skin-h2))!important;color:#fff!important;border-top:4px solid var(--skin-border)!important}</style><style id="logo-visibility-fix">
 .scout-brand-logo{
   width:70px!important;
   height:62px!important;
@@ -635,7 +636,7 @@ body.skin-halloween .home-rich-text a{color:#ffd93d!important}
 body.skin-halloween .form-contact-block a{color:#ffd93d!important;text-shadow:0 1px 4px rgba(0,0,0,.6)}
 body.skin-halloween .section{background:transparent!important;border-radius:18px!important}
 body[class*="skin-"] .section{background:transparent!important;border-radius:18px!important}
-body.skin-halloween footer{background:rgba(26,13,46,.92)!important}
+body.skin-halloween footer{background:var(--custom-footer-bg,rgba(26,13,46,.92))!important}
 body.skin-navidad{
   --skin-h1:#8c1c24;--skin-h2:#5c1017;--skin-border:#e8c15a;--skin-btn:#1f7a4d;
   background-color:#0d2a1f;
@@ -938,7 +939,11 @@ if(!data.settings.navTabs) data.settings.navTabs=structuredClone(defaults.settin
 else Object.keys(defaults.settings.navTabs).forEach(k=>{if(!data.settings.navTabs[k])data.settings.navTabs[k]=structuredClone(defaults.settings.navTabs[k])});
 if(!data.settings.skinCustomizations)data.settings.skinCustomizations={};
 ['halloween','navidad','primavera','verano','otono','invierno','personalizado'].forEach(k=>{
-if(!data.settings.skinCustomizations[k])data.settings.skinCustomizations[k]={bgImage:'',logo:''};
+if(!data.settings.skinCustomizations[k])data.settings.skinCustomizations[k]={bgImage:'',logo:'',navColor:'',footerColor:''};
+else{
+if(data.settings.skinCustomizations[k].navColor===undefined)data.settings.skinCustomizations[k].navColor='';
+if(data.settings.skinCustomizations[k].footerColor===undefined)data.settings.skinCustomizations[k].footerColor='';
+}
 });
 }
 normalizeData();
@@ -1683,12 +1688,12 @@ openSocialEditModal(data.settings.socialLinks.length-1);
 function removeSocialLink(i){data.settings.socialLinks.splice(i,1);save();renderAdmin();renderFooterContact()}
 const SKIN_DEFS={
 normal:{label:'Normal',previewColor:'#f7f3e8',footerLogo:''},
-halloween:{label:'Halloween',previewColor:'#1a0d2e',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/halloween-bg.jpg',footerLogo:''},
-navidad:{label:'Navidad',previewColor:'#fbf3ec',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/navidad-bg.jpg',footerLogo:''},
+halloween:{label:'Halloween',previewColor:'#1a0d2e',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/halloween-bg.jpg',footerLogo:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/halloween-logo.jpg'},
+navidad:{label:'Navidad',previewColor:'#fbf3ec',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/navidad-bg.jpg',footerLogo:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/navidad-logo.jpg'},
 primavera:{label:'Primavera',previewColor:'#fdf3f6',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/primavera-bg.jpg',footerLogo:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/primavera-logo.jpg'},
-verano:{label:'Verano',previewColor:'#f3fbfb',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/verano-bg.jpg',footerLogo:''},
+verano:{label:'Verano',previewColor:'#f3fbfb',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/verano-bg.jpg',footerLogo:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/verano-logo.jpg'},
 otono:{label:'Otoño',previewColor:'#fbf4ec',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/otono-bg.jpg',footerLogo:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/otono-logo.jpg'},
-invierno:{label:'Invierno',previewColor:'#f2f8fc',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/invierno-bg.jpg',footerLogo:''},
+invierno:{label:'Invierno',previewColor:'#f2f8fc',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/invierno-bg.jpg',footerLogo:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/invierno-logo.jpg'},
 personalizado:{label:'Personalizado',previewColor:'#f7f3e8',footerLogo:''}
 };
 function applySkin(skinKey){
@@ -1714,6 +1719,10 @@ if(!logoEl.dataset.defaultSrc)logoEl.dataset.defaultSrc=logoEl.src;
 const customLogo=(custom&&custom.logo)||(SKIN_DEFS[key]&&SKIN_DEFS[key].footerLogo);
 logoEl.src=customLogo||logoEl.dataset.defaultSrc;
 }
+if(custom&&custom.navColor)document.body.style.setProperty('--custom-nav-bg',custom.navColor);
+else document.body.style.removeProperty('--custom-nav-bg');
+if(custom&&custom.footerColor)document.body.style.setProperty('--custom-footer-bg',custom.footerColor);
+else document.body.style.removeProperty('--custom-footer-bg');
 }
 function renderFooterLegalLinks(){
 const t=data.settings.navTabs;
@@ -1851,8 +1860,9 @@ r.readAsDataURL(f);
 function openSkinCustomizeModal(key){
 if(key==='normal'){alert('El skin Normal no se puede modificar.');return}
 const def=SKIN_DEFS[key];
-const custom=data.settings.skinCustomizations[key]||{bgImage:'',logo:''};
-const hasCustom=!!(custom.bgImage||custom.logo);
+const custom=data.settings.skinCustomizations[key]||{bgImage:'',logo:'',navColor:'',footerColor:''};
+const hasCustom=!!(custom.bgImage||custom.logo||custom.navColor||custom.footerColor);
+const effectiveLogo=custom.logo||def.footerLogo||'';
 openModal(`<div>
 <h2>Personalizar: ${esc(def.label)}</h2>
 <p class="field-help">Sube una imagen de fondo y/o un logo propios para este skin. Si no subes algo, se usará el que ya tenía por defecto.</p>
@@ -1860,24 +1870,45 @@ openModal(`<div>
 ${imageUploadField('skinBgInput',custom.bgImage||def.previewImage||'')}
 <label style="margin-top:18px">Logo del pie de página</label>
 <div class="upload-box"><input id="skinLogoInput" type="file" accept="image/png,image/*" onchange="readLogoFile(this,'skinLogoInputPreview')"><button type="button" class="btn btn-secondary" onclick="clearImage('skinLogoInputPreview','skinLogoInput')">Quitar</button></div>
-<img id="skinLogoInputPreview" class="upload-preview" src="${esc(custom.logo||'')}" data-value="${esc(custom.logo||'')}" ${custom.logo?'':'style="display:none"'}>
+<img id="skinLogoInputPreview" class="upload-preview" src="${esc(effectiveLogo)}" data-value="${esc(effectiveLogo)}" ${effectiveLogo?'':'style="display:none"'}>
 <div id="skinLogoInputPreviewStatus" class="field-help"></div>
 <div class="field-help">Recomendado: imagen PNG con fondo transparente.</div>
+<h3 style="margin-top:24px">Colores</h3>
+<label class="access-toggle"><input type="checkbox" id="skinNavColorToggle" ${custom.navColor?'checked':''} onchange="document.getElementById('skinNavColorInput').disabled=!this.checked"> Cambiar color de la barra de navegación</label>
+<input type="color" id="skinNavColorInput" value="${custom.navColor||'#0b438f'}" ${custom.navColor?'':'disabled'}>
+<label class="access-toggle" style="margin-top:10px"><input type="checkbox" id="skinFooterColorToggle" ${custom.footerColor?'checked':''} onchange="document.getElementById('skinFooterColorInput').disabled=!this.checked"> Cambiar color del pie de página</label>
+<input type="color" id="skinFooterColorInput" value="${custom.footerColor||'#073873'}" ${custom.footerColor?'':'disabled'}>
+<div style="margin-top:8px"><button type="button" class="btn btn-secondary" onclick="syncSkinColors()">Usar el mismo color para los dos</button></div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
 <button class="btn btn-primary" onclick="saveSkinCustomization('${key}')">Guardar cambios</button>
 ${hasCustom?`<button class="btn btn-danger" onclick="resetSkinCustomization('${key}')">Restablecer skin</button>`:''}
 </div>
 </div>`);
 }
+function syncSkinColors(){
+const navToggle=document.getElementById('skinNavColorToggle');
+const footerToggle=document.getElementById('skinFooterColorToggle');
+const navInput=document.getElementById('skinNavColorInput');
+const footerInput=document.getElementById('skinFooterColorInput');
+navToggle.checked=true;footerToggle.checked=true;
+navInput.disabled=false;footerInput.disabled=false;
+footerInput.value=navInput.value;
+}
 function saveSkinCustomization(key){
 const bgPreview=document.getElementById('skinBgInputPreview');
 const logoPreview=document.getElementById('skinLogoInputPreview');
 const bgValue=bgPreview&&bgPreview.dataset.value!==undefined?bgPreview.dataset.value:'';
 const logoValue=logoPreview&&logoPreview.dataset.value!==undefined?logoPreview.dataset.value:'';
+const navChecked=document.getElementById('skinNavColorToggle').checked;
+const footerChecked=document.getElementById('skinFooterColorToggle').checked;
+const navValue=document.getElementById('skinNavColorInput').value;
+const footerValue=document.getElementById('skinFooterColorInput').value;
 const def=SKIN_DEFS[key];
 data.settings.skinCustomizations[key]={
 bgImage:(bgValue&&bgValue!==def.previewImage)?bgValue:(data.settings.skinCustomizations[key].bgImage||''),
-logo:logoValue||''
+logo:(logoValue&&logoValue!==def.footerLogo)?logoValue:(data.settings.skinCustomizations[key].logo||''),
+navColor:navChecked?navValue:'',
+footerColor:footerChecked?footerValue:''
 };
 save();
 closeModal();
@@ -1886,13 +1917,13 @@ renderAdmin();
 toast('Skin personalizado guardado.');
 }
 function resetSkinCustomization(key){
-if(!confirm('¿Restablecer este skin a su estado original? Se eliminará el fondo y logo personalizados.'))return;
+if(!confirm('¿Restablecer este skin a su estado original? Se eliminará el fondo, logo y colores personalizados.'))return;
 const custom=data.settings.skinCustomizations[key];
 if(custom){
 if(custom.bgImage)deleteImageFromGithub(custom.bgImage);
 if(custom.logo)deleteImageFromGithub(custom.logo);
 }
-data.settings.skinCustomizations[key]={bgImage:'',logo:''};
+data.settings.skinCustomizations[key]={bgImage:'',logo:'',navColor:'',footerColor:''};
 save();
 closeModal();
 if((data.settings.skin||'normal')===key)applySkin(key);
