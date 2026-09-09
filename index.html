@@ -639,7 +639,7 @@ body[class*="skin-"] .section{background:transparent!important;border-radius:18p
 body.skin-halloween footer{background:var(--custom-footer-bg,rgba(26,13,46,.92))!important}
 body.skin-navidad{
   --skin-h1:#8c1c24;--skin-h2:#5c1017;--skin-border:#e8c15a;--skin-btn:#1f7a4d;
-  background-color:#0d2a1f;
+  background-color:#fdf6ea;
   background-image:linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.55)),url("https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/navidad-bg.jpg");
   background-size:cover;
   background-position:center top;
@@ -650,7 +650,7 @@ body.skin-navidad .hero{background:transparent!important}
 body.skin-navidad .section{background:transparent!important}
 body.skin-navidad .lead{color:#1a1a1a!important}
 body.skin-navidad .home-rich-text,body.skin-navidad .home-rich-text *{color:#1a1a1a!important}
-body.skin-navidad .hero-inner h1,body.skin-navidad .section h2{font-family:'Grand Hotel',cursive;font-weight:400;color:#8c1c24!important;text-shadow:0 1px 8px rgba(140,28,36,.25)}
+body.skin-navidad .hero-inner h1,body.skin-navidad .section h2{font-family:'Grand Hotel',cursive;font-weight:700;color:#8c1c24!important;text-shadow:0 1px 8px rgba(140,28,36,.25)}
 body.skin-navidad .hero-inner h1{font-size:clamp(52px,6.5vw,78px)}
 body.skin-navidad .section h2{font-size:clamp(40px,5.5vw,54px)}
 
@@ -1700,7 +1700,13 @@ function applySkin(skinKey){
 const key=SKIN_DEFS[skinKey]?skinKey:'normal';
 document.body.className=key==='normal'?'':'skin-'+key;
 const custom=data.settings.skinCustomizations&&data.settings.skinCustomizations[key];
-if(custom&&custom.bgImage){
+if(custom&&custom.bgImage==='__REMOVED__'){
+document.body.style.backgroundImage='none';
+document.body.style.backgroundSize='';
+document.body.style.backgroundPosition='';
+document.body.style.backgroundRepeat='';
+document.body.style.backgroundAttachment='';
+}else if(custom&&custom.bgImage){
 document.body.style.backgroundImage=`linear-gradient(rgba(255,255,255,.5),rgba(255,255,255,.5)),url("${custom.bgImage}")`;
 document.body.style.backgroundSize='cover';
 document.body.style.backgroundPosition='center top';
@@ -1716,8 +1722,11 @@ document.body.style.backgroundAttachment='';
 const logoEl=document.getElementById('footerLogo');
 if(logoEl){
 if(!logoEl.dataset.defaultSrc)logoEl.dataset.defaultSrc=logoEl.src;
-const customLogo=(custom&&custom.logo)||(SKIN_DEFS[key]&&SKIN_DEFS[key].footerLogo);
-logoEl.src=customLogo||logoEl.dataset.defaultSrc;
+let effectiveLogo;
+if(custom&&custom.logo==='__REMOVED__')effectiveLogo=logoEl.dataset.defaultSrc;
+else if(custom&&custom.logo)effectiveLogo=custom.logo;
+else effectiveLogo=(SKIN_DEFS[key]&&SKIN_DEFS[key].footerLogo)||logoEl.dataset.defaultSrc;
+logoEl.src=effectiveLogo;
 }
 if(custom&&custom.navColor)document.body.style.setProperty('--custom-nav-bg',custom.navColor);
 else document.body.style.removeProperty('--custom-nav-bg');
@@ -1813,9 +1822,10 @@ h+=Object.keys(SKIN_DEFS).map(key=>{
 const def=SKIN_DEFS[key];
 const selected=current===key;
 const custom=data.settings.skinCustomizations&&data.settings.skinCustomizations[key];
-const effectiveImage=(custom&&custom.bgImage)||def.previewImage;
+const removedBg=custom&&custom.bgImage==='__REMOVED__';
+const effectiveImage=removedBg?null:((custom&&custom.bgImage)||def.previewImage);
 const previewStyle=`width:52px;height:30px;border-radius:6px;box-shadow:0 0 0 1px #e0d7c2;background-color:${def.previewColor};background-size:cover;background-position:center;flex-shrink:0`+
-(effectiveImage?`;background-image:url('${effectiveImage}')`:def.previewPattern?`;background-image:url("${def.previewPattern}")`:'');
+(effectiveImage?`;background-image:url('${effectiveImage}')`:(!removedBg&&def.previewPattern)?`;background-image:url("${def.previewPattern}")`:'');
 const preview=`<div style="${previewStyle}"></div>`;
 const activateBtn=selected
 ?`<button class="btn" style="background:#1f7a4d;color:#fff" onclick="event.stopPropagation();selectSkin('${key}')">Activo</button>`
@@ -1862,15 +1872,19 @@ if(key==='normal'){alert('El skin Normal no se puede modificar.');return}
 const def=SKIN_DEFS[key];
 const custom=data.settings.skinCustomizations[key]||{bgImage:'',logo:'',navColor:'',footerColor:''};
 const hasCustom=!!(custom.bgImage||custom.logo||custom.navColor||custom.footerColor);
-const effectiveLogo=custom.logo||def.footerLogo||'';
+const bgInitial=custom.bgImage==='__REMOVED__'?'':(custom.bgImage||def.previewImage||'');
+const logoInitial=custom.logo==='__REMOVED__'?'':(custom.logo||def.footerLogo||'');
 openModal(`<div>
 <h2>Personalizar: ${esc(def.label)}</h2>
-<p class="field-help">Sube una imagen de fondo y/o un logo propios para este skin. Si no subes algo, se usará el que ya tenía por defecto.</p>
+<p class="field-help">Sube una imagen de fondo y/o un logo propios para este skin. Si no subes algo, se usará el que ya tenía por defecto. Si pulsas "Quitar", ese skin se quedará sin fondo (o con el logo normal) en vez de recuperar el que tenía por defecto.</p>
 <label>Imagen de fondo</label>
-${imageUploadField('skinBgInput',custom.bgImage||def.previewImage||'')}
+<div class="upload-box"><input id="skinBgInput" type="file" accept="image/*" onchange="readImageFile(this,'skinBgInputPreview')"><button type="button" class="btn btn-secondary" onclick="clearSkinAsset('skinBgInputPreview','skinBgInput')">Quitar</button></div>
+<img id="skinBgInputPreview" class="upload-preview" src="${esc(bgInitial)}" data-value="${esc(bgInitial)}" ${bgInitial?'':'style="display:none"'}>
+<div id="skinBgInputPreviewStatus" class="field-help"></div>
+<div class="field-help">Selecciona una imagen directamente desde el dispositivo.</div>
 <label style="margin-top:18px">Logo del pie de página</label>
-<div class="upload-box"><input id="skinLogoInput" type="file" accept="image/png,image/*" onchange="readLogoFile(this,'skinLogoInputPreview')"><button type="button" class="btn btn-secondary" onclick="clearImage('skinLogoInputPreview','skinLogoInput')">Quitar</button></div>
-<img id="skinLogoInputPreview" class="upload-preview" src="${esc(effectiveLogo)}" data-value="${esc(effectiveLogo)}" ${effectiveLogo?'':'style="display:none"'}>
+<div class="upload-box"><input id="skinLogoInput" type="file" accept="image/png,image/*" onchange="readLogoFile(this,'skinLogoInputPreview')"><button type="button" class="btn btn-secondary" onclick="clearSkinAsset('skinLogoInputPreview','skinLogoInput')">Quitar</button></div>
+<img id="skinLogoInputPreview" class="upload-preview" src="${esc(logoInitial)}" data-value="${esc(logoInitial)}" ${logoInitial?'':'style="display:none"'}>
 <div id="skinLogoInputPreviewStatus" class="field-help"></div>
 <div class="field-help">Recomendado: imagen PNG con fondo transparente.</div>
 <h3 style="margin-top:24px">Colores</h3>
@@ -1884,6 +1898,15 @@ ${imageUploadField('skinBgInput',custom.bgImage||def.previewImage||'')}
 ${hasCustom?`<button class="btn btn-danger" onclick="resetSkinCustomization('${key}')">Restablecer skin</button>`:''}
 </div>
 </div>`);
+}
+function clearSkinAsset(previewId,inputId){
+const p=document.getElementById(previewId);
+const oldUrl=p.dataset.value;
+if(oldUrl&&oldUrl!=='__REMOVED__')deleteImageFromGithub(oldUrl);
+p.src='';p.style.display='none';p.dataset.value='__REMOVED__';
+const statusEl=document.getElementById(previewId+'Status');
+if(statusEl)statusEl.textContent='';
+document.getElementById(inputId).value='';
 }
 function syncSkinColors(){
 const navToggle=document.getElementById('skinNavColorToggle');
@@ -1904,9 +1927,17 @@ const footerChecked=document.getElementById('skinFooterColorToggle').checked;
 const navValue=document.getElementById('skinNavColorInput').value;
 const footerValue=document.getElementById('skinFooterColorInput').value;
 const def=SKIN_DEFS[key];
+let finalBg;
+if(bgValue==='__REMOVED__')finalBg='__REMOVED__';
+else if(bgValue&&bgValue!==def.previewImage)finalBg=bgValue;
+else finalBg='';
+let finalLogo;
+if(logoValue==='__REMOVED__')finalLogo='__REMOVED__';
+else if(logoValue&&logoValue!==def.footerLogo)finalLogo=logoValue;
+else finalLogo='';
 data.settings.skinCustomizations[key]={
-bgImage:(bgValue&&bgValue!==def.previewImage)?bgValue:(data.settings.skinCustomizations[key].bgImage||''),
-logo:(logoValue&&logoValue!==def.footerLogo)?logoValue:(data.settings.skinCustomizations[key].logo||''),
+bgImage:finalBg,
+logo:finalLogo,
 navColor:navChecked?navValue:'',
 footerColor:footerChecked?footerValue:''
 };
@@ -1920,8 +1951,8 @@ function resetSkinCustomization(key){
 if(!confirm('¿Restablecer este skin a su estado original? Se eliminará el fondo, logo y colores personalizados.'))return;
 const custom=data.settings.skinCustomizations[key];
 if(custom){
-if(custom.bgImage)deleteImageFromGithub(custom.bgImage);
-if(custom.logo)deleteImageFromGithub(custom.logo);
+if(custom.bgImage&&custom.bgImage!=='__REMOVED__')deleteImageFromGithub(custom.bgImage);
+if(custom.logo&&custom.logo!=='__REMOVED__')deleteImageFromGithub(custom.logo);
 }
 data.settings.skinCustomizations[key]={bgImage:'',logo:'',navColor:'',footerColor:''};
 save();
