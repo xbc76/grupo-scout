@@ -184,7 +184,7 @@ footer{background:#0b351f;color:#f1f0e8;padding:45px 22px;text-align:left}.foote
 .rt-color-wrap{position:relative;display:inline-block}
 .rt-color-btn{display:flex;align-items:center;gap:5px}
 .rt-color-swatch{width:16px;height:16px;border-radius:4px;border:1px solid #bbb;display:inline-block}
-.rt-color-popover{display:none;position:absolute;top:calc(100% + 4px);left:0;background:#fff;border:1px solid #ccd9e2;border-radius:9px;box-shadow:0 8px 24px rgba(0,0,0,.18);padding:10px;z-index:50;width:190px}
+.rt-color-popover{display:none;position:fixed;background:#fff;border:1px solid #ccd9e2;border-radius:9px;box-shadow:0 8px 24px rgba(0,0,0,.18);padding:10px;z-index:210;width:190px;max-width:calc(100vw - 20px)}
 .rt-color-popover.open{display:block}
 .rt-color-popover .rt-label{font-size:11px;color:#777;margin:0 0 5px}
 .rt-swatch-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:8px}
@@ -192,6 +192,24 @@ footer{background:#0b351f;color:#f1f0e8;padding:45px 22px;text-align:left}.foote
 .rt-swatch:hover{outline:2px solid #3a8fc7;outline-offset:1px}
 .rt-color-popover input[type="color"]{width:100%;height:30px;padding:2px;border:1px solid #ccd9e2;border-radius:6px;cursor:pointer}
 .rt-color-popover .rt-clear{width:100%;margin-top:6px;font-size:12px;padding:5px 8px}
+.cwp-panel{display:none;position:fixed;background:#fff;border:1px solid #ccd9e2;border-radius:12px;box-shadow:0 14px 34px rgba(0,0,0,.28);padding:14px;z-index:500;width:216px}
+.cwp-panel.open{display:block}
+.cwp-wheel-wrap{position:relative;width:180px;height:180px;margin:0 auto}
+.cwp-wheel-wrap canvas{border-radius:50%;cursor:crosshair;display:block}
+.cwp-handle{position:absolute;width:16px;height:16px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.4),0 2px 4px rgba(0,0,0,.3);transform:translate(-50%,-50%);pointer-events:none;background:transparent}
+.cwp-label{font-size:11px;color:#777;margin:10px 0 4px;font-weight:700;text-transform:uppercase}
+.cwp-panel input[type="range"]{width:100%}
+.cwp-palette{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:8px}
+.cwp-palette-swatch{width:100%;aspect-ratio:1;border-radius:5px;border:1px solid rgba(0,0,0,.15);cursor:pointer;padding:0}
+.cwp-palette-swatch:hover{outline:2px solid #3a8fc7;outline-offset:1px}
+.cwp-hex-row{display:flex;gap:8px;align-items:center}
+.cwp-preview{width:32px;height:32px;border-radius:7px;border:1px solid #ccd9e2;flex-shrink:0}
+.cwp-hex-row input[type="text"]{width:100%;padding:7px 9px;border:1px solid #ccd9e2;border-radius:7px;font-family:monospace}
+.cwp-actions{display:flex;gap:8px;margin-top:14px}
+.cwp-actions button{flex:1;padding:8px 0;font-size:13px}
+.cwp-swatch-btn{width:64px;height:42px;border-radius:9px;border:1px solid #ccd9e2;cursor:pointer;padding:0}
+.cwp-swatch-btn:disabled{opacity:.45;cursor:not-allowed}
+.rt-wheel-btn{width:100%;margin-top:6px;font-size:12px;padding:6px 8px}
 .upload-box{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}.upload-preview{display:block;max-width:220px;max-height:140px;border-radius:9px;border:1px solid #ddd;margin-top:8px;object-fit:cover}.image-gallery-admin{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-top:10px}.image-admin-item{border:1px solid #ddd;border-radius:9px;padding:6px;background:#fff}.image-admin-item img{width:100%;height:100px;object-fit:cover;border-radius:6px}.image-admin-item button{margin-top:5px;width:100%}.field-help{font-size:12px;color:#777;margin-top:4px}
 .stats-summary-cards{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px}
 .stat-card{background:#f6f4ed;border-radius:12px;padding:16px 22px;min-width:140px;text-align:center}
@@ -1360,8 +1378,183 @@ const storageBtn=nav.querySelector('[data-tab="almacenamiento"]');
 if(storageBtn)storageBtn.style.display=isProtected?'':'none';
 }
 const RT_PALETTE=['#000000','#4d4d4d','#8a8a8a','#c0392b','#e0729a','#ff7518','#f2a541','#f7c600','#4fa662','#174f35','#0b8fa3','#3a8fc7','#8c1c24','#3d1f5c','#ffffff'];
+function cwpHsvToRgb(h,s,v){
+h=h/360;let r,g,b;const i=Math.floor(h*6);const f=h*6-i;const p=v*(1-s);const q=v*(1-f*s);const t=v*(1-(1-f)*s);
+switch(i%6){case 0:r=v;g=t;b=p;break;case 1:r=q;g=v;b=p;break;case 2:r=p;g=v;b=t;break;case 3:r=p;g=q;b=v;break;case 4:r=t;g=p;b=v;break;case 5:r=v;g=p;b=q;break;}
+return [Math.round(r*255),Math.round(g*255),Math.round(b*255)];
+}
+function cwpRgbToHsv(r,g,b){
+r/=255;g/=255;b/=255;const max=Math.max(r,g,b),min=Math.min(r,g,b);const v=max;const d=max-min;const s=max===0?0:d/max;let h=0;
+if(d!==0){
+if(max===r)h=((g-b)/d)%6;
+else if(max===g)h=(b-r)/d+2;
+else h=(r-g)/d+4;
+h*=60;if(h<0)h+=360;
+}
+return [h,s,v];
+}
+function cwpRgbToHex(r,g,b){return '#'+[r,g,b].map(x=>x.toString(16).padStart(2,'0')).join('')}
+function cwpHexToRgb(hex){
+hex=hex.replace('#','');
+if(hex.length===3)hex=hex.split('').map(c=>c+c).join('');
+const num=parseInt(hex,16);
+if(isNaN(num)||hex.length!==6)return null;
+return [(num>>16)&255,(num>>8)&255,num&255];
+}
+let cwpState={h:200,s:0.8,v:0.8};
+let cwpCallback=null;
+function cwpRenderWheel(){
+const canvas=document.getElementById('cwpCanvas');
+if(!canvas)return;
+const ctx=canvas.getContext('2d');
+const size=canvas.width;const cx=size/2,cy=size/2,radius=size/2;
+const img=ctx.createImageData(size,size);
+for(let y=0;y<size;y++){
+for(let x=0;x<size;x++){
+const dx=x-cx,dy=y-cy;
+const dist=Math.sqrt(dx*dx+dy*dy);
+const idx=(y*size+x)*4;
+if(dist<=radius){
+let angle=Math.atan2(dy,dx)*180/Math.PI;if(angle<0)angle+=360;
+const sat=Math.min(1,dist/radius);
+const[r,g,b]=cwpHsvToRgb(angle,sat,cwpState.v);
+img.data[idx]=r;img.data[idx+1]=g;img.data[idx+2]=b;img.data[idx+3]=255;
+}else{
+img.data[idx+3]=0;
+}
+}
+}
+ctx.putImageData(img,0,0);
+}
+function cwpUpdateHandle(){
+const canvas=document.getElementById('cwpCanvas');
+const handle=document.getElementById('cwpHandle');
+if(!canvas||!handle)return;
+const size=canvas.width;const cx=size/2,cy=size/2,radius=size/2;
+const rad=cwpState.h*Math.PI/180;
+const dist=cwpState.s*radius;
+const x=cx+Math.cos(rad)*dist;
+const y=cy+Math.sin(rad)*dist;
+handle.style.left=x+'px';
+handle.style.top=y+'px';
+}
+function cwpCurrentHex(){
+const[r,g,b]=cwpHsvToRgb(cwpState.h,cwpState.s,cwpState.v);
+return cwpRgbToHex(r,g,b);
+}
+function cwpRefreshUI(){
+cwpRenderWheel();
+cwpUpdateHandle();
+const hex=cwpCurrentHex();
+const hexInput=document.getElementById('cwpHex');
+const preview=document.getElementById('cwpPreview');
+if(hexInput)hexInput.value=hex;
+if(preview)preview.style.background=hex;
+const bri=document.getElementById('cwpBrightness');
+if(bri)bri.value=Math.round(cwpState.v*100);
+}
+function cwpSetFromHex(hex){
+const rgb=cwpHexToRgb(hex);
+if(!rgb)return;
+const[h,s,v]=cwpRgbToHsv(rgb[0],rgb[1],rgb[2]);
+cwpState={h,s,v};
+cwpRefreshUI();
+}
+function cwpBuildPanel(){
+if(document.getElementById('colorWheelPicker'))return;
+const div=document.createElement('div');
+div.id='colorWheelPicker';
+div.className='cwp-panel';
+div.innerHTML=`
+<div class="cwp-wheel-wrap">
+<canvas id="cwpCanvas" width="180" height="180"></canvas>
+<div id="cwpHandle" class="cwp-handle"></div>
+</div>
+<label class="cwp-label">Brillo</label>
+<input type="range" id="cwpBrightness" min="0" max="100" value="80">
+<div class="cwp-palette" id="cwpPalette"></div>
+<label class="cwp-label">Color (HEX)</label>
+<div class="cwp-hex-row">
+<div class="cwp-preview" id="cwpPreview"></div>
+<input type="text" id="cwpHex" maxlength="7">
+</div>
+<div class="cwp-actions">
+<button type="button" class="btn btn-primary" onclick="cwpConfirm()">Guardar</button>
+<button type="button" class="btn btn-secondary" onclick="cwpCancel()">Cancelar</button>
+</div>`;
+document.body.appendChild(div);
+document.getElementById('cwpPalette').innerHTML=RT_PALETTE.map(c=>`<button type="button" class="cwp-palette-swatch" style="background:${c}" onclick="cwpSetFromHex('${c}')"></button>`).join('');
+const canvas=document.getElementById('cwpCanvas');
+let dragging=false;
+function pointerToHS(e){
+const rect=canvas.getBoundingClientRect();
+const clientX=e.touches?e.touches[0].clientX:e.clientX;
+const clientY=e.touches?e.touches[0].clientY:e.clientY;
+const x=clientX-rect.left,y=clientY-rect.top;
+const cx=rect.width/2,cy=rect.height/2,radius=rect.width/2;
+const dx=x-cx,dy=y-cy;
+let angle=Math.atan2(dy,dx)*180/Math.PI;if(angle<0)angle+=360;
+const dist=Math.min(1,Math.sqrt(dx*dx+dy*dy)/radius);
+cwpState.h=angle;cwpState.s=dist;
+cwpUpdateHandle();
+const hex=cwpCurrentHex();
+document.getElementById('cwpHex').value=hex;
+document.getElementById('cwpPreview').style.background=hex;
+}
+canvas.addEventListener('mousedown',e=>{dragging=true;pointerToHS(e)});
+canvas.addEventListener('touchstart',e=>{dragging=true;pointerToHS(e)});
+document.addEventListener('mousemove',e=>{if(dragging)pointerToHS(e)});
+document.addEventListener('touchmove',e=>{if(dragging){pointerToHS(e);e.preventDefault()}},{passive:false});
+document.addEventListener('mouseup',()=>{dragging=false});
+document.addEventListener('touchend',()=>{dragging=false});
+document.getElementById('cwpBrightness').addEventListener('input',function(){
+cwpState.v=this.value/100;
+cwpRenderWheel();
+const hex=cwpCurrentHex();
+document.getElementById('cwpHex').value=hex;
+document.getElementById('cwpPreview').style.background=hex;
+});
+document.getElementById('cwpHex').addEventListener('change',function(){
+let v=this.value.trim();
+if(v[0]!=='#')v='#'+v;
+if(cwpHexToRgb(v))cwpSetFromHex(v);
+else this.value=cwpCurrentHex();
+});
+document.addEventListener('mousedown',function(e){
+const panel=document.getElementById('colorWheelPicker');
+if(panel&&panel.classList.contains('open')&&!panel.contains(e.target)&&!e.target.closest('.cwp-swatch-btn')&&!e.target.closest('.rt-wheel-btn')){
+panel.classList.remove('open');
+}
+});
+}
+function openColorWheel(anchorEl,initialHex,onConfirm){
+cwpBuildPanel();
+cwpCallback=onConfirm;
+cwpSetFromHex(initialHex||'#0b438f');
+const panel=document.getElementById('colorWheelPicker');
+panel.classList.add('open');
+const rect=anchorEl.getBoundingClientRect();
+const panelWidth=240;
+let left=rect.left;
+if(left+panelWidth>window.innerWidth-10)left=window.innerWidth-panelWidth-10;
+if(left<10)left=10;
+const panelHeight=panel.offsetHeight||420;
+let top=rect.bottom+6;
+if(top+panelHeight>window.innerHeight-10)top=rect.top-panelHeight-6;
+if(top<10)top=10;
+panel.style.left=left+'px';
+panel.style.top=top+'px';
+}
+function cwpConfirm(){
+const hex=cwpCurrentHex();
+if(cwpCallback)cwpCallback(hex);
+document.getElementById('colorWheelPicker').classList.remove('open');
+}
+function cwpCancel(){
+document.getElementById('colorWheelPicker').classList.remove('open');
+}
 function richColorPopover(id,mode){const swatches=RT_PALETTE.map(c=>`<button type="button" class="rt-swatch" style="background:${c}" title="${c}" onclick="pickRichColor('${id}','${mode}','${c}')"></button>`).join('');
-return `<div class="rt-color-popover" id="${id}_${mode}Pop"><p class="rt-label">${mode==='fore'?'Color de texto':'Color de resaltado'}</p><div class="rt-swatch-grid">${swatches}</div><input type="color" onchange="pickRichColor('${id}','${mode}',this.value)"><button type="button" class="btn btn-light rt-clear" onclick="clearRichColor('${id}','${mode}')">Quitar color</button></div>`}
+return `<div class="rt-color-popover" id="${id}_${mode}Pop"><p class="rt-label">${mode==='fore'?'Color de texto':'Color de resaltado'}</p><div class="rt-swatch-grid">${swatches}</div><button type="button" class="btn btn-secondary rt-wheel-btn" onclick="openColorWheel(this,'#000000',function(hex){pickRichColor('${id}','${mode}',hex)})">🎨 Más colores…</button><button type="button" class="btn btn-light rt-clear" onclick="clearRichColor('${id}','${mode}')">Quitar color</button></div>`}
 function richEditor(id,value){return `<div class="rich-wrap"><div class="rich-toolbar">
 <button type="button" onclick="fmt('${id}','bold')" title="Negrita"><b>B</b></button>
 <button type="button" onclick="fmt('${id}','italic')" title="Cursiva"><i>I</i></button>
@@ -1373,11 +1566,11 @@ function richEditor(id,value){return `<div class="rich-wrap"><div class="rich-to
 <select onchange="fmt('${id}','fontSize',this.value);this.selectedIndex=0" title="Tamaño"><option>Tamaño</option><option value="2">Pequeño</option><option value="3">Normal</option><option value="4">Grande</option><option value="5">Muy grande</option><option value="6">Enorme</option></select>
 <div class="rt-sep"></div>
 <div class="rt-color-wrap">
-<button type="button" class="rt-color-btn" title="Color de texto" onclick="toggleRichColorPopover('${id}','fore')"><span class="rt-color-swatch" style="background:#000"></span>Texto</button>
+<button type="button" class="rt-color-btn" title="Color de texto" onclick="toggleRichColorPopover(this,'${id}','fore')"><span class="rt-color-swatch" style="background:#000"></span>Texto</button>
 ${richColorPopover(id,'fore')}
 </div>
 <div class="rt-color-wrap">
-<button type="button" class="rt-color-btn" title="Color de resaltado" onclick="toggleRichColorPopover('${id}','back')"><span class="rt-color-swatch" style="background:#fff200"></span>Resaltar</button>
+<button type="button" class="rt-color-btn" title="Color de resaltado" onclick="toggleRichColorPopover(this,'${id}','back')"><span class="rt-color-swatch" style="background:#fff200"></span>Resaltar</button>
 ${richColorPopover(id,'back')}
 </div>
 <button type="button" onclick="clearRichFormatting('${id}')" title="Quitar todo el formato">Limpiar formato</button>
@@ -1393,7 +1586,7 @@ ${richColorPopover(id,'back')}
 <button type="button" onclick="fmt('${id}','unlink')" title="Quitar enlace">Quitar enlace</button>
 </div><div id="${id}" class="rich-editor" contenteditable="true">${sanitizeRich(value)}</div></div><div class="field-help">Formato: párrafo/título, tipo de letra, tamaño, color de texto y resaltado, negrita, cursiva, subrayado, tachado, listas, alineación y enlaces.</div>`}
 function fmt(id,cmd,value=null){const e=document.getElementById(id);e.focus();document.execCommand(cmd,false,value)}
-function toggleRichColorPopover(id,mode){document.querySelectorAll('.rt-color-popover.open').forEach(p=>{if(p.id!==id+'_'+mode+'Pop')p.classList.remove('open')});const pop=document.getElementById(id+'_'+mode+'Pop');pop.classList.toggle('open')}
+function toggleRichColorPopover(btnEl,id,mode){document.querySelectorAll('.rt-color-popover.open').forEach(p=>{if(p.id!==id+'_'+mode+'Pop')p.classList.remove('open')});const pop=document.getElementById(id+'_'+mode+'Pop');const willOpen=!pop.classList.contains('open');pop.classList.toggle('open');if(willOpen&&btnEl){const rect=btnEl.getBoundingClientRect();const popWidth=pop.offsetWidth||190;let left=rect.left;if(left+popWidth>window.innerWidth-10)left=window.innerWidth-popWidth-10;if(left<10)left=10;const popHeight=pop.offsetHeight||220;let top=rect.bottom+6;if(top+popHeight>window.innerHeight-10)top=rect.top-popHeight-6;if(top<10)top=10;pop.style.left=left+'px';pop.style.top=top+'px'}}
 function pickRichColor(id,mode,color){fmt(id,mode==='fore'?'foreColor':'hiliteColor',color);document.getElementById(id+'_'+mode+'Pop').classList.remove('open')}
 function clearRichColor(id,mode){fmt(id,mode==='fore'?'foreColor':'hiliteColor','inherit');document.getElementById(id+'_'+mode+'Pop').classList.remove('open')}
 function clearRichFormatting(id){const e=document.getElementById(id);e.focus();document.execCommand('removeFormat',false,null);document.execCommand('formatBlock',false,'P')}
@@ -1888,10 +2081,12 @@ openModal(`<div>
 <div id="skinLogoInputPreviewStatus" class="field-help"></div>
 <div class="field-help">Recomendado: imagen PNG con fondo transparente.</div>
 <h3 style="margin-top:24px">Colores</h3>
-<label class="access-toggle"><input type="checkbox" id="skinNavColorToggle" ${custom.navColor?'checked':''} onchange="document.getElementById('skinNavColorInput').disabled=!this.checked"> Cambiar color de la barra de navegación</label>
-<input type="color" id="skinNavColorInput" value="${custom.navColor||'#0b438f'}" ${custom.navColor?'':'disabled'}>
-<label class="access-toggle" style="margin-top:10px"><input type="checkbox" id="skinFooterColorToggle" ${custom.footerColor?'checked':''} onchange="document.getElementById('skinFooterColorInput').disabled=!this.checked"> Cambiar color del pie de página</label>
-<input type="color" id="skinFooterColorInput" value="${custom.footerColor||'#073873'}" ${custom.footerColor?'':'disabled'}>
+<label class="access-toggle"><input type="checkbox" id="skinNavColorToggle" ${custom.navColor?'checked':''} onchange="document.getElementById('skinNavColorSwatch').disabled=!this.checked"> Cambiar color de la barra de navegación</label>
+<input type="hidden" id="skinNavColorInput" value="${custom.navColor||'#0b438f'}">
+<button type="button" class="cwp-swatch-btn" id="skinNavColorSwatch" style="background:${custom.navColor||'#0b438f'}" ${custom.navColor?'':'disabled'} onclick="openColorWheel(this,document.getElementById('skinNavColorInput').value,function(hex){document.getElementById('skinNavColorInput').value=hex;document.getElementById('skinNavColorSwatch').style.background=hex})"></button>
+<label class="access-toggle" style="margin-top:10px"><input type="checkbox" id="skinFooterColorToggle" ${custom.footerColor?'checked':''} onchange="document.getElementById('skinFooterColorSwatch').disabled=!this.checked"> Cambiar color del pie de página</label>
+<input type="hidden" id="skinFooterColorInput" value="${custom.footerColor||'#073873'}">
+<button type="button" class="cwp-swatch-btn" id="skinFooterColorSwatch" style="background:${custom.footerColor||'#073873'}" ${custom.footerColor?'':'disabled'} onclick="openColorWheel(this,document.getElementById('skinFooterColorInput').value,function(hex){document.getElementById('skinFooterColorInput').value=hex;document.getElementById('skinFooterColorSwatch').style.background=hex})"></button>
 <div style="margin-top:8px"><button type="button" class="btn btn-secondary" onclick="syncSkinColors()">Usar el mismo color para los dos</button></div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
 <button class="btn btn-primary" onclick="saveSkinCustomization('${key}')">Guardar cambios</button>
@@ -1913,9 +2108,12 @@ const navToggle=document.getElementById('skinNavColorToggle');
 const footerToggle=document.getElementById('skinFooterColorToggle');
 const navInput=document.getElementById('skinNavColorInput');
 const footerInput=document.getElementById('skinFooterColorInput');
+const navSwatch=document.getElementById('skinNavColorSwatch');
+const footerSwatch=document.getElementById('skinFooterColorSwatch');
 navToggle.checked=true;footerToggle.checked=true;
-navInput.disabled=false;footerInput.disabled=false;
+navSwatch.disabled=false;footerSwatch.disabled=false;
 footerInput.value=navInput.value;
+footerSwatch.style.background=navInput.value;
 }
 function saveSkinCustomization(key){
 const bgPreview=document.getElementById('skinBgInputPreview');
