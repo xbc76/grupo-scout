@@ -1379,7 +1379,7 @@ if(banner)banner.classList.remove('open');
 function trackPageView(pageId){
 if(!fbDb||adminLogged)return;
 const consent=getCookieConsent();
-if(consent&&consent.choice==='rechazado')return;
+if(!consent||consent.choice!=='aceptado')return;
 const today=new Date().toISOString().slice(0,10);
 fbDb.collection('stats').doc('summary').set({
 totalVisits:firebase.firestore.FieldValue.increment(1),
@@ -3522,7 +3522,7 @@ const to=(data.settings.notifyEmails||[]).join(',');
 const submitBtn=e.target.querySelector('[type="submit"]');
 if(submitBtn){submitBtn.disabled=true}
 if(window.emailjs&&to){
-emailjs.send('service_fr39eb9','template_flehd1j',{to_email:to,interesado:formValues.interesado,tutor:formValues.tutor,telefono:formValues.telefono,edad:formValues.edad,mensaje:formValues.mensaje}).then(()=>{
+emailjs.send('service_fr39eb9','template_flehd1j',{to_email:to,fecha:new Date().toLocaleString('es-ES')}).then(()=>{
 toast('Solicitud enviada correctamente');
 e.target.reset();
 if(submitBtn){submitBtn.disabled=false}
