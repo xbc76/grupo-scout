@@ -114,6 +114,7 @@ footer{background:#0b351f;color:#f1f0e8;padding:45px 22px;text-align:left}.foote
 .admin-nav button.admin-tab-c1{background:#dbe9fa;color:#173a57}
 .admin-nav button.admin-tab-c1.active{background:#2f6fb5;color:#fff}
 .admin-nav button.admin-tab-c2{background:#ffe3cc;color:#7a3e00}
+.msg-unread-badge{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:#e53935;color:#fff;font-weight:800;font-size:12px;padding:3px 9px;border-radius:8px;line-height:1.2;min-width:20px;text-align:center}
 .admin-nav button.admin-tab-c2.active{background:#d9730d;color:#fff}
 .admin-nav button.admin-tab-c3{background:#dcf3e3;color:#174f35}
 .admin-nav button.admin-tab-c3.active{background:#1f7a4d;color:#fff}
@@ -130,6 +131,7 @@ footer{background:#0b351f;color:#f1f0e8;padding:45px 22px;text-align:left}.foote
   #admin .section{grid-template-columns:1fr;grid-template-areas:"head" "nav" "content"}
   #admin .admin-nav{flex-direction:row;flex-wrap:nowrap;position:static;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px}
   #admin .admin-nav button{width:auto;flex:0 0 auto}
+  #admin .admin-nav .msg-unread-badge{position:static;transform:none;display:inline-block;margin-left:8px;vertical-align:middle}
 }
 .admin-panel{background:#fff;padding:24px;border-radius:18px;box-shadow:var(--shadow);margin-bottom:20px}.admin-item{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;background:#faf6ec;border:1px solid #e6dcc6;border-radius:12px;padding:14px 16px;margin-bottom:10px}.admin-item:last-child{margin-bottom:0}.admin-item>div:first-child{min-width:0;overflow-wrap:break-word;word-break:break-word}.admin-actions{display:flex;gap:7px;flex-wrap:wrap}.admin-actions:empty{display:none}.small{font-size:13px}.admin-item.clickable{cursor:pointer;transition:background .15s,border-color .15s,box-shadow .15s,transform .1s}.admin-item.clickable:hover{background:#f1e9d8;border-color:#cfc7b7;box-shadow:0 3px 10px rgba(18,63,42,.1)}.admin-item.clickable:active{background:#eee0c4;transform:scale(.995)}.datos-card-inner{display:flex;align-items:center;gap:12px}.datos-icon-preview{width:38px;height:38px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:#f7f3e8}.datos-icon-preview svg{width:19px;height:19px;fill:none;stroke:var(--icon-color,#123f2a);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.datos-icon-preview.empty{background:#f1e9d8;border:1.5px dashed #cfc7b7}.datos-icon-preview.empty svg{width:16px;height:16px;stroke:#a99c86;stroke-width:1.6}.scouter-admin-row{display:flex;align-items:center;gap:12px;width:100%}.scouter-admin-arrows{display:flex;flex-direction:column;gap:2px;flex-shrink:0}.scouter-admin-name{flex:1;min-width:0;cursor:pointer;overflow-wrap:break-word;word-break:break-word}
 @media(max-width:480px){.scouter-admin-row{flex-wrap:wrap}.scouter-admin-name{flex:1 1 100%;order:1}.scouter-admin-arrows{order:2}.scouter-admin-row>.btn-danger{order:3;margin-left:auto}}
@@ -192,7 +194,7 @@ footer{background:#0b351f;color:#f1f0e8;padding:45px 22px;text-align:left}.foote
 .empty{padding:30px;text-align:center;background:#fff;border-radius:16px;color:var(--muted)}
 .toast{position:fixed;bottom:20px;right:20px;background:#10202d;color:#fff;padding:14px 18px;border-radius:12px;box-shadow:var(--shadow);display:none;z-index:200}.toast.show{display:block}
 @media(max-width:850px){.grid,.features,.form-wrap{grid-template-columns:1fr 1fr}nav{display:none}.grid .card img{height:190px}.grid > .card{width:calc((100% - 22px)/2)}}
-@media(max-width:600px){.grid,.features,.form-wrap{grid-template-columns:1fr}.hero-inner{padding:52px 18px}.section{padding:52px 16px}.section h2{font-size:30px}.nav{overflow:visible}.logo{font-size:12px}.gallery{grid-template-columns:repeat(2,1fr)}.grid > .card{width:100%}}
+@media(max-width:600px){.grid,.features,.form-wrap{grid-template-columns:1fr}.hero-inner{padding:52px 18px}.section{padding:52px 16px}.section h2{font-size:30px}.nav{overflow:visible}.logo{font-size:12px}.gallery{grid-template-columns:repeat(2,1fr)}.gallery-video-wrap{grid-column:1/-1;width:100%}.grid > .card{width:100%}}
 
 
 @media(max-width:850px){
@@ -685,7 +687,7 @@ header .nav{height:auto!important;min-height:84px!important;width:100%!important
   display:block;
   border-radius:12px;
 }
-.gallery-video-wrap{position:relative;background:linear-gradient(135deg,#3a352c,#15130f);background-size:cover;background-position:center;cursor:pointer}
+.gallery-video-wrap{position:relative;aspect-ratio:16/9;height:auto;background:linear-gradient(135deg,#3a352c,#15130f);background-size:cover;background-position:center;cursor:pointer}
 .gallery-play-icon{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
 .gallery-play-icon svg{width:38px;height:38px;fill:#fff;filter:drop-shadow(0 2px 6px rgba(0,0,0,.65))}
 .gallery-video-label{position:absolute;left:6px;bottom:6px;background:rgba(0,0,0,.65);color:#fff;font-size:11px;font-weight:700;padding:2px 7px;border-radius:6px;letter-spacing:.3px}
@@ -1047,7 +1049,7 @@ if(data.settings.navTabs&&!data.settings.navTabs.pagina1)data.settings.navTabs.p
 if(data.settings.navTabs&&!data.settings.navTabs.pagina2)data.settings.navTabs.pagina2={label:'Página 2',icon:'flag',hidden:true};
 if(data.settings.navTabs&&!data.settings.navTabs.pagina3)data.settings.navTabs.pagina3={label:'Página 3',icon:'book',hidden:true};
 if(!data.messages)data.messages=[];
-if(Array.isArray(data.camps))data.camps.forEach(c=>{if(!Array.isArray(c.videos))c.videos=c.video?[c.video]:[];delete c.video});
+if(Array.isArray(data.camps))data.camps.forEach(c=>{if(!Array.isArray(c.videos))c.videos=c.video?[c.video]:[];delete c.video;c.videos=c.videos.map(v=>typeof v==='string'?{url:v,image:'',showIcon:true}:v)});
 if(!data.settings.adminUsers){
  const legacy=data.settings.adminEmails||[];
  data.settings.adminUsers=legacy.length?legacy.map((e,i)=>({name:i===0?'Administrador principal':'Administrador',email:e})):structuredClone(defaults.settings.adminUsers);
@@ -1466,14 +1468,42 @@ const txt=document.getElementById(textId);if(txt)txt.innerHTML=sanitizeRich(d.te
 function renderAvisoLegal(){renderLegalPage('aviso','avisoTitle','avisoText')}
 function renderPrivacidad(){renderLegalPage('privacidad','privTitle','privText')}
 function renderCookiesPage(){renderLegalPage('cookies','cookiesTitle','cookiesText')}
-function videoRowHTML(value){
-return `<div class="video-row" style="display:flex;gap:8px;margin-bottom:8px;align-items:center"><input type="url" class="f_video_url" placeholder="https://www.youtube.com/watch?v=..." value="${esc(value||'')}" style="flex:1"><button type="button" class="btn btn-danger" onclick="this.parentElement.remove()">Eliminar</button></div>`;
+let _videoRowSeq=0;
+function videoRowHTML(video){
+video=video&&typeof video==='object'?video:{url:video||''};
+const rid='vidrow'+(_videoRowSeq++)+Math.random().toString(36).slice(2,7);
+const url=video.url||'';
+const image=video.image||'';
+const showIcon=video.showIcon!==false;
+return `<div class="video-row" data-row-id="${rid}" style="border:1px solid var(--line);border-radius:10px;padding:10px;margin-bottom:10px">
+<div style="display:flex;gap:8px;align-items:center">
+<input type="url" class="f_video_url" placeholder="https://www.youtube.com/watch?v=..." value="${esc(url)}" style="flex:1">
+<button type="button" class="btn btn-secondary" onclick="toggleVideoRowOptions('${rid}')">Opciones</button>
+<button type="button" class="btn btn-danger" onclick="removeVideoRow('${rid}')">Eliminar</button>
+</div>
+<div class="video-row-options" id="opts_${rid}" style="display:none;margin-top:10px">
+<label>Imagen propia para el banner (opcional)</label>
+${imageUploadField('vidimg_'+rid,image)}
+<label style="display:flex;align-items:center;gap:8px;margin-top:8px;font-weight:400"><input type="checkbox" class="f_video_showicon" ${showIcon?'checked':''}> Mostrar el icono de reproducir encima de la imagen</label>
+</div>
+</div>`;
+}
+function toggleVideoRowOptions(rid){
+const el=document.getElementById('opts_'+rid);
+if(el)el.style.display=(el.style.display==='none'||!el.style.display)?'block':'none';
+}
+function removeVideoRow(rid){
+const row=document.querySelector('.video-row[data-row-id="'+rid+'"]');
+if(!row)return;
+const preview=row.querySelector('.upload-preview');
+if(preview&&preview.dataset.value&&/^https?:\/\//.test(preview.dataset.value))deleteImageFromGithub(preview.dataset.value);
+row.remove();
 }
 function videoListField(videos){
-const rows=(videos&&videos.length?videos:['']).map(v=>videoRowHTML(v)).join('');
+const rows=(videos&&videos.length?videos:[{}]).map(v=>videoRowHTML(v)).join('');
 return `<div id="f_videosList">${rows}</div><button type="button" class="btn btn-secondary" onclick="addVideoRow()">+ Añadir otro vídeo</button>`;
 }
-function addVideoRow(){document.getElementById('f_videosList').insertAdjacentHTML('beforeend',videoRowHTML(''))}
+function addVideoRow(){document.getElementById('f_videosList').insertAdjacentHTML('beforeend',videoRowHTML({}))}
 function isAgendaEventPast(x){const ref=x.end||x.start;const v=dateSortValue(ref);if(v===null)return false;return(v+86400000)<Date.now()}
 function renderAgenda(){const g=document.getElementById('agendaGrid');const list=sortedAgenda();g.innerHTML=list.length?list.map(x=>`<article class="card clickable${isAgendaEventPast(x)?' event-past':''}" onclick="openAgenda(${x.id})">${x.image?`<div class="card-img-wrap"><img src="${esc(x.image)}" alt="${esc(x.title)}" onerror="this.parentElement.style.display='none'"></div>`:''}<div class="card-body">${x.start?`<div class="date">${esc(formatDateRange(x.start,x.end))}</div>`:''}<h3>${esc(x.title)}</h3><div class="muted">${sanitizeRich(x.text).replace(/<[^>]+>/g,' ').slice(0,120)}…</div></div></article>`).join(''):'<div class="empty">No hay próximos eventos.</div>'}
 function pad2(n){return String(n).padStart(2,'0')}
@@ -1514,13 +1544,24 @@ function formatAgeRange(x){if(x.ageFrom&&x.ageTo)return `De ${esc(x.ageFrom)} a 
 function renderPromociones(){const g=document.getElementById('promocionesGrid');if(!g)return;g.innerHTML=data.promociones.length?data.promociones.map(x=>{const age=formatAgeRange(x);return `<article class="card clickable" onclick="openPromocion(${x.id})">${x.image?`<div class="card-img-wrap"><img src="${esc(x.image)}" alt="${esc(x.title)}" onerror="this.parentElement.style.display='none'"></div>`:''}<div class="card-body">${age?`<div class="date">${age}</div>`:''}<h3>${esc(x.title)}</h3><div class="muted">${sanitizeRich(x.text).replace(/<[^>]+>/g,' ').slice(0,120)}…</div></div></article>`}).join(''):'<div class="empty">No hay promociones activas.</div>'}
 function openPromocion(id){const x=data.promociones.find(a=>a.id===id);if(!x)return;const age=formatAgeRange(x);openModal(`${x.image?`<div class="cover-wrap"><img class="cover" src="${esc(x.image)}" alt="${esc(x.title)}"></div>`:''}${age?`<div class="date">${age}</div>`:''}<h2>${esc(x.title)}</h2><div>${sanitizeRich(x.text)}</div>`,true)}
 function renderCamps(){const g=document.getElementById('campGrid');g.innerHTML=sortedCamps().map(x=>`<article class="card clickable" onclick="openCamp(${x.id})"><div class="card-img-wrap"><img src="${esc(x.cover)}" alt="${esc(x.title)}"></div><div class="card-body">${x.date?`<div class="date">${esc(formatDateRange(x.date,x.endDate))}</div>`:''}<h3>${esc(x.title)}</h3></div></article>`).join('')}
-function videoThumbData(videoUrl){
-const embed=videoEmbedUrl(videoUrl);
-if(!embed)return null;
-const m=String(videoUrl).match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{6,})/);
-return {embed:embed,thumb:m?('https://img.youtube.com/vi/'+m[1]+'/hqdefault.jpg'):null};
+function saveDefaultVideoThumbnail(){
+const p=document.getElementById('defaultVideoThumbPreview');
+data.settings.defaultVideoThumbnail=(p&&p.dataset.value)?p.dataset.value:'';
+save();
+toast('Imagen guardada.');
 }
-function openCamp(id){const x=data.camps.find(a=>a.id===id);const videoList=((x.videos&&x.videos.length?x.videos:(x.video?[x.video]:[]))).map(videoThumbData).filter(Boolean);openModal(`<div class="cover-wrap"><img class="cover" src="${esc(x.cover)}" alt="${esc(x.title)}"></div>${x.date?`<div class="date">${esc(formatDateRange(x.date,x.endDate))}</div>`:''}<h2>${esc(x.title)}</h2><div>${sanitizeRich(x.text)}</div><div class="gallery">${videoList.map(v=>`<div class="gallery-img-wrap gallery-video-wrap" role="button" tabindex="0" aria-label="Vídeo de ${esc(x.title)}" onclick="event.stopPropagation();openVideoLightbox('${esc(v.embed)}')" onkeydown="if(event.key==='Enter'){event.stopPropagation();openVideoLightbox('${esc(v.embed)}')}" ${v.thumb?`style="background-image:url('${esc(v.thumb)}')"`:''}><span class="gallery-play-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></span><span class="gallery-video-label">VÍDEO</span></div>`).join('')}${x.images.map(i=>`<div class="gallery-img-wrap"><img src="${esc(i)}" alt="Foto de ${esc(x.title)}" onclick="event.stopPropagation();openLightbox('${esc(i)}')"></div>`).join('')}</div>`,true)}
+function videoThumbData(video){
+video=video&&typeof video==='object'?video:{url:video};
+const url=video.url;
+const embed=videoEmbedUrl(url);
+if(!embed)return null;
+const showIcon=video.showIcon!==false;
+if(video.image)return {embed:embed,thumb:video.image,showIcon:showIcon};
+if(data.settings.defaultVideoThumbnail)return {embed:embed,thumb:data.settings.defaultVideoThumbnail,showIcon:showIcon};
+const m=String(url).match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{6,})/);
+return {embed:embed,thumb:m?('https://img.youtube.com/vi/'+m[1]+'/hqdefault.jpg'):null,showIcon:showIcon};
+}
+function openCamp(id){const x=data.camps.find(a=>a.id===id);const videoList=((x.videos&&x.videos.length?x.videos:(x.video?[x.video]:[]))).map(videoThumbData).filter(Boolean);openModal(`<div class="cover-wrap"><img class="cover" src="${esc(x.cover)}" alt="${esc(x.title)}"></div>${x.date?`<div class="date">${esc(formatDateRange(x.date,x.endDate))}</div>`:''}<h2>${esc(x.title)}</h2><div>${sanitizeRich(x.text)}</div><div class="gallery">${videoList.map(v=>`<div class="gallery-img-wrap gallery-video-wrap" role="button" tabindex="0" aria-label="Vídeo de ${esc(x.title)}" onclick="event.stopPropagation();openVideoLightbox('${esc(v.embed)}')" onkeydown="if(event.key==='Enter'){event.stopPropagation();openVideoLightbox('${esc(v.embed)}')}" ${v.thumb?`style="background-image:url('${esc(v.thumb)}')"`:''}>${v.showIcon?'<span class="gallery-play-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></span><span class="gallery-video-label">VÍDEO</span>':''}</div>`).join('')}${x.images.map(i=>`<div class="gallery-img-wrap"><img src="${esc(i)}" alt="Foto de ${esc(x.title)}" onclick="event.stopPropagation();openLightbox('${esc(i)}')"></div>`).join('')}</div>`,true)}
 function renderScouters(){document.getElementById('scoutGrid').innerHTML=data.scouters.map(x=>`<article class="card clickable" onclick="openScouter(${x.id})"><div class="card-img-wrap"><img src="${esc(x.image)}" alt="${esc(x.name)}"></div><div class="card-body"><h3>${esc(x.name)}</h3>${x.role?`<div class="date">${esc(x.role)}</div>`:''}</div></article>`).join('')}
 function openScouter(id){const x=data.scouters.find(a=>a.id===id);openModal(`<div class="cover-wrap"><img class="cover" src="${esc(x.image)}" alt="${esc(x.name)}"></div><h2>${esc(x.name)}</h2>${x.role?`<div class="date">${esc(x.role)}</div>`:''}<div>${sanitizeRich(x.text)}</div>`,true)}
 function docTypeInfo(fileName){
@@ -1684,7 +1725,14 @@ const items=[
 ['colaboradores','Colaboradores','admin-tab-c3'],
 ['skins','Skins','admin-tab-c3']
 ];
-let h=items.map(([key,label,cls])=>`<button class="${cls}${currentAdminTab===key?' active':''}" onclick="adminTab('${key}')">${esc(label)}</button>`).join('');
+let h=items.map(([key,label,cls])=>{
+if(key==='mensajes'){
+const unread=(data.messages||[]).filter(m=>!m.leido).length;
+const badge=unread>0?`<span class="msg-unread-badge">${unread>99?'99+':unread}</span>`:'';
+return `<button class="${cls}${currentAdminTab===key?' active':''}" onclick="adminTab('${key}')" style="position:relative">${esc(label)}${badge}</button>`;
+}
+return `<button class="${cls}${currentAdminTab===key?' active':''}" onclick="adminTab('${key}')">${esc(label)}</button>`;
+}).join('');
 h+=`<button class="admin-tab-c4${currentAdminTab==='acceso'?' active':''}" onclick="adminTab('acceso')" data-tab="acceso">Acceso</button>`;
 h+=`<button class="admin-tab-warn${currentAdminTab==='almacenamiento'?' active':''}" onclick="adminTab('almacenamiento')" data-tab="almacenamiento">Almacenamiento</button>`;
 nav.innerHTML=h;
@@ -2559,7 +2607,7 @@ if(fi)fi.innerHTML=icons.join('');
 function renderAdmin(){renderAdminNav();const c=document.getElementById('adminContent');if(currentAdminTab==='textos')c.innerHTML=renderTextosPanel();
 else if(currentAdminTab==='mensajes')c.innerHTML=renderMessagesPanel();
 else if(currentAdminTab==='agenda')c.innerHTML=gridColumnsSelector('agenda')+editorList(data.settings.navTabs.agenda.label||'Agenda','agenda',x=>`<b>${esc(x.title)}</b><br><span class="small muted">${x.start?esc(formatDateRange(x.start,x.end)):'Sin fecha'}</span>`,sortedAgenda());
-else if(currentAdminTab==='acampadas')c.innerHTML=gridColumnsSelector('acampadas')+editorList(data.settings.navTabs.acampadas.label||'Acampadas','camps',x=>`<b>${esc(x.title)}</b><br><span class="small muted">${x.date?esc(formatDateRange(x.date,x.endDate)):'Sin fecha'}</span>`,sortedCamps());
+else if(currentAdminTab==='acampadas')c.innerHTML=`<div class="admin-panel"><h3 style="margin-bottom:6px">Imagen de fondo para vídeos sin miniatura</h3><p class="small muted">Se usa como fondo de los vídeos de Vimeo o TikTok (los de YouTube ya muestran su propia miniatura real). Se sube a GitHub como cualquier otra imagen, así que no pesa en la web.</p>${imageUploadField('defaultVideoThumb',data.settings.defaultVideoThumbnail||'')}<br><button class="btn btn-primary" onclick="saveDefaultVideoThumbnail()">Guardar imagen</button></div>`+gridColumnsSelector('acampadas')+editorList(data.settings.navTabs.acampadas.label||'Acampadas','camps',x=>`<b>${esc(x.title)}</b><br><span class="small muted">${x.date?esc(formatDateRange(x.date,x.endDate)):'Sin fecha'}</span>`,sortedCamps());
 else if(currentAdminTab==='scouters')c.innerHTML=gridColumnsSelector('scouters')+renderScoutersPanel();
 else if(currentAdminTab==='faq')c.innerHTML=renderFaqPanel();
 else if(currentAdminTab==='documentos')c.innerHTML=gridColumnsSelector('documentos')+editorList(data.settings.navTabs.documentos.label||'Documentos','documents',x=>`<b>${esc(x.name)}</b><br><span class="small muted">${x.fileName?esc(x.fileName):'Sin archivo adjunto'}</span>`,null,true);
@@ -3427,6 +3475,7 @@ if(item.image)deleteImageFromGithub(item.image);
 if(item.cover)deleteImageFromGithub(item.cover);
 if(item.file)deleteImageFromGithub(item.file);
 if(Array.isArray(item.images))item.images.forEach(u=>deleteImageFromGithub(u));
+if(Array.isArray(item.videos))item.videos.forEach(v=>{if(v&&v.image)deleteImageFromGithub(v.image)});
 }
 data[key]=data[key].filter((x,i)=>(x.id??i)!==id);
 save();renderAdmin();
@@ -3497,7 +3546,7 @@ if(statusEl)statusEl.style.color='#c0392b';
 input.value='';
 }
 function saveEdited(key,id){const x=data[key].find((a,i)=>(a.id??i)===id);if(key==='agenda'){x.title=document.getElementById('f_title').value;const sd=getDatePrecisionValue('f_start'),st=document.getElementById('f_start_time').value,ed=getDatePrecisionValue('f_end'),et=document.getElementById('f_end_time').value;const sdFull=/^\d{4}-\d{2}-\d{2}$/.test(sd);const edFull=/^\d{4}-\d{2}-\d{2}$/.test(ed);x.start=sd?(sdFull&&st?sd+'T'+st:sd):'';x.end=ed?(edFull&&et?ed+'T'+et:ed):'';x.text=document.getElementById('f_text').innerHTML;const p=document.getElementById('f_imagePreview');if(p&&p.dataset.value!==undefined)x.image=p.dataset.value}
-if(key==='camps'){x.title=document.getElementById('f_title').value;x.date=getDatePrecisionValue('f_date');x.endDate=getDatePrecisionValue('f_endDate');x.videos=[...document.querySelectorAll('.f_video_url')].map(i=>i.value.trim()).filter(Boolean);delete x.video;x.text=document.getElementById('f_text').innerHTML;const p=document.getElementById('f_coverPreview');if(p&&p.dataset.value!==undefined)x.cover=p.dataset.value;x.images=[...document.querySelectorAll('#galleryPreview .image-admin-item')].map(d=>d.dataset.newImage||d.querySelector('img')?.src).filter(Boolean)}
+if(key==='camps'){x.title=document.getElementById('f_title').value;x.date=getDatePrecisionValue('f_date');x.endDate=getDatePrecisionValue('f_endDate');x.videos=[...document.querySelectorAll('#f_videosList .video-row')].map(row=>{const url=row.querySelector('.f_video_url')?.value.trim()||'';if(!url)return null;const preview=row.querySelector('.upload-preview');const image=(preview&&preview.dataset.value)?preview.dataset.value:'';const showIcon=row.querySelector('.f_video_showicon')?.checked!==false;return {url,image,showIcon}}).filter(Boolean);delete x.video;x.text=document.getElementById('f_text').innerHTML;const p=document.getElementById('f_coverPreview');if(p&&p.dataset.value!==undefined)x.cover=p.dataset.value;x.images=[...document.querySelectorAll('#galleryPreview .image-admin-item')].map(d=>d.dataset.newImage||d.querySelector('img')?.src).filter(Boolean)}
 if(key==='scouters'){x.name=document.getElementById('f_name').value;x.role=document.getElementById('f_role').value;x.text=document.getElementById('f_text').innerHTML;const p=document.getElementById('f_imagePreview');if(p&&p.dataset.value!==undefined)x.image=p.dataset.value}
 if(key==='faq'){x.q=document.getElementById('f_q').value;x.a=document.getElementById('f_a').innerHTML}
 if(key==='documents'){
