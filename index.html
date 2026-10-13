@@ -1942,7 +1942,25 @@ while(el.firstChild)el.parentNode.insertBefore(el.firstChild,el);
 el.remove();
 });
 }
-function insertRichLink(id){const e=document.getElementById(id);e.focus();const url=prompt('Introduce la URL del enlace (ej: https://...)');if(url)document.execCommand('createLink',false,url)}
+function insertRichLink(id){
+const e=document.getElementById(id);
+e.focus();
+const sel=window.getSelection();
+const hasSelection=!!(sel&&sel.rangeCount&&!sel.getRangeAt(0).collapsed&&e.contains(sel.anchorNode));
+const url=prompt('Introduce la dirección web del enlace (ej: https://...)');
+if(!url)return;
+if(hasSelection){
+document.execCommand('createLink',false,url);
+const sel2=window.getSelection();
+const node=sel2&&sel2.anchorNode;
+const el=node&&(node.nodeType===1?node:node.parentElement);
+const a=el&&el.closest('a');
+if(a){a.target='_blank';a.rel='noopener noreferrer'}
+}else{
+const label=prompt('¿Qué texto quieres que se vea en la página? (al pincharlo se abrirá la dirección web)')||url;
+document.execCommand('insertHTML',false,'<a href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">'+esc(label)+'</a>');
+}
+}
 document.addEventListener('click',e=>{if(!e.target.closest('.rt-color-wrap'))document.querySelectorAll('.rt-color-popover.open').forEach(p=>p.classList.remove('open'))});
 function imageUploadField(id,value){return `<div class="upload-box"><input id="${id}" type="file" accept="image/*" onchange="readImageFile(this,'${id}Preview')"><button type="button" class="btn btn-secondary" onclick="clearImage('${id}Preview','${id}')">Quitar</button></div><img id="${id}Preview" alt="" class="upload-preview" src="${esc(value||'')}" data-value="${esc(value||'')}" ${value?'':'style="display:none"'}><div id="${id}PreviewStatus" class="field-help"></div><div class="field-help">Selecciona una imagen directamente desde el dispositivo.</div>`}
 function compressImageFile(file,maxDim,quality,format){
