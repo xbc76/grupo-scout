@@ -1504,7 +1504,7 @@ else if(_modalHistoryPushed)closeModal();
 _inPopstate=false;
 });
 function openModal(html,allowOutsideClose){const m=document.getElementById('modal');const wasOpen=m.classList.contains('open');document.getElementById('modalContent').innerHTML=html;m.classList.add('open');if(allowOutsideClose)m.classList.remove('modal-locked');else m.classList.add('modal-locked');if(!wasOpen){try{history.pushState({scoutOverlay:'modal'},'');_modalHistoryPushed=true}catch(e){}}}
-function closeModal(){const m=document.getElementById('modal');m.classList.remove('open');m.classList.remove('modal-locked');if(_modalHistoryPushed){_modalHistoryPushed=false;if(!_inPopstate){try{history.back()}catch(e){}}}}
+function closeModal(){const m=document.getElementById('modal');m.classList.remove('open');m.classList.remove('modal-locked');if(_modalHistoryPushed){if(!_inPopstate){try{history.back()}catch(e){}}else{_modalHistoryPushed=false}}}
 let _confirmCb=null;
 function showConfirm(message,cb){
 _confirmCb=cb;
@@ -1579,7 +1579,7 @@ function closeLightbox(){
 document.getElementById('lightbox').classList.remove('open');
 document.getElementById('lightboxImg').src='';
 document.getElementById('lightboxVideoIframe').src='';
-if(_lightboxHistoryPushed){_lightboxHistoryPushed=false;if(!_inPopstate){try{history.back()}catch(e){}}}
+if(_lightboxHistoryPushed){if(!_inPopstate){try{history.back()}catch(e){}}else{_lightboxHistoryPushed=false}}
 }
 document.addEventListener('keydown',function(e){
 const lb=document.getElementById('lightbox');
