@@ -226,18 +226,6 @@ footer{background:#0b351f;color:#f1f0e8;padding:45px 22px;text-align:left}.foote
 .footer-org-logos{justify-content:center}
 .footer-legal-links{text-align:center}
 }
-.rich-wrap{border:1px solid #cfc7b7;border-radius:8px;background:#fff;overflow:visible}.rich-toolbar{display:flex;flex-wrap:wrap;gap:5px;padding:8px;border-bottom:1px solid #e5e8e6;background:#f6f4ed;align-items:center;position:relative}.rich-toolbar button,.rich-toolbar select{width:auto;padding:6px 9px;border:1px solid #ccd9e2;border-radius:7px;background:#fff;cursor:pointer;font-size:13px}.rich-toolbar button:hover,.rich-toolbar select:hover{background:#eef4f8}.rich-toolbar .rt-sep{width:1px;align-self:stretch;background:#dcd6c8;margin:2px 3px}.rich-editor{min-height:180px;padding:14px;outline:none;line-height:1.6}
-.rt-color-wrap{position:relative;display:inline-block}
-.rt-color-btn{display:flex;align-items:center;gap:5px}
-.rt-color-swatch{width:16px;height:16px;border-radius:4px;border:1px solid #bbb;display:inline-block}
-.rt-color-popover{display:none;position:fixed;background:#fff;border:1px solid #ccd9e2;border-radius:9px;box-shadow:0 8px 24px rgba(0,0,0,.18);padding:10px;z-index:210;width:190px;max-width:calc(100vw - 20px)}
-.rt-color-popover.open{display:block}
-.rt-color-popover .rt-label{font-size:11px;color:#777;margin:0 0 5px}
-.rt-swatch-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:8px}
-.rt-swatch{width:20px;height:20px;border-radius:5px;border:1px solid rgba(0,0,0,.15);cursor:pointer;padding:0}
-.rt-swatch:hover{outline:2px solid #3a8fc7;outline-offset:1px}
-.rt-color-popover input[type="color"]{width:100%;height:30px;padding:2px;border:1px solid #ccd9e2;border-radius:6px;cursor:pointer}
-.rt-color-popover .rt-clear{width:100%;margin-top:6px;font-size:12px;padding:5px 8px}
 .cwp-panel{display:none;position:fixed;background:#fff;border:1px solid #ccd9e2;border-radius:12px;box-shadow:0 14px 34px rgba(0,0,0,.28);padding:14px;z-index:500;width:216px}
 .cwp-panel.open{display:block}
 .cwp-wheel-wrap{position:relative;width:180px;height:180px;margin:0 auto}
@@ -255,7 +243,6 @@ footer{background:#0b351f;color:#f1f0e8;padding:45px 22px;text-align:left}.foote
 .cwp-actions button{flex:1;padding:8px 0;font-size:13px}
 .cwp-swatch-btn{width:64px;height:42px;border-radius:9px;border:1px solid #ccd9e2;cursor:pointer;padding:0}
 .cwp-swatch-btn:disabled{opacity:.45;cursor:not-allowed}
-.rt-wheel-btn{width:100%;margin-top:6px;font-size:12px;padding:6px 8px}
 .upload-box{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}.upload-preview{display:block;max-width:220px;max-height:140px;border-radius:9px;border:1px solid #ddd;margin-top:8px;object-fit:cover}.image-gallery-admin{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-top:10px}.image-admin-item{border:1px solid #ddd;border-radius:9px;padding:6px;background:#fff}.image-admin-item img{width:100%;height:100px;object-fit:cover;border-radius:6px}.image-admin-item button{margin-top:5px;width:100%}.field-help{font-size:12px;color:#777;margin-top:4px}
 .stats-summary-cards{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px}
 .stat-card{background:#f6f4ed;border-radius:12px;padding:16px 22px;min-width:140px;text-align:center}
@@ -686,6 +673,119 @@ body.skin-personalizado{
 }
 body.skin-personalizado .lead{color:#1a1a1a!important}
 body.skin-personalizado .home-rich-text{color:#000000}
+</style>
+<style id="rt-editor-v2">
+/* ===== Editor de texto enriquecido v2 ===== */
+.rich-wrap.rt{border:1px solid #d6cfbd!important;border-radius:14px!important;background:#fff;box-shadow:0 1px 3px rgba(23,79,53,.06);overflow:visible;display:block;position:relative;box-sizing:border-box;max-width:100%}
+.rich-wrap.rt:focus-within{border-color:#174f35!important;box-shadow:0 0 0 3px rgba(23,79,53,.12)}
+.rt-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 4px;padding:8px 10px;background:linear-gradient(#fdfcf8,#f5f2e8);border-bottom:1px solid #e4ddcb;border-radius:13px 13px 0 0}
+.rt-group{display:flex;align-items:center;flex-wrap:wrap;gap:2px;padding-right:8px;margin-right:4px;border-right:1px solid #e0d9c6}
+.rt-group:last-child{border-right:0;margin-right:0;padding-right:0}
+.rich-wrap.rt button.rt-btn{width:auto;min-width:32px;height:32px;padding:0 6px;margin:0;display:inline-flex;align-items:center;justify-content:center;gap:5px;border:1px solid transparent;border-radius:8px;background:transparent;color:#2b3a31;cursor:pointer;font-family:inherit;font-weight:600;font-size:13px;line-height:1;box-shadow:none;transition:background .15s,color .15s,border-color .15s}
+.rich-wrap.rt button.rt-btn:hover{background:#ebe6d6}
+.rich-wrap.rt button.rt-btn:active{background:#e0dac6}
+.rich-wrap.rt button.rt-btn.active{background:#d8ecdf;color:#0b3d25;border-color:#b6d9c3}
+.rich-wrap.rt button.rt-btn:focus-visible{outline:2px solid #3a8fc7;outline-offset:1px}
+.rt-i{display:block;flex:0 0 auto}
+.rt-txt{font-size:13px;font-weight:700;letter-spacing:-.2px}
+.rt-txt sub,.rt-txt sup{font-size:9px}
+.rt-txtbtn{font-size:11px!important;letter-spacing:.4px;font-weight:800!important}
+.rich-wrap.rt .rt-select{width:auto;height:32px;padding:0 24px 0 9px;border:1px solid #d9d2bf!important;border-radius:8px!important;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%232b3a31' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 7px center!important;-webkit-appearance:none;appearance:none;font-family:inherit;font-weight:600;font-size:13px;line-height:1;color:#2b3a31;cursor:pointer;margin:0 2px;box-sizing:border-box}
+.rich-wrap.rt .rt-select:hover{border-color:#b9b19a!important}
+.rich-wrap.rt .rt-select.rt-block{min-width:128px}
+.rich-wrap.rt .rt-select.rt-case{min-width:52px;padding-right:20px}
+.rich-wrap.rt button.rt-fontbtn{border:1px solid #d9d2bf;background:#fff;min-width:120px;justify-content:space-between;margin:0 2px;font-weight:600}
+.rich-wrap.rt button.rt-fontbtn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:96px}
+.rt-size{display:flex;align-items:center;gap:0;margin:0 2px;border:1px solid #d9d2bf;border-radius:8px;background:#fff;overflow:hidden}
+.rich-wrap.rt .rt-size button.rt-mini{min-width:26px;width:26px;height:30px;border-radius:0;font-size:16px;padding:0}
+.rich-wrap.rt input.rt-size-input{width:38px!important;height:30px;padding:0!important;margin:0;border:0!important;border-left:1px solid #e6e0d0!important;border-right:1px solid #e6e0d0!important;border-radius:0!important;text-align:center;font-family:inherit;font-weight:600;font-size:13px;line-height:1;background:#fff!important;box-shadow:none!important}
+.rt-split{display:inline-flex;align-items:center;border-radius:8px}
+.rich-wrap.rt .rt-split button.rt-colorbtn{flex-direction:column;gap:2px;padding:0 5px;border-radius:8px 0 0 8px;min-width:30px}
+.rich-wrap.rt .rt-split button.rt-caret{min-width:18px;width:18px;padding:0;border-radius:0 8px 8px 0;border-left:1px solid #e0d9c6}
+.rt-A{font:800 16px/1 Georgia,serif;display:block}
+.rt-A-out{-webkit-text-stroke:1px #174f35;color:#fff;paint-order:stroke fill;font-size:18px}
+.rt-bar{display:block;width:16px;height:3px;border-radius:2px;border:1px solid rgba(0,0,0,.18);box-sizing:border-box}
+.rt-subbar{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:7px 10px;background:#eef6f0;border-bottom:1px solid #d3e6d9;font-size:12px}
+.rt-subbar[hidden]{display:none}
+.rt-sublabel{font-weight:800;color:#174f35;text-transform:uppercase;letter-spacing:.6px;font-size:11px;margin-right:2px}
+.rt-vsep{width:1px;height:18px;background:#c7dccf;margin:0 2px}
+.rich-wrap.rt .rt-alt{width:150px!important;height:28px;padding:0 8px!important;font-size:12px;margin:0}
+.rt-body{position:relative}
+.rich-wrap.rt .rich-editor{min-height:230px;max-height:min(62vh,560px);overflow:auto;padding:18px 20px;line-height:1.7;font-size:16px;outline:none;border:0!important;border-radius:0!important;box-shadow:none!important;position:relative;background:#fff!important;word-wrap:break-word}
+.rich-wrap.rt .rich-editor:focus{border:0!important;box-shadow:none!important}
+.rich-wrap.rt .rich-editor[data-empty="1"]::before{content:attr(data-placeholder);position:absolute;left:20px;top:18px;color:#9aa59f;pointer-events:none}
+.rich-wrap.rt .rich-editor::after{content:"";display:table;clear:both}
+.rich-wrap.rt .rich-editor p{margin:0 0 .8em}
+.rich-source{display:block;width:100%!important;min-height:230px;max-height:min(62vh,560px);padding:16px 18px!important;border:0!important;border-radius:0!important;background:#1f2933!important;color:#e6edf3!important;font:13px/1.6 ui-monospace,Menlo,Consolas,monospace!important;resize:vertical;box-sizing:border-box;outline:none}
+.rich-source[hidden]{display:none}
+.rt-imgframe{position:absolute;pointer-events:none;border:3px solid #3a8fc7;border-radius:6px;box-shadow:0 0 0 1px #fff;z-index:2}
+.rt-imgframe[hidden]{display:none}
+.rt-status{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:7px 14px;border-top:1px solid #ece6d6;background:#faf8f2;border-radius:0 0 13px 13px;font-size:12px;color:#6b7a70}
+.rt-hint{opacity:.85}
+.rt-source-mode .rt-toolbar .rt-btn:not([data-keep]),.rt-source-mode .rt-toolbar .rt-select,.rt-source-mode .rt-toolbar .rt-size{opacity:.35;pointer-events:none}
+.rt-source-mode .rt-subbar{display:none}
+.rich-wrap.rt.rt-full{position:fixed;inset:0;z-index:250;border-radius:0!important;border:0!important;display:flex;flex-direction:column;background:#fff;max-width:none}
+.rt-full .rt-toolbar{border-radius:0}
+.rt-full .rt-body{flex:1;min-height:0;display:flex;flex-direction:column}
+.rt-full .rich-editor,.rt-full .rich-source{flex:1;max-height:none!important;min-height:0}
+.rt-full .rt-status{border-radius:0}
+.rt-pop{display:none;position:fixed;z-index:520;background:#fff;border:1px solid #d6cfbd;border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.2);padding:12px;width:260px;max-width:calc(100vw - 20px);max-height:min(70vh,420px);overflow:auto;box-sizing:border-box}
+.rt-pop.open{display:block}
+.rt-pop-font{width:230px}
+.rt-pop-emoji{width:300px}
+.rt-pop-link,.rt-pop-image,.rt-pop-table{width:300px}
+.rt-pop .rt-pop-title{margin:0 0 8px;font-weight:800;font-size:13px;color:#174f35}
+.rt-pop label.rt-label,.rt-pop p.rt-label{display:block;margin:8px 0 4px;font-size:11px;font-weight:700;color:#6b7a70;text-transform:none}
+.rt-pop input[type="text"],.rt-pop input[type="number"],.rt-pop select{width:100%;height:34px;padding:0 10px;font-size:13px;margin:0;box-sizing:border-box}
+.rt-pop .rt-check{display:flex;align-items:center;gap:8px;margin:10px 0 2px;font-size:13px;font-weight:600;color:#2b3a31}
+.rt-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rt-pop-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.rt-swatch-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:5px;margin-bottom:10px}
+.rt-swatch{width:100%;aspect-ratio:1;border-radius:6px;border:1px solid rgba(0,0,0,.18);cursor:pointer;padding:0;min-width:0}
+.rt-swatch:hover{outline:2px solid #3a8fc7;outline-offset:1px}
+.rt-chip{display:inline-flex;align-items:center;justify-content:center;gap:5px;height:30px;padding:0 12px;border:1px solid #cfd9d2;border-radius:999px;background:#fff;color:#174f35;font-family:inherit;font-weight:700;font-size:12px;line-height:1;cursor:pointer;margin:0;width:auto;transition:background .15s}
+.rt-chip[hidden]{display:none}
+.rt-chip:hover{background:#e3f0e7}
+.rt-chip.rt-primary{background:#174f35;border-color:#174f35;color:#fff}
+.rt-chip.rt-primary:hover{background:#0f3a26}
+.rt-chip.rt-danger{color:#b3261e;border-color:#f0c9c6}
+.rt-chip.rt-danger:hover{background:#fdeceb}
+.rt-chip.rt-wide{width:100%;margin-top:6px}
+.rt-fontitem{display:block;width:100%;text-align:left;padding:7px 10px;border:0;border-radius:8px;background:transparent;font-size:16px;cursor:pointer;color:#1f2d25;margin:0}
+.rt-fontitem:hover{background:#eef6f0}
+.rt-emoji-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:2px}
+.rt-emoji{border:0;background:transparent;font-size:20px;line-height:1;padding:5px 0;border-radius:8px;cursor:pointer;margin:0}
+.rt-emoji:hover{background:#eef6f0}
+@media(max-width:700px){
+.rt-group{display:contents}
+.rt-toolbar{padding:6px 6px;gap:4px 3px}
+.rich-wrap.rt button.rt-btn{min-width:34px;height:34px}
+.rich-wrap.rt .rt-select{height:34px}
+.rich-wrap.rt .rt-select.rt-block{min-width:108px}
+.rich-wrap.rt button.rt-fontbtn{min-width:108px}
+.rt-hint{display:none}
+.rich-wrap.rt .rich-editor{padding:14px 14px;min-height:200px}
+.rich-wrap.rt .rich-editor[data-empty="1"]::before{left:14px;top:14px}
+}
+
+/* ===== Contenido enriquecido (también en la web pública) ===== */
+.home-rich-text blockquote:not([style]),.modal-content blockquote:not([style]),.faq div blockquote:not([style]),.rich-editor blockquote:not([style]){margin:14px 0;padding:10px 18px;border-left:4px solid var(--skin-border,#facc15);background:rgba(128,128,128,.1);border-radius:0 10px 10px 0;font-style:italic}
+.home-rich-text pre,.modal-content pre,.faq div pre,.rich-editor pre{margin:14px 0;padding:12px 14px;border-radius:10px;background:#1f2933;color:#e6edf3;font:14px/1.55 ui-monospace,Menlo,Consolas,monospace;overflow:auto;white-space:pre-wrap;word-break:break-word}
+.home-rich-text code,.modal-content code,.faq div code,.lead code,.rich-editor code{padding:1px 6px;border-radius:6px;background:rgba(128,128,128,.2);font:.92em ui-monospace,Menlo,Consolas,monospace}
+.home-rich-text pre code,.modal-content pre code,.faq div pre code,.rich-editor pre code{padding:0;background:none;color:inherit}
+.home-rich-text hr,.modal-content hr,.faq div hr,.lead hr,.rich-editor hr{border:0;border-top:2px solid rgba(128,128,128,.4);margin:20px 0}
+.rt-img,.home-rich-text img,.faq div img,.rich-editor img{max-width:100%;height:auto;border-radius:10px}
+.modal-content .rich-editor img,.rich-editor img{cursor:pointer}
+.home-rich-text table,.modal-content table.rt-table,.faq div table,.lead table,.rich-editor table{border-collapse:collapse;width:100%;margin:14px 0;table-layout:auto}
+.home-rich-text td,.home-rich-text th,.modal-content table.rt-table td,.modal-content table.rt-table th,.faq div td,.faq div th,.lead td,.lead th,.rich-editor td,.rich-editor th{border:1px solid rgba(128,128,128,.5);padding:8px 10px;vertical-align:top;word-break:break-word;min-width:30px}
+.home-rich-text th,.modal-content table.rt-table th,.faq div th,.lead th,.rich-editor th{background:rgba(128,128,128,.18);font-weight:800;text-align:left}
+.home-rich-text ul,.home-rich-text ol,.faq div ul,.faq div ol,.rich-editor ul,.rich-editor ol{margin:.4em 0 .9em;padding-left:1.6em}
+.home-rich-text h2,.faq div h2,.lead h2,.rich-editor h2{font-size:28px;line-height:1.25;margin:.9em 0 .4em;font-weight:800}
+.home-rich-text h3,.faq div h3,.lead h3,.rich-editor h3{font-size:22px;line-height:1.3;margin:.9em 0 .4em;font-weight:800}
+.home-rich-text h4,.faq div h4,.lead h4,.rich-editor h4{font-size:18px;line-height:1.35;margin:.9em 0 .4em;font-weight:800}
+body[class*="skin-"] .home-rich-text h2,body[class*="skin-"] .faq div h2,body[class*="skin-"] .lead h2,body[class*="skin-"] .home-rich-text h3,body[class*="skin-"] .faq div h3,body[class*="skin-"] .lead h3,body[class*="skin-"] .home-rich-text h4,body[class*="skin-"] .faq div h4,body[class*="skin-"] .lead h4{font-family:inherit!important;color:inherit!important;text-shadow:none!important;letter-spacing:normal!important}
+.home-rich-text::after,.faq div::after,.lead::after{content:"";display:table;clear:both}
+body.skin-halloween .home-rich-text span[style*="font-weight: bold"]{color:#ffb066}
 </style>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -1279,6 +1379,7 @@ s=s.replace(/\son\w+\s*=\s*[^\s>]+/gi,'');
 s=s.replace(/javascript\s*:/gi,'');
 s=s.replace(/(href|src)(\s*=\s*)(['"])\s*data:text\/html[^'"]*\3/gi,'$1=""');
 s=s.replace(/\sstyle\s*=\s*(['"]).*?\1/gi,m=>/expression\s*\(|javascript\s*:/i.test(m)?'':m);
+rtEnsureFontsFromHtml(s);
 return s;
 }
 function checkHeroLayout(heroInner){
@@ -1832,136 +1933,613 @@ document.getElementById('colorWheelPicker').classList.remove('open');
 function cwpCancel(){
 document.getElementById('colorWheelPicker').classList.remove('open');
 }
+/* ====== EDITOR DE TEXTO ENRIQUECIDO v2 ====== */
 const RT_RECENT_KEY='scout_rt_recent_colors_v1';
 function rtGetRecentColors(){try{const l=JSON.parse(localStorage.getItem(RT_RECENT_KEY)||'[]');return Array.isArray(l)?l:[]}catch(e){return[]}}
-function rtAddRecentColor(hex){if(!hex||!/^#[0-9a-fA-F]{6}$/.test(hex))return;let list=rtGetRecentColors().filter(c=>c.toLowerCase()!==hex.toLowerCase());list.unshift(hex);list=list.slice(0,7);localStorage.setItem(RT_RECENT_KEY,JSON.stringify(list))}
-function rtRenderRecent(id,mode){const wrap=document.getElementById(id+'_'+mode+'Recent');if(!wrap)return;const list=rtGetRecentColors();if(!list.length){wrap.innerHTML='';return}wrap.innerHTML=`<p class="rt-label">Recientes</p><div class="rt-swatch-grid">${list.map(c=>`<button type="button" class="rt-swatch" style="background:${c}" title="${c}" onclick="pickRichColor('${id}','${mode}','${c}')"></button>`).join('')}</div>`}
-function richColorPopover(id,mode){const swatches=RT_PALETTE.map(c=>`<button type="button" class="rt-swatch" style="background:${c}" title="${c}" onclick="pickRichColor('${id}','${mode}','${c}')"></button>`).join('');
-const strokeWidth=mode==='stroke'?`<label class="rt-label" style="margin-top:0">Grosor</label><select id="${id}_strokeWidth" class="rt-stroke-width" style="width:100%;margin-bottom:8px"><option value="0.5">Fino</option><option value="1" selected>Normal</option><option value="1.5">Grueso</option><option value="2.5">Muy grueso</option></select>`:'';
-return `<div class="rt-color-popover" id="${id}_${mode}Pop" onmousedown="event.preventDefault()"><p class="rt-label">${mode==='fore'?'Color de texto':mode==='back'?'Color de resaltado':'Color de contorno'}</p>${strokeWidth}<div class="rt-swatch-grid">${swatches}</div><div id="${id}_${mode}Recent"></div><button type="button" class="btn btn-secondary rt-wheel-btn" onclick="openColorWheel(this,'#000000',function(hex){pickRichColor('${id}','${mode}',hex)})">🎨 Más colores…</button><button type="button" class="btn btn-light rt-clear" onclick="clearRichColor('${id}','${mode}')">Quitar ${mode==='stroke'?'contorno':'color'}</button></div>`}
-function richEditor(id,value){return `<div class="rich-wrap"><div class="rich-toolbar" onmousedown="if(event.target.closest('button'))event.preventDefault()">
-<button type="button" onclick="fmt('${id}','bold')" title="Negrita"><b>B</b></button>
-<button type="button" onclick="fmt('${id}','italic')" title="Cursiva"><i>I</i></button>
-<button type="button" onclick="fmt('${id}','underline')" title="Subrayado"><u>U</u></button>
-<button type="button" onclick="fmt('${id}','strikeThrough')" title="Tachado"><s>S</s></button>
-<div class="rt-sep"></div>
-<select onchange="fmt('${id}','formatBlock',this.value);this.selectedIndex=0" title="Estilo de párrafo"><option value="">Párrafo</option><option value="H2">Título grande</option><option value="H3">Título mediano</option><option value="BLOCKQUOTE">Cita</option><option value="P">Texto normal</option></select>
-<select onchange="fmt('${id}','fontName',this.value);this.selectedIndex=0" title="Tipo de letra"><option>Tipo de letra</option>
-<optgroup label="Sistema">
-<option>Arial</option><option>Georgia</option><option>Verdana</option><option>Trebuchet MS</option><option>Courier New</option>
-</optgroup>
-<optgroup label="Modernas">
-<option>Roboto</option><option>Open Sans</option><option>Lato</option><option>Montserrat</option><option>Poppins</option><option>Raleway</option><option>Nunito</option><option>Quicksand</option><option>Comfortaa</option><option>Baloo 2</option>
-</optgroup>
-<optgroup label="Con serifa">
-<option>Merriweather</option><option>Playfair Display</option>
-</optgroup>
-<optgroup label="Destacadas">
-<option>Oswald</option><option>Bebas Neue</option><option>Fjalla One</option><option>Titan One</option>
-</optgroup>
-<optgroup label="Manuscritas y decorativas">
-<option>Patrick Hand</option><option>Caveat</option><option>Pacifico</option><option>Grand Hotel</option><option>Creepster</option><option>Berkshire Swash</option><option>Rochester</option><option>Send Flowers</option><option>Dancing Script</option><option>Averia Serif Libre</option><option>Original Surfer</option><option>Parisienne</option><option>Cinzel</option><option>Marck Script</option><option>Almendra</option>
-</optgroup>
-</select>
-<select onchange="fmt('${id}','fontSize',this.value);this.selectedIndex=0" title="Tamaño"><option>Tamaño</option><option value="2">Pequeño</option><option value="3">Normal</option><option value="4">Grande</option><option value="5">Muy grande</option><option value="6">Enorme</option></select>
-<div class="rt-sep"></div>
-<div class="rt-color-wrap">
-<button type="button" class="rt-color-btn" title="Color de texto" onclick="toggleRichColorPopover(this,'${id}','fore')"><span class="rt-color-swatch" style="background:#000"></span>Texto</button>
-${richColorPopover(id,'fore')}
-</div>
-<div class="rt-color-wrap">
-<button type="button" class="rt-color-btn" title="Color de resaltado" onclick="toggleRichColorPopover(this,'${id}','back')"><span class="rt-color-swatch" style="background:#fff200"></span>Resaltar</button>
-${richColorPopover(id,'back')}
-</div>
-<div class="rt-color-wrap">
-<button type="button" class="rt-color-btn" title="Contorno de las letras" onclick="toggleRichColorPopover(this,'${id}','stroke')"><span class="rt-color-swatch" style="background:#000;border:1px solid #fff"></span>Contorno</button>
-${richColorPopover(id,'stroke')}
-</div>
-<button type="button" onclick="clearRichFormatting('${id}')" title="Quitar todo el formato">Limpiar formato</button>
-<div class="rt-sep"></div>
-<button type="button" onclick="fmt('${id}','insertUnorderedList')" title="Lista con viñetas">• Lista</button>
-<button type="button" onclick="fmt('${id}','insertOrderedList')" title="Lista numerada">1. Lista</button>
-<div class="rt-sep"></div>
-<button type="button" onclick="fmt('${id}','justifyLeft')" title="Alinear a la izquierda">Izq.</button>
-<button type="button" onclick="fmt('${id}','justifyCenter')" title="Centrar">Centro</button>
-<button type="button" onclick="fmt('${id}','justifyRight')" title="Alinear a la derecha">Der.</button>
-<div class="rt-sep"></div>
-<button type="button" onclick="insertRichLink('${id}')" title="Insertar enlace">🔗 Enlace</button>
-<button type="button" onclick="fmt('${id}','unlink')" title="Quitar enlace">Quitar enlace</button>
-</div><div id="${id}" class="rich-editor" contenteditable="true">${sanitizeRich(value)}</div></div><div class="field-help">Formato: párrafo/título, tipo de letra, tamaño, color de texto, resaltado y contorno, negrita, cursiva, subrayado, tachado, listas, alineación y enlaces.</div>`}
-function fmt(id,cmd,value=null){const e=document.getElementById(id);e.focus();document.execCommand('styleWithCSS',false,true);document.execCommand(cmd,false,value)}
-function toggleRichColorPopover(btnEl,id,mode){document.querySelectorAll('.rt-color-popover.open').forEach(p=>{if(p.id!==id+'_'+mode+'Pop')p.classList.remove('open')});const pop=document.getElementById(id+'_'+mode+'Pop');const willOpen=!pop.classList.contains('open');pop.classList.toggle('open');if(willOpen){rtRenderRecent(id,mode)}if(willOpen&&btnEl){const rect=btnEl.getBoundingClientRect();const popWidth=pop.offsetWidth||190;let left=rect.left;if(left+popWidth>window.innerWidth-10)left=window.innerWidth-popWidth-10;if(left<10)left=10;const popHeight=pop.offsetHeight||220;let top=rect.bottom+6;if(top+popHeight>window.innerHeight-10)top=rect.top-popHeight-6;if(top<10)top=10;pop.style.left=left+'px';pop.style.top=top+'px'}}
-function pickRichColor(id,mode,color){if(mode==='stroke'){applyTextStroke(id,color)}else{fmt(id,mode==='fore'?'foreColor':'hiliteColor',color)}rtAddRecentColor(color);document.getElementById(id+'_'+mode+'Pop').classList.remove('open')}
-function clearRichColor(id,mode){
-if(mode==='stroke'){applyTextStroke(id,'');document.getElementById(id+'_'+mode+'Pop').classList.remove('open');return}
-const editor=document.getElementById(id);
-if(mode==='fore'){
-const realColor=getComputedStyle(editor).color;
-fmt(id,'foreColor',realColor);
-}else{
-fmt(id,'hiliteColor','transparent');
+function rtAddRecentColor(hex){if(!hex||!/^#[0-9a-fA-F]{6}$/.test(hex))return;let list=rtGetRecentColors().filter(c=>c.toLowerCase()!==hex.toLowerCase());list.unshift(hex);list=list.slice(0,8);try{localStorage.setItem(RT_RECENT_KEY,JSON.stringify(list))}catch(e){}}
+
+const RT_COLORS=['#000000','#343a40','#6c757d','#adb5bd','#dee2e6','#ffffff','#7a3e00','#a15a2a',
+'#c0392b','#e53935','#ff7518','#f2a541','#f7c600','#ffe066','#fff3b0','#ffd1dc',
+'#e0729a','#9c27b0','#6a1b9a','#3d1f5c','#1a237e','#283593','#3a8fc7','#64b5f6',
+'#0b8fa3','#26a69a','#4fa662','#8bc34a','#174f35','#0b3d25','#556b2f','#8d6e63',
+'#8c1c24','#b71c1c','#e91e63','#ff9a3c','#795548','#607d8b','#00695c','#1565c0'];
+const RT_FONT_GROUPS=[
+['Sistema',['Arial','Georgia','Verdana','Trebuchet MS','Courier New']],
+['Modernas',['Roboto','Open Sans','Lato','Montserrat','Poppins','Raleway','Nunito','Quicksand','Comfortaa','Baloo 2']],
+['Con serifa',['Merriweather','Playfair Display']],
+['Destacadas',['Oswald','Bebas Neue','Fjalla One','Titan One']],
+['Manuscritas y decorativas',['Patrick Hand','Caveat','Pacifico','Grand Hotel','Creepster','Berkshire Swash','Rochester','Send Flowers','Dancing Script','Averia Serif Libre','Original Surfer','Parisienne','Cinzel','Marck Script','Almendra']]
+];
+const RT_ALL_FONTS=[].concat(...RT_FONT_GROUPS.map(g=>g[1]));
+const RT_SIZES=[10,11,12,13,14,15,16,18,20,22,24,28,32,36,42,48,60,72];
+const RT_EMOJI=[
+['Aire libre',['⛺','🏕️','🔥','🧭','🌲','🌳','🏞️','⛰️','🌄','🌅','🎒','🥾','🔦','🗺️','🐻','🦊','🦉','🐾','🍂','🌿','🌙','⭐','🌈','☀️','🌧️','🎶','🎸','🍢']],
+['Caras',['😀','😃','😄','😁','😆','😅','😂','🙂','😉','😊','😍','🥰','😎','🤩','🥳','😇','🤗','🤔','😮','😢','😭','😡']],
+['Gestos',['👍','👎','👌','✌️','🤞','🤝','🙏','💪','👋','✋','👏','🙌','👆','👉','👈','👇']],
+['Símbolos y objetos',['❤️','💛','💚','💙','💜','✨','🎉','🎊','🎁','🏆','🥇','📅','📍','⏰','📞','✉️','📷','🎥','📢','✅','❌','⚠️','ℹ️','➡️','⬅️','⬆️','⬇️','✔️','➕','❓','❗']]
+];
+const RT_ICONS={
+undo:'<path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/>',
+redo:'<path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3L21 13"/>',
+bold:'<path d="M6 4h8a4 4 0 0 1 0 8H6z"/><path d="M6 12h9a4 4 0 0 1 0 8H6z"/>',
+italic:'<line x1="19" y1="4" x2="10" y2="4"/><line x1="14" y1="20" x2="5" y2="20"/><line x1="15" y1="4" x2="9" y2="20"/>',
+underline:'<path d="M6 3v7a6 6 0 0 0 12 0V3"/><line x1="4" y1="21" x2="20" y2="21"/>',
+strike:'<path d="M16 4H9a3 3 0 0 0-2.83 4"/><path d="M14 12a4 4 0 0 1 0 8H6"/><line x1="4" y1="12" x2="20" y2="12"/>',
+code:'<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
+highlight:'<path d="m9 11-6 6v3h9l3-3"/><path d="m22 12-4.6 4.6a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8L14 4"/>',
+left:'<line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/>',
+center:'<line x1="18" y1="10" x2="6" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="18" y1="18" x2="6" y2="18"/>',
+right:'<line x1="21" y1="10" x2="7" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="21" y1="18" x2="7" y2="18"/>',
+justify:'<line x1="21" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="21" y1="18" x2="3" y2="18"/>',
+ul:'<line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>',
+ol:'<line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><path d="M4 6h1v4"/><path d="M4 10h2"/><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"/>',
+indent:'<polyline points="3 8 7 12 3 16"/><line x1="21" y1="12" x2="11" y2="12"/><line x1="21" y1="6" x2="11" y2="6"/><line x1="21" y1="18" x2="11" y2="18"/>',
+outdent:'<polyline points="7 8 3 12 7 16"/><line x1="21" y1="12" x2="11" y2="12"/><line x1="21" y1="6" x2="11" y2="6"/><line x1="21" y1="18" x2="11" y2="18"/>',
+link:'<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
+image:'<rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>',
+table:'<rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/>',
+hr:'<line x1="3" y1="12" x2="21" y2="12"/><path d="M8 6h8M8 18h8" opacity=".45"/>',
+emoji:'<circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>',
+eraser:'<path d="M4 7V4h16v3"/><path d="M5 20h6"/><path d="M13 4 8 20"/><path d="m15 15 5 5"/><path d="m20 15-5 5"/>',
+max:'<polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>',
+min:'<polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/>',
+chev:'<polyline points="6 9 12 15 18 9"/>'
+};
+function rtI(name,size){return `<svg class="rt-i" viewBox="0 0 24 24" width="${size||18}" height="${size||18}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${RT_ICONS[name]||''}</svg>`}
+
+const rtRanges={},rtLast={},rtLinkEl={},rtSelImg={};
+function rtEd(id){return document.getElementById(id)}
+function rtState(id){return rtLast[id]||(rtLast[id]={fore:'#c0392b',back:'#fff200'})}
+
+/* ---- Selección ---- */
+function rtActiveEditor(){const sel=window.getSelection();if(!sel||!sel.rangeCount)return null;const n=sel.anchorNode;const el=n&&(n.nodeType===1?n:n.parentElement);const ed=el&&el.closest&&el.closest('.rich-editor');return ed&&ed.isContentEditable?ed:null}
+function rtSaveRange(id){const ed=rtEd(id);const sel=window.getSelection();if(!ed||!sel||!sel.rangeCount)return;const r=sel.getRangeAt(0);if(ed.contains(r.commonAncestorContainer))rtRanges[id]=r.cloneRange()}
+function rtRestore(id){const ed=rtEd(id);if(!ed)return;rtHist_(id);rtFlushSnap(id);const sel=window.getSelection();const inside=sel&&sel.rangeCount&&ed.contains(sel.anchorNode);const r=rtRanges[id];if(!inside&&r&&ed.contains(r.commonAncestorContainer)){sel.removeAllRanges();sel.addRange(r)}ed.focus({preventScroll:true})}
+function rtAnchorEl(){const sel=window.getSelection();if(!sel||!sel.rangeCount)return null;const n=sel.anchorNode;return n&&(n.nodeType===1?n:n.parentElement)}
+function rtExpandToWord(){const sel=window.getSelection();if(!sel||!sel.rangeCount||!sel.isCollapsed)return;try{sel.modify('move','backward','word');sel.modify('extend','forward','word')}catch(e){}}
+function rtAfter(id){const ed=rtEd(id);if(ed)rtFixNesting(ed);rtSnap(id);rtSaveRange(id);rtUpdateToolbar(id);rtUpdateCount(id)}
+
+/* ---- Historial propio (deshacer / rehacer) ---- */
+const rtHist={};
+function rtHist_(id){const ed=rtEd(id);let h=rtHist[id];if(!h||h.el!==ed){h=rtHist[id]={el:ed,stack:[{html:ed.innerHTML,sel:null}],idx:0,timer:0}}return h}
+function rtSelPath(ed){const sel=window.getSelection();if(!sel||!sel.rangeCount)return null;const r=sel.getRangeAt(0);if(!ed.contains(r.startContainer)||!ed.contains(r.endContainer))return null;const path=n=>{const p=[];while(n&&n!==ed){p.unshift([...n.parentNode.childNodes].indexOf(n));n=n.parentNode}return p};return{s:path(r.startContainer),so:r.startOffset,e:path(r.endContainer),eo:r.endOffset}}
+function rtSelApply(ed,p){if(!p)return;const get=path=>{let n=ed;for(const i of path){n=n.childNodes[i];if(!n)return null}return n};const a=get(p.s),b=get(p.e);if(!a||!b)return;const len=n=>n.nodeType===3?n.length:n.childNodes.length;try{const r=document.createRange();r.setStart(a,Math.min(p.so,len(a)));r.setEnd(b,Math.min(p.eo,len(b)));const s=window.getSelection();s.removeAllRanges();s.addRange(r)}catch(e){}}
+function rtSnap(id){const h=rtHist_(id);clearTimeout(h.timer);h.timer=0;const ed=h.el;const html=ed.innerHTML;const cur=h.stack[h.idx];if(cur.html===html){cur.sel=rtSelPath(ed)||cur.sel;return}h.stack=h.stack.slice(0,h.idx+1);h.stack.push({html:html,sel:rtSelPath(ed)});if(h.stack.length>150)h.stack.shift();h.idx=h.stack.length-1}
+function rtSnapSoon(id){const h=rtHist_(id);clearTimeout(h.timer);h.timer=setTimeout(()=>rtSnap(id),400)}
+function rtFlushSnap(id){const h=rtHist[id];if(h&&h.timer)rtSnap(id)}
+function rtApplySnap(id,snap){const ed=rtEd(id);ed.innerHTML=snap.html;rtDeselectImage(id);ed.focus({preventScroll:true});rtSelApply(ed,snap.sel);rtSaveRange(id);rtUpdateToolbar(id);rtUpdateCount(id)}
+function rtUndo(id){rtFlushSnap(id);const h=rtHist_(id);if(h.idx<=0)return;h.idx--;rtApplySnap(id,h.stack[h.idx])}
+function rtRedo(id){rtFlushSnap(id);const h=rtHist_(id);if(h.idx>=h.stack.length-1)return;h.idx++;rtApplySnap(id,h.stack[h.idx])}
+
+/* ---- Comandos básicos ---- */
+function fmt(id,cmd,value=null){rtRestore(id);document.execCommand('styleWithCSS',false,!(cmd==='subscript'||cmd==='superscript'));document.execCommand(cmd,false,value);rtAfter(id)}
+function rtBlock(id,tag){
+rtRestore(id);
+const cur=(function(){try{return(document.queryCommandValue('formatBlock')||'').toLowerCase()}catch(e){return''}})();
+if(cur==='blockquote'&&tag!=='BLOCKQUOTE'){document.execCommand('outdent')}
+if(tag==='BLOCKQUOTE'&&cur==='blockquote'){document.execCommand('outdent');document.execCommand('formatBlock',false,'P');rtAfter(id);return}
+document.execCommand('formatBlock',false,tag);rtAfter(id)}
+function rtWrapSelection(id,tag,style,cls){
+rtRestore(id);
+const ed=rtEd(id);
+let sel=window.getSelection();
+if(!sel||!sel.rangeCount)return false;
+if(sel.isCollapsed)rtExpandToWord();
+sel=window.getSelection();
+if(!sel.rangeCount||sel.isCollapsed)return false;
+const range=sel.getRangeAt(0);
+if(!ed.contains(range.commonAncestorContainer))return false;
+const tmp=document.createElement('div');
+tmp.appendChild(range.cloneContents());
+const BLK='p,h1,h2,h3,h4,h5,h6,li,blockquote,pre,div,td,th';
+if(style){
+const props=style.split(';').map(x=>x.split(':')[0].trim()).filter(Boolean);
+tmp.querySelectorAll('[style]').forEach(el=>{props.forEach(p=>el.style.removeProperty(p));if(!el.getAttribute('style'))el.removeAttribute('style')});
+tmp.querySelectorAll('span:not([style]):not([class])').forEach(el=>{while(el.firstChild)el.parentNode.insertBefore(el.firstChild,el);el.remove()});
 }
-document.getElementById(id+'_'+mode+'Pop').classList.remove('open');
+const mk=inner=>`<${tag}${style?` style="${style}"`:''}${cls?` class="${cls}"`:''}>${inner}</${tag}>`;
+const blocks=tmp.querySelectorAll(BLK);
+if(!blocks.length){tmp.innerHTML=mk(tmp.innerHTML)}
+else{
+[...blocks].filter(b=>!b.querySelector(BLK)).forEach(b=>{b.innerHTML=mk(b.innerHTML)});
 }
-function applyTextStroke(id,color){
-const editor=document.getElementById(id);
-editor.focus();
-const sel=window.getSelection();
+document.execCommand('insertHTML',false,tmp.innerHTML);
+rtAfter(id);
+return true}
+function rtToggleCode(id){
+rtRestore(id);
+const el=rtAnchorEl();
+const c=el&&el.closest('code');
+if(c&&rtEd(id).contains(c)&&!c.closest('pre')){
+const sel=window.getSelection();const r=document.createRange();r.selectNode(c);sel.removeAllRanges();sel.addRange(r);
+document.execCommand('insertHTML',false,c.innerHTML);rtAfter(id);return}
+rtWrapSelection(id,'code')}
+function rtCase(id,val){if(!val)return;rtWrapSelection(id,'span','text-transform:'+val)}
+
+/* ---- Listas (lógica propia: el navegador falla con varios párrafos) ---- */
+function rtFixNesting(ed){
+ed.querySelectorAll('hr[id="null"],hr[id=""]').forEach(h=>h.removeAttribute('id'));
+ed.querySelectorAll('p>ul,p>ol,p>table,p>blockquote,p>pre,p>h2,p>h3,p>h4,p>hr').forEach(blk=>{
+const p=blk.parentElement;if(!p||p.tagName!=='P'||!ed.contains(p))return;
+const after=document.createElement('p');let n=blk.nextSibling;while(n){const nx=n.nextSibling;after.appendChild(n);n=nx}
+p.parentNode.insertBefore(blk,p.nextSibling);
+if(after.textContent.trim()||after.querySelector('img'))blk.parentNode.insertBefore(after,blk.nextSibling);
+if(!p.textContent.trim()&&!p.querySelector('img,table,ul,ol,hr'))p.remove();
+})}
+function rtList(id,type){
+rtRestore(id);
+const ed=rtEd(id),sel=window.getSelection();
+const native=()=>{fmt(id,type==='ul'?'insertUnorderedList':'insertOrderedList');rtFixNesting(ed)};
 if(!sel||!sel.rangeCount)return;
 const range=sel.getRangeAt(0);
-if(range.collapsed)return;
-if(!editor.contains(range.commonAncestorContainer))return;
+const anchor=rtAnchorEl();
+const li0=anchor&&anchor.closest('li');
+if(anchor&&anchor.closest('td,th,blockquote,pre'))return native();
+if(li0&&li0.parentElement.closest('li'))return native();
+const kids=[...ed.children].filter(c=>range.intersectsNode(c));
+if(!kids.length||[...ed.childNodes].some(n=>n.nodeType===3&&n.textContent.trim()&&range.intersectsNode(n)))return native();
+const T=type.toUpperCase(),BLOCKISH=new Set(['P','DIV','H1','H2','H3','H4','H5','H6']);
+const i0=[...ed.children].indexOf(kids[0]);
+const tail=ed.children.length-1-[...ed.children].indexOf(kids[kids.length-1]);
+let out='';
+if(kids.every(k=>k.tagName===T)){
+kids.forEach(l=>{
+let seg='';const flushSeg=()=>{if(seg){out+=`<${type}>${seg}</${type}>`;seg=''}};
+[...l.children].forEach(li=>{
+if(li.tagName!=='LI')return;
+if(range.intersectsNode(li)){
+flushSeg();
+const c=li.cloneNode(true);const nested=[...c.children].filter(x=>x.tagName==='UL'||x.tagName==='OL');nested.forEach(x=>x.remove());
+out+='<p>'+(c.innerHTML.trim()||'<br>')+'</p>';nested.forEach(x=>{out+=x.outerHTML})
+}else seg+=li.outerHTML});
+flushSeg()})
+}else{
+let items='';const flush=()=>{if(items){out+=`<${type}>${items}</${type}>`;items=''}};
+kids.forEach(k=>{
+if(k.tagName==='UL'||k.tagName==='OL'){[...k.children].forEach(li=>{items+=li.outerHTML})}
+else if(BLOCKISH.has(k.tagName)){items+='<li>'+(k.innerHTML.trim()||'<br>')+'</li>'}
+else{flush();out+=k.outerHTML}});
+flush()}
+const tpl=document.createElement('template');tpl.innerHTML=out;
+kids[0].parentNode.insertBefore(tpl.content,kids[0]);
+kids.forEach(k=>k.remove());
+const ch=ed.children,first=ch[i0],last=ch[ch.length-1-tail];
+if(first&&last){const r2=document.createRange();r2.setStart(first,0);r2.setEnd(last,last.childNodes.length);const s2=window.getSelection();s2.removeAllRanges();s2.addRange(r2)}
+rtAfter(id)}
+
+/* ---- Tamaño y tipo de letra ---- */
+function rtCurrentSize(id){const el=rtAnchorEl()||rtEd(id);return Math.round(parseFloat(getComputedStyle(el).fontSize))||16}
+function rtSetSize(id,px){px=Math.max(8,Math.min(120,Math.round(+px)));if(!px)return;rtWrapSelection(id,'span','font-size:'+px+'px')}
+function rtStepSize(id,dir){
+rtRestore(id);
+const cur=rtCurrentSize(id);
+let next;
+if(dir>0){next=RT_SIZES.find(s=>s>cur);if(!next)next=cur+4}
+else{next=[...RT_SIZES].reverse().find(s=>s<cur);if(!next)next=Math.max(8,cur-2)}
+rtSetSize(id,next)}
+function rtSizeFromInput(id,inp){const v=parseInt(inp.value,10);inp.dataset.last=inp.value;if(v)rtSetSize(id,v)}
+function rtSetFont(id,name){
+rtClosePops();rtRestore(id);
+if(name===''){name=getComputedStyle(rtEd(id)).fontFamily.split(',')[0].replace(/["']/g,'').trim()}
+else{try{ensureGoogleFontsLoaded([name])}catch(e){}}
+fmt(id,'fontName',name)}
+function rtEnsureFontsFromHtml(html){
+try{
+if(!html||typeof html!=='string')return;
+const s=html.replace(/&quot;/g,'"').replace(/&#039;/g,"'");
+const found=new Set();
+const re=/font-family\s*:\s*([^;>]+)/gi;let m;
+while((m=re.exec(s))){m[1].split(',').forEach(f=>{const n=f.replace(/["']/g,'').trim().toLowerCase();const hit=RT_ALL_FONTS.find(x=>x.toLowerCase()===n);if(hit)found.add(hit)})}
+const re2=/<font[^>]*\sface=["']([^"']+)["']/gi;
+while((m=re2.exec(s))){const n=m[1].trim().toLowerCase();const hit=RT_ALL_FONTS.find(x=>x.toLowerCase()===n);if(hit)found.add(hit)}
+if(found.size)ensureGoogleFontsLoaded([...found]);
+}catch(e){}}
+
+/* ---- Colores ---- */
+function rtRenderRecent(id,mode){const wrap=document.getElementById(id+'_'+mode+'Recent');if(!wrap)return;const list=rtGetRecentColors();if(!list.length){wrap.innerHTML='';return}wrap.innerHTML=`<p class="rt-label">Recientes</p><div class="rt-swatch-grid">${list.map(c=>`<button type="button" class="rt-swatch" style="background:${c}" title="${c}" onclick="pickRichColor('${id}','${mode}','${c}')"></button>`).join('')}</div>`}
+function rtColorPopHTML(id,mode){
+const swatches=RT_COLORS.map(c=>`<button type="button" class="rt-swatch" style="background:${c}" title="${c}" onclick="pickRichColor('${id}','${mode}','${c}')"></button>`).join('');
+const strokeWidth=mode==='stroke'?`<label class="rt-label">Grosor del contorno</label><select id="${id}_strokeWidth" class="rt-select" style="width:100%;margin-bottom:8px"><option value="0.5">Fino</option><option value="1" selected>Normal</option><option value="1.5">Grueso</option><option value="2.5">Muy grueso</option></select>`:'';
+const title=mode==='fore'?'Color del texto':mode==='back'?'Color de resaltado':'Color del contorno';
+return `<p class="rt-pop-title">${title}</p>${strokeWidth}<div class="rt-swatch-grid">${swatches}</div><div id="${id}_${mode}Recent"></div><button type="button" class="rt-chip rt-wide" onclick="openColorWheel(this,'#000000',function(hex){pickRichColor('${id}','${mode}',hex)})">🎨 Más colores…</button><button type="button" class="rt-chip rt-wide" onclick="clearRichColor('${id}','${mode}')">Quitar ${mode==='stroke'?'contorno':mode==='back'?'resaltado':'color'}</button>`}
+function pickRichColor(id,mode,color){
+rtRestore(id);
+if(mode==='stroke')rtApplyStroke(id,color);else fmt(id,mode==='fore'?'foreColor':'hiliteColor',color);
+rtState(id)[mode]=color;
+const bar=document.getElementById(id+'_'+mode+'bar');if(bar)bar.style.background=color;
+rtAddRecentColor(color);rtClosePops();rtAfter(id)}
+function rtApplyColor(id,mode){pickRichColor(id,mode,rtState(id)[mode])}
+function clearRichColor(id,mode){
+if(mode==='stroke'){rtApplyStroke(id,'');rtClosePops();return}
+const editor=rtEd(id);
+if(mode==='fore'){fmt(id,'foreColor',getComputedStyle(editor).color)}
+else{fmt(id,'hiliteColor','transparent')}
+rtClosePops()}
+function rtApplyStroke(id,color){
 const widthEl=document.getElementById(id+'_strokeWidth');
 const width=widthEl?widthEl.value:'1';
-const span=document.createElement('span');
-if(color){span.style.webkitTextStroke=`${width}px ${color}`;span.style.paintOrder='stroke fill'}
-else{span.style.webkitTextStroke='0';}
-try{
-range.surroundContents(span);
-}catch(e){
-const content=range.extractContents();
-span.appendChild(content);
-range.insertNode(span);
-}
-sel.removeAllRanges();
-sel.addRange(document.createRange());
-}
+rtWrapSelection(id,'span',color?`-webkit-text-stroke:${width}px ${color};paint-order:stroke fill`:'-webkit-text-stroke:0')}
+function applyTextStroke(id,color){rtApplyStroke(id,color)}
+
+/* ---- Limpiar formato ---- */
 function clearRichFormatting(id){
-const e=document.getElementById(id);
-e.focus();
-document.execCommand('removeFormat',false,null);
-document.execCommand('formatBlock',false,'P');
-e.querySelectorAll('[style]').forEach(el=>{
-el.style.removeProperty('color');
-el.style.removeProperty('background-color');
-if(!el.getAttribute('style'))el.removeAttribute('style');
-});
-e.querySelectorAll('font[color]').forEach(el=>el.removeAttribute('color'));
-e.querySelectorAll('span:not([style]):not([class])').forEach(el=>{
-while(el.firstChild)el.parentNode.insertBefore(el.firstChild,el);
-el.remove();
-});
-}
-function insertRichLink(id){
-const e=document.getElementById(id);
-e.focus();
+rtRestore(id);
+const ed=rtEd(id);
 const sel=window.getSelection();
-const hasSelection=!!(sel&&sel.rangeCount&&!sel.getRangeAt(0).collapsed&&e.contains(sel.anchorNode));
-const url=prompt('Introduce la dirección web del enlace (ej: https://...)');
-if(!url)return;
-if(hasSelection){
-document.execCommand('createLink',false,url);
-const sel2=window.getSelection();
-const node=sel2&&sel2.anchorNode;
-const el=node&&(node.nodeType===1?node:node.parentElement);
-const a=el&&el.closest('a');
-if(a){a.target='_blank';a.rel='noopener noreferrer'}
+document.execCommand('removeFormat',false,null);
+const el0=rtAnchorEl();
+if(!(el0&&el0.closest('li,td,th')))document.execCommand('formatBlock',false,'P');
+let targets;
+if(sel.rangeCount&&!sel.isCollapsed){const r=sel.getRangeAt(0);targets=[...ed.querySelectorAll('*')].filter(e=>r.intersectsNode(e))}
+else{const blk=(rtAnchorEl()||ed).closest('p,li,h1,h2,h3,h4,blockquote,td,th,div')||ed;targets=[blk,...blk.querySelectorAll('*')]}
+const PROPS=['color','background-color','font-size','font-family','-webkit-text-stroke','paint-order','text-transform','font-weight','font-style','text-decoration','text-decoration-line'];
+targets.forEach(e=>{
+if(e===ed||!e.style)return;
+PROPS.forEach(p=>e.style.removeProperty(p));
+if(!e.getAttribute('style'))e.removeAttribute('style');
+if(e.tagName==='FONT')e.removeAttribute('color');
+});
+targets.forEach(e=>{
+if(!e.parentNode||e===ed)return;
+const t=e.tagName;
+if((t==='SPAN'&&!e.attributes.length)||t==='FONT'||t==='MARK'||(t==='CODE'&&!e.closest('pre'))){while(e.firstChild)e.parentNode.insertBefore(e.firstChild,e);e.remove()}
+});
+rtAfter(id)}
+
+/* ---- Enlaces ---- */
+function rtNormalizeUrl(u){u=(u||'').trim();if(/^(https?:|mailto:|tel:|#|\/)/i.test(u))return u;if(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(u))return'mailto:'+u;if(/^\+?[\d\s().-]{7,}$/.test(u))return'tel:'+u.replace(/[\s().-]/g,'');return'https://'+u}
+function rtSafeUrl(u){return/^(https?:\/\/|mailto:|tel:|#|\/)/i.test(u)}
+function rtOpenLinkDialog(id){const btn=document.querySelector('#'+id+'_tb [data-pop="link"]');if(btn)rtTogglePop(btn,id,'link')}
+function rtLinkPopHTML(id){return `<p class="rt-pop-title">Enlace</p>
+<label class="rt-label">Texto que se verá</label><input type="text" id="${id}_lk_text" placeholder="Ej: Más información" autocomplete="off">
+<label class="rt-label">Dirección web, correo o teléfono</label><input type="text" id="${id}_lk_url" placeholder="https://…" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();rtLinkApply('${id}')}">
+<label class="rt-check"><input type="checkbox" id="${id}_lk_blank" checked> Abrir en una pestaña nueva</label>
+<div class="rt-pop-actions"><button type="button" class="rt-chip rt-primary" onclick="rtLinkApply('${id}')">Aplicar</button><button type="button" class="rt-chip" id="${id}_lk_rm" onclick="rtLinkRemove('${id}')" hidden>Quitar enlace</button></div>`}
+function rtLinkPrefill(id){
+const ed=rtEd(id);const r=rtRanges[id];
+let a=null;
+if(r&&ed.contains(r.commonAncestorContainer)){const n=r.commonAncestorContainer;const el=n.nodeType===1?n:n.parentElement;a=el&&el.closest('a');if(a&&!ed.contains(a))a=null}
+rtLinkEl[id]=a;
+const t=document.getElementById(id+'_lk_text'),u=document.getElementById(id+'_lk_url'),b=document.getElementById(id+'_lk_blank'),rm=document.getElementById(id+'_lk_rm');
+if(a){t.value=a.textContent;u.value=a.getAttribute('href')||'';b.checked=a.target==='_blank';rm.hidden=false}
+else{t.value=r&&!r.collapsed?r.toString():'';u.value='';b.checked=true;rm.hidden=true}
+setTimeout(()=>{u.focus()},30)}
+function rtLinkApply(id){
+const ed=rtEd(id);rtHist_(id);rtFlushSnap(id);
+let url=document.getElementById(id+'_lk_url').value.trim();
+const label=document.getElementById(id+'_lk_text').value;
+const blank=document.getElementById(id+'_lk_blank').checked;
+if(!url){toast('Escribe la dirección del enlace');return}
+url=rtNormalizeUrl(url);
+if(!rtSafeUrl(url)){toast('La dirección del enlace no es válida');return}
+rtClosePops();
+const a=rtLinkEl[id];
+const setAttrs=x=>{x.setAttribute('href',url);if(blank){x.target='_blank';x.rel='noopener noreferrer'}else{x.removeAttribute('target');x.removeAttribute('rel')}};
+if(a&&ed.contains(a)){setAttrs(a);if(label&&label!==a.textContent)a.textContent=label}
+else{
+rtRestore(id);
+const sel=window.getSelection();
+const selText=sel.rangeCount&&!sel.isCollapsed?sel.toString():'';
+if(selText&&(!label||label===selText)){
+const tmp='https://rt-tmp.invalid/'+Date.now();
+document.execCommand('createLink',false,tmp);
+ed.querySelectorAll('a[href="'+tmp+'"]').forEach(setAttrs);
 }else{
-const label=prompt('¿Qué texto quieres que se vea en la página? (al pincharlo se abrirá la dirección web)')||url;
-document.execCommand('insertHTML',false,'<a href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">'+esc(label)+'</a>');
+const txt=label||url;
+document.execCommand('insertHTML',false,`<a data-rt-new="1" href="${esc(url)}"${blank?' target="_blank" rel="noopener noreferrer"':''}>${esc(txt)}</a>`);
+const na=ed.querySelector('a[data-rt-new]');
+if(na){na.removeAttribute('data-rt-new');const p=na.parentNode;const idx=[...p.childNodes].indexOf(na)+1;const s2=window.getSelection();const rr=document.createRange();rr.setStart(p,idx);rr.collapse(true);s2.removeAllRanges();s2.addRange(rr)}
+}}
+rtAfter(id)}
+function rtLinkRemove(id){
+const ed=rtEd(id);rtHist_(id);rtFlushSnap(id);const a=rtLinkEl[id];rtClosePops();
+if(a&&ed.contains(a)){while(a.firstChild)a.parentNode.insertBefore(a.firstChild,a);a.remove();rtAfter(id)}
+else fmt(id,'unlink')}
+function insertRichLink(id){rtOpenLinkDialog(id)}
+
+/* ---- Imagen por enlace ---- */
+function rtImagePopHTML(id){return `<p class="rt-pop-title">Insertar imagen</p>
+<label class="rt-label">Dirección de la imagen (https://…)</label><input type="text" id="${id}_im_url" placeholder="https://ejemplo.com/foto.jpg" autocomplete="off">
+<label class="rt-label">Texto alternativo (descripción)</label><input type="text" id="${id}_im_alt" placeholder="Ej: Foto del campamento" autocomplete="off">
+<div class="rt-row"><div><label class="rt-label">Tamaño</label><select id="${id}_im_w" class="rt-select"><option value="">Original</option><option value="25%">25%</option><option value="50%">50%</option><option value="75%">75%</option><option value="100%">100%</option></select></div>
+<div><label class="rt-label">Posición</label><select id="${id}_im_a" class="rt-select"><option value="">En la línea</option><option value="center">Centrada</option><option value="left">Izquierda</option><option value="right">Derecha</option></select></div></div>
+<div class="rt-pop-actions"><button type="button" class="rt-chip rt-primary" onclick="rtImageInsert('${id}')">Insertar</button></div>`}
+function rtImgStyle(w,a){let s='';if(w)s+='width:'+w+';';if(a==='center')s+='display:block;margin:12px auto;';else if(a==='left')s+='float:left;margin:4px 16px 8px 0;';else if(a==='right')s+='float:right;margin:4px 0 8px 16px;';return s}
+function rtImageInsert(id){
+const url=document.getElementById(id+'_im_url').value.trim();
+if(!/^https?:\/\//i.test(url)){toast('La dirección de la imagen debe empezar por https://');return}
+const alt=document.getElementById(id+'_im_alt').value;
+const st=rtImgStyle(document.getElementById(id+'_im_w').value,document.getElementById(id+'_im_a').value);
+rtClosePops();rtRestore(id);
+document.execCommand('insertHTML',false,`<img class="rt-img" src="${esc(url)}" alt="${esc(alt)}"${st?` style="${st}"`:''}>`);
+rtAfter(id)}
+function rtSelectImage(id,img){
+rtSelImg[id]=img;
+const it=document.getElementById(id+'_it'),tt=document.getElementById(id+'_tt');
+if(tt)tt.hidden=true;
+if(it){it.hidden=false;const alt=document.getElementById(id+'_it_alt');if(alt)alt.value=img.getAttribute('alt')||''}
+rtPlaceFrame(id)}
+function rtDeselectImage(id){rtSelImg[id]=null;const it=document.getElementById(id+'_it');if(it)it.hidden=true;const f=document.getElementById(id+'_imgframe');if(f)f.hidden=true}
+function rtPlaceFrame(id){
+const img=rtSelImg[id],f=document.getElementById(id+'_imgframe'),body=document.getElementById(id+'_body');
+if(!f||!body)return;
+if(!img||!rtEd(id).contains(img)){f.hidden=true;return}
+const ir=img.getBoundingClientRect(),br=body.getBoundingClientRect();
+f.hidden=false;f.style.left=(ir.left-br.left)+'px';f.style.top=(ir.top-br.top)+'px';f.style.width=ir.width+'px';f.style.height=ir.height+'px'}
+function rtImgTool(id,action,val){
+const img=rtSelImg[id];if(!img||!rtEd(id).contains(img))return;
+rtHist_(id);rtFlushSnap(id);
+if(action==='width'){img.style.width=val||''}
+else if(action==='align'){
+['float','display','margin'].forEach(p=>img.style.removeProperty(p));
+if(val==='center'){img.style.display='block';img.style.margin='12px auto'}
+else if(val==='left'){img.style.float='left';img.style.margin='4px 16px 8px 0'}
+else if(val==='right'){img.style.float='right';img.style.margin='4px 0 8px 16px'}}
+else if(action==='alt'){img.setAttribute('alt',val)}
+else if(action==='remove'){img.remove();rtDeselectImage(id);rtUpdateCount(id);rtSnap(id);return}
+if(!img.getAttribute('style'))img.removeAttribute('style');
+rtPlaceFrame(id);if(action!=='alt')rtSnap(id);else rtSnapSoon(id)}
+
+/* ---- Tablas ---- */
+function rtTablePopHTML(id){return `<p class="rt-pop-title">Insertar tabla</p>
+<div class="rt-row"><div><label class="rt-label">Filas</label><input type="number" id="${id}_tb_r" value="3" min="1" max="30"></div><div><label class="rt-label">Columnas</label><input type="number" id="${id}_tb_c" value="3" min="1" max="12"></div></div>
+<label class="rt-check"><input type="checkbox" id="${id}_tb_h" checked> Primera fila como títulos</label>
+<div class="rt-pop-actions"><button type="button" class="rt-chip rt-primary" onclick="rtTableInsert('${id}')">Insertar tabla</button></div>`}
+function rtTableInsert(id){
+const r=Math.max(1,Math.min(30,parseInt(document.getElementById(id+'_tb_r').value,10)||3));
+const c=Math.max(1,Math.min(12,parseInt(document.getElementById(id+'_tb_c').value,10)||3));
+const h=document.getElementById(id+'_tb_h').checked;
+let html='<table class="rt-table" data-rt-new="1"><tbody>';
+for(let i=0;i<r;i++){html+='<tr>';for(let j=0;j<c;j++){html+=(h&&i===0)?'<th><br></th>':'<td><br></td>'}html+='</tr>'}
+html+='</tbody></table><p><br></p>';
+rtClosePops();rtRestore(id);
+document.execCommand('insertHTML',false,html);
+const t=rtEd(id).querySelector('table[data-rt-new]');
+if(t){t.removeAttribute('data-rt-new');const cell=t.querySelector('th,td');if(cell)rtPlaceCaret(cell)}
+rtAfter(id)}
+function rtPlaceCaret(el,end){const sel=window.getSelection();const r=document.createRange();r.selectNodeContents(el);r.collapse(!end);sel.removeAllRanges();sel.addRange(r)}
+function rtCurrentCell(id){const ed=rtEd(id);const el=rtAnchorEl();const c=el&&el.closest&&el.closest('td,th');return c&&ed.contains(c)?c:null}
+function rtNewCell(tag){const c=document.createElement(tag);c.innerHTML='<br>';return c}
+function rtTable(id,action){
+rtRestore(id);
+const cell=rtCurrentCell(id);if(!cell)return;
+const tr=cell.parentElement,table=cell.closest('table'),idx=cell.cellIndex;
+if(action==='rowAbove'||action==='rowBelow'){
+const n=document.createElement('tr');[...tr.cells].forEach(()=>n.appendChild(rtNewCell('td')));
+if(action==='rowAbove')tr.parentNode.insertBefore(n,tr);else tr.parentNode.insertBefore(n,tr.nextSibling);
+rtPlaceCaret(n.cells[Math.min(idx,n.cells.length-1)])}
+else if(action==='colLeft'||action==='colRight'){
+[...table.rows].forEach(row=>{const ref=row.cells[idx];const tag=ref&&ref.tagName==='TH'?'th':'td';const nc=rtNewCell(tag);if(!ref)row.appendChild(nc);else if(action==='colLeft')row.insertBefore(nc,ref);else row.insertBefore(nc,ref.nextSibling)});
+const nr=tr.cells[action==='colLeft'?idx:idx+1];if(nr)rtPlaceCaret(nr)}
+else if(action==='delRow'){
+const sib=tr.nextElementSibling||tr.previousElementSibling;tr.remove();
+if(!table.rows.length){table.remove()}else if(sib)rtPlaceCaret(sib.cells[Math.min(idx,sib.cells.length-1)])}
+else if(action==='delCol'){
+[...table.rows].forEach(row=>{if(row.cells[idx])row.cells[idx].remove()});
+if(!table.rows[0]||!table.rows[0].cells.length){table.remove()}else{const row=table.rows[Math.min(tr.rowIndex,table.rows.length-1)];rtPlaceCaret(row.cells[Math.min(idx,row.cells.length-1)])}}
+else if(action==='header'){
+const first=table.rows[0];const toTh=first.cells[0].tagName!=='TH';
+[...first.cells].forEach(c=>{const n=document.createElement(toTh?'th':'td');n.innerHTML=c.innerHTML;c.replaceWith(n)})}
+else if(action==='delTable'){table.remove()}
+rtAfter(id)}
+function rtNextCell(id,cell,back){
+const cells=[...cell.closest('table').querySelectorAll('th,td')];
+const i=cells.indexOf(cell);
+if(!back&&i===cells.length-1){rtTable(id,'rowBelow');return}
+const n=cells[back?Math.max(0,i-1):i+1];if(n)rtPlaceCaret(n)}
+
+/* ---- Emojis y fuentes ---- */
+function rtEmojiPopHTML(id){return RT_EMOJI.map(g=>`<p class="rt-label">${g[0]}</p><div class="rt-emoji-grid">${g[1].map(e=>`<button type="button" class="rt-emoji" onclick="rtInsertEmoji('${id}','${e}')">${e}</button>`).join('')}</div>`).join('')}
+function rtInsertEmoji(id,e){rtRestore(id);document.execCommand('insertText',false,e);rtAfter(id)}
+function rtFontPopHTML(id){return `<button type="button" class="rt-fontitem" onclick="rtSetFont('${id}','')">Predeterminada</button>`+RT_FONT_GROUPS.map(g=>`<p class="rt-label">${g[0]}</p>`+g[1].map(f=>`<button type="button" class="rt-fontitem" style="font-family:'${f}',sans-serif" onclick="rtSetFont('${id}','${f}')">${f}</button>`).join('')).join('')}
+
+/* ---- Ventanas desplegables ---- */
+function rtPopHTML(id,name){
+if(name==='fore'||name==='back'||name==='stroke')return rtColorPopHTML(id,name);
+if(name==='font')return rtFontPopHTML(id);
+if(name==='emoji')return rtEmojiPopHTML(id);
+if(name==='link')return rtLinkPopHTML(id);
+if(name==='image')return rtImagePopHTML(id);
+if(name==='table')return rtTablePopHTML(id);
+return''}
+function rtClosePops(){document.querySelectorAll('.rt-pop.open').forEach(p=>p.classList.remove('open'))}
+function rtPlace(pop,btn){
+const rect=btn.getBoundingClientRect();
+const w=pop.offsetWidth||240,h=pop.offsetHeight||240;
+let left=rect.left;if(left+w>window.innerWidth-10)left=window.innerWidth-w-10;if(left<10)left=10;
+let top=rect.bottom+6;if(top+h>window.innerHeight-10)top=Math.max(10,rect.top-h-6);
+pop.style.left=left+'px';pop.style.top=top+'px'}
+function rtTogglePop(btn,id,name){
+const pop=document.getElementById(id+'_pop_'+name);if(!pop)return;
+const willOpen=!pop.classList.contains('open');
+rtClosePops();
+if(!willOpen)return;
+rtSaveRange(id);
+if(!pop.dataset.built){pop.innerHTML=rtPopHTML(id,name);pop.dataset.built='1'}
+if(name==='fore'||name==='back'||name==='stroke')rtRenderRecent(id,name);
+if(name==='link')rtLinkPrefill(id);
+if(name==='font')try{ensureGoogleFontsLoaded(RT_ALL_FONTS)}catch(e){}
+pop.classList.add('open');
+rtPlace(pop,btn);
+if(name==='image'||name==='table'){const f=pop.querySelector('input');if(f)setTimeout(()=>f.focus(),30)}}
+function rtPopDown(e){if(!e.target.closest('input,select,textarea,label'))e.preventDefault()}
+function rtTbDown(e){if(e.target.closest('button'))e.preventDefault()}
+document.addEventListener('mousedown',e=>{if(!e.target.closest('.rt-pop')&&!e.target.closest('[data-pop]'))rtClosePops()});
+document.addEventListener('scroll',e=>{if(!(e.target.closest&&e.target.closest('.rt-pop')))rtClosePops()},true);
+window.addEventListener('resize',rtClosePops);
+
+/* ---- Estado de la barra, contador, marcador ---- */
+function rtUpdateToolbar(id){
+const tb=document.getElementById(id+'_tb');if(!tb)return;
+const el=rtAnchorEl();
+tb.querySelectorAll('[data-cmd]').forEach(b=>{let on=false;try{on=document.queryCommandState(b.dataset.cmd)}catch(e){}b.classList.toggle('active',!!on)});
+const code=tb.querySelector('[data-code]');if(code)code.classList.toggle('active',!!(el&&el.closest('code')));
+const lk=tb.querySelector('[data-pop="link"]');if(lk)lk.classList.toggle('active',!!(el&&el.closest('a')));
+const sel=tb.querySelector('.rt-block');
+if(sel){let v='';try{v=(document.queryCommandValue('formatBlock')||'').toLowerCase()}catch(e){}const map={h2:'H2',h3:'H3',h4:'H4',blockquote:'BLOCKQUOTE',pre:'PRE'};sel.value=map[v]||'P'}
+const fl=document.getElementById(id+'_fontlbl');
+if(fl&&el){const f=getComputedStyle(el).fontFamily.split(',')[0].replace(/["']/g,'').trim();const hit=RT_ALL_FONTS.find(x=>x.toLowerCase()===f.toLowerCase());const t=hit||'Predeterminada';fl.textContent=t.length>14?t.slice(0,13)+'…':t}
+const si=document.getElementById(id+'_size');
+if(si&&el&&document.activeElement!==si){si.value=Math.round(parseFloat(getComputedStyle(el).fontSize))||16;si.dataset.last=si.value}
+const tt=document.getElementById(id+'_tt');
+if(tt&&!rtSelImg[id])tt.hidden=!rtCurrentCell(id);
 }
-}
-document.addEventListener('click',e=>{if(!e.target.closest('.rt-color-wrap'))document.querySelectorAll('.rt-color-popover.open').forEach(p=>p.classList.remove('open'))});
+function rtIsEmptyHtml(h){const d=document.createElement('div');d.innerHTML=h||'';return!d.textContent.trim()&&!d.querySelector('img,hr,table')}
+function rtUpdateCount(id){
+const ed=rtEd(id);if(!ed)return;
+const text=(ed.innerText||'').replace(/\u200b/g,'');
+const words=text.trim()?text.trim().split(/\s+/).length:0;
+const chars=text.replace(/\n/g,'').length;
+const c=document.getElementById(id+'_count');
+if(c)c.textContent=words+(words===1?' palabra':' palabras')+' · '+chars+' caracteres';
+ed.dataset.empty=(!text.trim()&&!ed.querySelector('img,hr,table'))?'1':'0'}
+let rtRaf=0;
+document.addEventListener('selectionchange',()=>{
+if(rtRaf)return;
+rtRaf=requestAnimationFrame(()=>{rtRaf=0;const ed=rtActiveEditor();if(!ed||!ed.id)return;rtSaveRange(ed.id);rtUpdateToolbar(ed.id)})});
+
+/* ---- Eventos del editor ---- */
+function rtOnInput(id){
+const ed=rtEd(id),sel=window.getSelection();
+if(ed&&sel&&sel.rangeCount&&sel.anchorNode&&sel.anchorNode.parentNode===ed&&(sel.anchorNode.nodeType===3||sel.anchorNode.nodeName==='SPAN')){try{document.execCommand('formatBlock',false,'P')}catch(e){}}
+rtSnapSoon(id);rtUpdateCount(id);rtSaveRange(id);const it=rtSelImg[id];if(it)rtPlaceFrame(id)}
+function rtOnFocus(id){rtHist_(id);try{document.execCommand('defaultParagraphSeparator',false,'p')}catch(e){}}
+function rtOnClick(e,id){
+const t=e.target;
+if(t&&t.tagName==='IMG'&&rtEd(id).contains(t))rtSelectImage(id,t);else rtDeselectImage(id);
+rtClosePops()}
+function rtOnBeforeInput(e,id){if(e.inputType==='historyUndo'){e.preventDefault();rtUndo(id)}else if(e.inputType==='historyRedo'){e.preventDefault();rtRedo(id)}}
+function rtOnDrop(e){if(e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files.length){e.preventDefault();toast('Para añadir imágenes usa el botón de imagen (por enlace)')}}
+function rtOnKey(e,id){
+const k=e.key,mod=e.ctrlKey||e.metaKey;
+if(mod&&!e.shiftKey&&!e.altKey){
+if(k==='b'||k==='B'){e.preventDefault();fmt(id,'bold');return}
+if(k==='i'||k==='I'){e.preventDefault();fmt(id,'italic');return}
+if(k==='u'||k==='U'){e.preventDefault();fmt(id,'underline');return}
+if(k==='k'||k==='K'){e.preventDefault();rtOpenLinkDialog(id);return}
+if(k==='z'||k==='Z'){e.preventDefault();rtUndo(id);return}
+if(k==='y'||k==='Y'){e.preventDefault();rtRedo(id);return}}
+if(mod&&e.shiftKey&&!e.altKey&&(k==='z'||k==='Z')){e.preventDefault();rtRedo(id);return}
+if(k==='Escape'){const w=document.getElementById(id+'_wrap');if(w&&w.classList.contains('rt-full')){e.preventDefault();rtToggleFull(id)}rtClosePops();return}
+if(k==='Tab'){
+const cell=rtCurrentCell(id);
+if(cell){e.preventDefault();rtNextCell(id,cell,e.shiftKey);return}
+let inList=false;try{inList=document.queryCommandState('insertUnorderedList')||document.queryCommandState('insertOrderedList')}catch(x){}
+if(inList){e.preventDefault();document.execCommand(e.shiftKey?'outdent':'indent');rtAfter(id)}}}
+
+/* ---- Pegado limpio ---- */
+function rtColorInfo(v){
+if(!v)return null;const s=document.createElement('span');s.style.color=v;if(!s.style.color)return null;
+document.body.appendChild(s);const c=getComputedStyle(s).color;s.remove();
+const m=c.match(/[\d.]+/g);if(!m)return null;return{r:+m[0],g:+m[1],b:+m[2],a:m[3]!==undefined?+m[3]:1}}
+function rtCleanHtml(html){
+const doc=new DOMParser().parseFromString(html,'text/html');
+const DROP=new Set(['SCRIPT','STYLE','META','LINK','TITLE','XML','HEAD','NOSCRIPT','IFRAME','OBJECT','EMBED','FORM','INPUT','BUTTON','SELECT','TEXTAREA','SVG','CANVAS','VIDEO','AUDIO']);
+const ALLOWED=new Set(['P','BR','B','STRONG','I','EM','U','S','SUB','SUP','UL','OL','LI','A','H2','H3','H4','BLOCKQUOTE','PRE','CODE','HR','TABLE','THEAD','TBODY','TFOOT','TR','TD','TH','IMG','SPAN','DIV','MARK']);
+const BLOCKS=new Set(['P','DIV','H1','H2','H3','H4','H5','H6','UL','OL','LI','BLOCKQUOTE','PRE','TABLE','TR','TD','TH','THEAD','TBODY','TFOOT','HR']);
+const RENAME={H1:'H2',H5:'H4',H6:'H4',STRIKE:'S',DEL:'S',CENTER:'DIV'};
+function rename(el,tag){const n=doc.createElement(tag);while(el.firstChild)n.appendChild(el.firstChild);[...el.attributes].forEach(a=>n.setAttribute(a.name,a.value));el.replaceWith(n);return n}
+function unwrap(el){while(el.firstChild)el.parentNode.insertBefore(el.firstChild,el);el.remove()}
+function cleanStyle(el){
+const out=[];const st=el.style;
+const col=st.color?rtColorInfo(st.color):null;
+if(col&&col.a>0.3&&el.tagName!=='A'){const l=0.299*col.r+0.587*col.g+0.114*col.b;if(l>45&&l<235)out.push('color:'+st.color)}
+const bg=st.backgroundColor?rtColorInfo(st.backgroundColor):null;
+if(bg&&bg.a>0.1){const l=0.299*bg.r+0.587*bg.g+0.114*bg.b;if(l<235)out.push('background-color:'+st.backgroundColor)}
+const fw=st.fontWeight;if(fw==='bold'||fw==='bolder'||parseInt(fw,10)>=600)out.push('font-weight:bold');
+if(st.fontStyle==='italic')out.push('font-style:italic');
+const td=(st.textDecorationLine||st.textDecoration||'');
+if(/underline/.test(td)&&el.tagName!=='A')out.push('text-decoration:underline');
+else if(/line-through/.test(td))out.push('text-decoration:line-through');
+if(['left','center','right','justify'].includes(st.textAlign)&&BLOCKS.has(el.tagName))out.push('text-align:'+st.textAlign);
+if(['uppercase','lowercase','capitalize'].includes(st.textTransform))out.push('text-transform:'+st.textTransform);
+const stroke=st.getPropertyValue('-webkit-text-stroke-width');
+if(stroke&&parseFloat(stroke)>0)out.push('-webkit-text-stroke:'+st.getPropertyValue('-webkit-text-stroke-width')+' '+st.getPropertyValue('-webkit-text-stroke-color')+';paint-order:stroke fill');
+return out.join(';')}
+function walk(parent){
+Array.from(parent.childNodes).forEach(ch=>{
+if(ch.nodeType===8){ch.remove();return}
+if(ch.nodeType!==1)return;
+let tag=ch.tagName;
+if(DROP.has(tag)||/^O:|^W:|^V:/.test(tag)){ch.remove();return}
+walk(ch);
+if((tag==='B'||tag==='STRONG')&&/^(normal|400)$/.test(ch.style.fontWeight)){unwrap(ch);return}
+if(RENAME[tag]){ch=rename(ch,RENAME[tag]);tag=ch.tagName}
+if(tag==='DIV'){if([...ch.children].some(c=>BLOCKS.has(c.tagName)))unwrap(ch);else ch=rename(ch,'P');if(!ch.parentNode)return;tag=ch.tagName}
+if(!ALLOWED.has(tag)){unwrap(ch);return}
+const style=cleanStyle(ch);
+const href=ch.getAttribute('href'),src=ch.getAttribute('src'),alt=ch.getAttribute('alt'),cs=ch.getAttribute('colspan'),rs=ch.getAttribute('rowspan');
+[...ch.attributes].forEach(a=>ch.removeAttribute(a.name));
+if(tag==='A'){const u=(href||'').trim();if(/^(https?:|mailto:|tel:)/i.test(u)){ch.setAttribute('href',u);ch.setAttribute('target','_blank');ch.setAttribute('rel','noopener noreferrer')}else{unwrap(ch);return}}
+if(tag==='IMG'){if(/^https?:\/\//i.test(src||'')){ch.setAttribute('src',src);ch.setAttribute('alt',alt||'');ch.setAttribute('class','rt-img')}else{ch.remove();return}}
+if((tag==='TD'||tag==='TH')){if(cs)ch.setAttribute('colspan',cs);if(rs)ch.setAttribute('rowspan',rs)}
+if(tag==='TABLE')ch.setAttribute('class','rt-table');
+if(style)ch.setAttribute('style',style);
+if(tag==='SPAN'&&!ch.attributes.length)unwrap(ch);
+});}
+walk(doc.body);
+return doc.body.innerHTML}
+function rtOnPaste(e,id){
+const cd=e.clipboardData;if(!cd)return;
+const html=cd.getData('text/html');
+if(html){
+e.preventDefault();
+const clean=rtCleanHtml(html);
+if(clean.replace(/<[^>]+>/g,'').trim()||/<(img|hr|table)/i.test(clean))document.execCommand('insertHTML',false,clean);
+else{const t=cd.getData('text/plain');if(t)document.execCommand('insertText',false,t)}
+rtAfter(id)}
+else if(cd.files&&cd.files.length&&!cd.getData('text/plain')){e.preventDefault();toast('Para añadir imágenes usa el botón de imagen (por enlace)')}}
+
+/* ---- Pantalla completa y código HTML ---- */
+function rtToggleFull(id){
+const w=document.getElementById(id+'_wrap');if(!w)return;
+const on=!w.classList.contains('rt-full');
+w.classList.toggle('rt-full',on);
+const b=document.getElementById(id+'_fullbtn');if(b){b.innerHTML=rtI(on?'min':'max');b.title=on?'Salir de pantalla completa':'Pantalla completa'}
+rtClosePops();
+setTimeout(()=>{const it=rtSelImg[id];if(it)rtPlaceFrame(id)},50)}
+function rtPretty(h){return h.replace(/(<\/(p|div|h[1-6]|li|ul|ol|blockquote|pre|table|tr|thead|tbody)>)/gi,'$1\n').replace(/\n{2,}/g,'\n').trim()}
+function rtToggleSource(id){
+const w=document.getElementById(id+'_wrap'),ed=rtEd(id),ta=document.getElementById(id+'_src');
+if(!w||!ed||!ta)return;
+const on=!w.classList.contains('rt-source-mode');
+if(on){rtDeselectImage(id);ta.value=rtPretty(ed.innerHTML);ed.style.display='none';ta.hidden=false;ta.focus()}
+else{rtHist_(id);ed.innerHTML=sanitizeRich(ta.value);ta.hidden=true;ed.style.display='';rtSnap(id);rtUpdateCount(id);ed.focus()}
+w.classList.toggle('rt-source-mode',on);
+rtClosePops()}
+function rtSrcInput(id){const ed=rtEd(id),ta=document.getElementById(id+'_src');ed.innerHTML=sanitizeRich(ta.value);rtUpdateCount(id)}
+
+/* ---- Construcción del editor ---- */
+function rtToolbarHTML(id){
+const b=(cmd,icon,title,js,extra)=>`<button type="button" class="rt-btn"${cmd?` data-cmd="${cmd}"`:''} title="${title}" aria-label="${title}" onclick="${js}"${extra||''}>${icon}</button>`;
+const split=(mode,icon,title,bar)=>`<div class="rt-split"><button type="button" class="rt-btn rt-colorbtn" title="${title} (aplica el último color usado)" aria-label="${title}" onclick="rtApplyColor('${id}','${mode}')">${icon}<span class="rt-bar" id="${id}_${mode}bar" style="background:${bar}"></span></button><button type="button" class="rt-btn rt-caret" data-pop="${mode}" title="Elegir otro color" aria-label="Elegir otro color" onclick="rtTogglePop(this,'${id}','${mode}')">${rtI('chev',12)}</button></div>`;
+return `<div class="rt-group">${b('',rtI('undo'),'Deshacer (Ctrl+Z)',`rtUndo('${id}')`)}${b('',rtI('redo'),'Rehacer (Ctrl+Y)',`rtRedo('${id}')`)}</div>
+<div class="rt-group"><select class="rt-select rt-block" title="Estilo del párrafo" aria-label="Estilo del párrafo" onchange="rtBlock('${id}',this.value)"><option value="P">Párrafo</option><option value="H2">Título grande</option><option value="H3">Título mediano</option><option value="H4">Título pequeño</option><option value="BLOCKQUOTE">Cita</option><option value="PRE">Código</option></select>
+<button type="button" class="rt-btn rt-fontbtn" data-pop="font" title="Tipo de letra" aria-label="Tipo de letra" onclick="rtTogglePop(this,'${id}','font')"><span id="${id}_fontlbl">Predeterminada</span>${rtI('chev',12)}</button>
+<div class="rt-size"><button type="button" class="rt-btn rt-mini" title="Reducir tamaño" aria-label="Reducir tamaño" onclick="rtStepSize('${id}',-1)">−</button><input type="text" id="${id}_size" class="rt-size-input" value="16" inputmode="numeric" maxlength="3" title="Tamaño de letra (px)" aria-label="Tamaño de letra" onkeydown="if(event.key==='Enter'){event.preventDefault();rtSizeFromInput('${id}',this)}" onchange="if(this.dataset.last!==this.value)rtSizeFromInput('${id}',this)"><button type="button" class="rt-btn rt-mini" title="Aumentar tamaño" aria-label="Aumentar tamaño" onclick="rtStepSize('${id}',1)">+</button></div></div>
+<div class="rt-group">${b('bold',rtI('bold'),'Negrita (Ctrl+B)',`fmt('${id}','bold')`)}${b('italic',rtI('italic'),'Cursiva (Ctrl+I)',`fmt('${id}','italic')`)}${b('underline',rtI('underline'),'Subrayado (Ctrl+U)',`fmt('${id}','underline')`)}${b('strikeThrough',rtI('strike'),'Tachado',`fmt('${id}','strikeThrough')`)}${b('subscript','<span class="rt-txt">x<sub>2</sub></span>','Subíndice',`fmt('${id}','subscript')`)}${b('superscript','<span class="rt-txt">x<sup>2</sup></span>','Superíndice',`fmt('${id}','superscript')`)}${b('',rtI('code'),'Código en línea',`rtToggleCode('${id}')`,' data-code="1"')}
+<select class="rt-select rt-case" title="Mayúsculas y minúsculas" aria-label="Mayúsculas y minúsculas" onchange="rtCase('${id}',this.value);this.selectedIndex=0"><option value="">Aa</option><option value="uppercase">MAYÚSCULAS</option><option value="lowercase">minúsculas</option><option value="capitalize">Cada Palabra</option><option value="none">Sin cambios</option></select></div>
+<div class="rt-group">${split('fore','<span class="rt-A">A</span>','Color del texto','#c0392b')}${split('back',rtI('highlight'),'Resaltar texto','#fff200')}<button type="button" class="rt-btn" data-pop="stroke" title="Contorno de las letras" aria-label="Contorno de las letras" onclick="rtTogglePop(this,'${id}','stroke')"><span class="rt-A rt-A-out">A</span></button></div>
+<div class="rt-group">${b('justifyLeft',rtI('left'),'Alinear a la izquierda',`fmt('${id}','justifyLeft')`)}${b('justifyCenter',rtI('center'),'Centrar',`fmt('${id}','justifyCenter')`)}${b('justifyRight',rtI('right'),'Alinear a la derecha',`fmt('${id}','justifyRight')`)}${b('justifyFull',rtI('justify'),'Justificar',`fmt('${id}','justifyFull')`)}</div>
+<div class="rt-group">${b('insertUnorderedList',rtI('ul'),'Lista con viñetas',`rtList('${id}','ul')`)}${b('insertOrderedList',rtI('ol'),'Lista numerada',`rtList('${id}','ol')`)}${b('',rtI('outdent'),'Reducir sangría',`fmt('${id}','outdent')`)}${b('',rtI('indent'),'Aumentar sangría',`fmt('${id}','indent')`)}</div>
+<div class="rt-group"><button type="button" class="rt-btn" data-pop="link" title="Insertar o editar enlace (Ctrl+K)" aria-label="Enlace" onclick="rtTogglePop(this,'${id}','link')">${rtI('link')}</button><button type="button" class="rt-btn" data-pop="image" title="Insertar imagen por enlace" aria-label="Imagen" onclick="rtTogglePop(this,'${id}','image')">${rtI('image')}</button><button type="button" class="rt-btn" data-pop="table" title="Insertar tabla" aria-label="Tabla" onclick="rtTogglePop(this,'${id}','table')">${rtI('table')}</button>${b('',rtI('hr'),'Línea separadora',`fmt('${id}','insertHorizontalRule')`)}<button type="button" class="rt-btn" data-pop="emoji" title="Insertar emoji" aria-label="Emoji" onclick="rtTogglePop(this,'${id}','emoji')">${rtI('emoji')}</button></div>
+<div class="rt-group">${b('',rtI('eraser'),'Quitar formato',`clearRichFormatting('${id}')`)}<button type="button" class="rt-btn" data-keep="1" id="${id}_fullbtn" title="Pantalla completa" aria-label="Pantalla completa" onclick="rtToggleFull('${id}')">${rtI('max')}</button><button type="button" class="rt-btn rt-txtbtn" data-keep="1" title="Ver o editar el código HTML" aria-label="Código HTML" onclick="rtToggleSource('${id}')">HTML</button></div>`}
+function richEditor(id,value){
+rtEnsureFontsFromHtml(value);
+const clean=sanitizeRich(value);
+const empty=rtIsEmptyHtml(clean);
+const t=document.createElement('div');t.innerHTML=clean;const txt=(t.textContent||'').trim();
+const words=txt?txt.split(/\s+/).length:0;
+const pops=['fore','back','stroke','font','emoji','link','image','table'].map(n=>`<div class="rt-pop rt-pop-${n}" id="${id}_pop_${n}" onmousedown="rtPopDown(event)"></div>`).join('');
+const chip=(label,js,cls)=>`<button type="button" class="rt-chip${cls?' '+cls:''}" onclick="${js}">${label}</button>`;
+return `<div class="rich-wrap rt" id="${id}_wrap">
+<div class="rt-toolbar" id="${id}_tb" role="toolbar" aria-label="Herramientas de formato" onmousedown="rtTbDown(event)">${rtToolbarHTML(id)}</div>
+<div class="rt-subbar" id="${id}_tt" hidden onmousedown="rtTbDown(event)"><span class="rt-sublabel">Tabla</span>${chip('+ Fila arriba',`rtTable('${id}','rowAbove')`)}${chip('+ Fila abajo',`rtTable('${id}','rowBelow')`)}${chip('+ Columna izq.',`rtTable('${id}','colLeft')`)}${chip('+ Columna der.',`rtTable('${id}','colRight')`)}${chip('− Fila',`rtTable('${id}','delRow')`)}${chip('− Columna',`rtTable('${id}','delCol')`)}${chip('Fila de títulos',`rtTable('${id}','header')`)}${chip('Eliminar tabla',`rtTable('${id}','delTable')`,'rt-danger')}</div>
+<div class="rt-subbar" id="${id}_it" hidden onmousedown="rtTbDown(event)"><span class="rt-sublabel">Imagen</span>${chip('25%',`rtImgTool('${id}','width','25%')`)}${chip('50%',`rtImgTool('${id}','width','50%')`)}${chip('75%',`rtImgTool('${id}','width','75%')`)}${chip('100%',`rtImgTool('${id}','width','100%')`)}${chip('Original',`rtImgTool('${id}','width','')`)}<span class="rt-vsep"></span>${chip('En la línea',`rtImgTool('${id}','align','')`)}${chip('Izquierda',`rtImgTool('${id}','align','left')`)}${chip('Centro',`rtImgTool('${id}','align','center')`)}${chip('Derecha',`rtImgTool('${id}','align','right')`)}<input type="text" id="${id}_it_alt" class="rt-alt" placeholder="Texto alternativo" oninput="rtImgTool('${id}','alt',this.value)" onmousedown="event.stopPropagation()">${chip('Quitar imagen',`rtImgTool('${id}','remove')`,'rt-danger')}</div>
+<div class="rt-body" id="${id}_body"><div id="${id}" class="rich-editor" contenteditable="true" spellcheck="true" lang="es" role="textbox" aria-multiline="true" data-placeholder="Escribe aquí tu texto…" data-empty="${empty?1:0}" oninput="rtOnInput('${id}')" onpaste="rtOnPaste(event,'${id}')" onkeydown="rtOnKey(event,'${id}')" onclick="rtOnClick(event,'${id}')" onfocus="rtOnFocus('${id}')" onbeforeinput="rtOnBeforeInput(event,'${id}')" ondrop="rtOnDrop(event)" onscroll="rtPlaceFrame('${id}')">${clean}</div>
+<textarea id="${id}_src" class="rich-source" hidden spellcheck="false" aria-label="Código HTML" oninput="rtSrcInput('${id}')"></textarea><div class="rt-imgframe" id="${id}_imgframe" hidden></div></div>
+<div class="rt-status"><span id="${id}_count">${words+(words===1?' palabra':' palabras')} · ${txt.length} caracteres</span><span class="rt-hint">Ctrl+B negrita · Ctrl+I cursiva · Ctrl+K enlace</span></div>
+${pops}</div><div class="field-help">Selecciona el texto y usa la barra de herramientas. Puedes pegar desde Word o Google Docs: el formato se limpia automáticamente.</div>`}
 function imageUploadField(id,value){return `<div class="upload-box"><input id="${id}" type="file" accept="image/*" onchange="readImageFile(this,'${id}Preview')"><button type="button" class="btn btn-secondary" onclick="clearImage('${id}Preview','${id}')">Quitar</button></div><img id="${id}Preview" alt="" class="upload-preview" src="${esc(value||'')}" data-value="${esc(value||'')}" ${value?'':'style="display:none"'}><div id="${id}PreviewStatus" class="field-help"></div><div class="field-help">Selecciona una imagen directamente desde el dispositivo.</div>`}
 function compressImageFile(file,maxDim,quality,format){
 format=format||'jpeg';
