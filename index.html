@@ -731,7 +731,10 @@ body.skin-personalizado .home-rich-text{color:#000000}
 .rt-full .rt-status{border-radius:0}
 .rt-pop{display:none;position:fixed;z-index:520;background:#fff;border:1px solid #d6cfbd;border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.2);padding:12px;width:260px;max-width:calc(100vw - 20px);max-height:min(70vh,420px);overflow:auto;box-sizing:border-box}
 .rt-pop.open{display:block}
-.rt-pop-font{width:230px}
+.rt-pop-font{width:250px;max-height:min(75vh,480px)}
+.rt-pop [hidden]{display:none!important}
+.rt-fontsearch-wrap{position:sticky;top:-12px;margin:-12px -12px 6px;padding:12px 12px 8px;background:#fff;z-index:1;border-bottom:1px solid #eee3}
+.rt-pop .rt-fontsearch{width:100%;height:34px;padding:0 10px;font-size:13px;box-sizing:border-box}
 .rt-pop-emoji{width:300px}
 .rt-pop-link,.rt-pop-image,.rt-pop-table{width:300px}
 .rt-pop .rt-pop-title{margin:0 0 8px;font-weight:800;font-size:13px;color:#174f35}
@@ -786,6 +789,36 @@ body.skin-personalizado .home-rich-text{color:#000000}
 body[class*="skin-"] .home-rich-text h2,body[class*="skin-"] .faq div h2,body[class*="skin-"] .lead h2,body[class*="skin-"] .home-rich-text h3,body[class*="skin-"] .faq div h3,body[class*="skin-"] .lead h3,body[class*="skin-"] .home-rich-text h4,body[class*="skin-"] .faq div h4,body[class*="skin-"] .lead h4{font-family:inherit!important;color:inherit!important;text-shadow:none!important;letter-spacing:normal!important}
 .home-rich-text::after,.faq div::after,.lead::after{content:"";display:table;clear:both}
 body.skin-halloween .home-rich-text span[style*="font-weight: bold"]{color:#ffb066}
+/* ===== Pestaña Versión ===== */
+.admin-nav button.admin-tab-ver{background:#4a2c82;color:#fff}
+.admin-nav button.admin-tab-ver.active{background:#341d5e;color:#fff;box-shadow:inset 0 0 0 2px #fff}
+.ver-head{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin:6px 0 12px}
+.ver-current{display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap;background:#efe9fb;border:1px solid #d7cbf3;border-radius:12px;padding:9px 14px;font-size:13px;color:#4a3d6b}
+.ver-current b{font-size:22px;color:#4a2c82;line-height:1}
+.ver-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.ver-search{width:210px!important;height:38px;padding:0 12px!important;font-size:14px}
+.ver-item{border:1px solid #e1daf0;border-radius:14px;background:#fff;margin-bottom:10px;overflow:hidden}
+.ver-item[open]{border-color:#bcaee3;box-shadow:0 2px 10px rgba(74,44,130,.1)}
+.ver-item>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:13px 16px;flex-wrap:wrap}
+.ver-item>summary::-webkit-details-marker{display:none}
+.ver-item>summary:hover{background:#faf8fe}
+.ver-num{background:#4a2c82;color:#fff;border-radius:999px;padding:3px 12px;font-weight:800;font-size:14px;white-space:nowrap}
+.ver-title{flex:1;min-width:170px;font-weight:700;color:#2b2540}
+.ver-date{color:#6b6480;font-size:13px;white-space:nowrap}
+.ver-count{font-size:12px;color:#6b6480;white-space:nowrap}
+.ver-chev{color:#4a2c82;transition:transform .2s;flex:0 0 auto}
+.ver-item[open] .ver-chev{transform:rotate(180deg)}
+.ver-body{padding:2px 18px 14px;border-top:1px solid #efeaf8}
+.ver-body ul{list-style:none;margin:6px 0 0;padding:0}
+.ver-body li{display:flex;gap:10px;align-items:flex-start;padding:8px 0;line-height:1.5;border-bottom:1px dashed #ebe6f3;font-size:14px;color:#2b2540}
+.ver-body li:last-child{border-bottom:0}
+.ver-tag{flex:0 0 auto;min-width:84px;text-align:center;font-size:11px;font-weight:800;border-radius:999px;padding:3px 8px;margin-top:1px}
+.ver-tag.nuevo{background:#dcf3e4;color:#116b3a}
+.ver-tag.mejora{background:#dbe9fb;color:#1c4f93}
+.ver-tag.fix{background:#fde6d3;color:#9a4a00}
+.ver-tag.info{background:#ece8f5;color:#4a2c82}
+.ver-approx{font-size:11px;background:#f3f0e6;color:#7a6f45;border-radius:6px;padding:1px 6px;margin-left:4px}
+@media(max-width:700px){.ver-search{width:100%!important}.ver-tools{width:100%}.ver-body li{flex-direction:column;gap:4px}.ver-tag{min-width:0}.ver-item>summary{padding:12px}}
 </style>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -1717,7 +1750,7 @@ if(btn){btn.disabled=false;btn.textContent='Entrar'}
 });
 }
 function logoutAdmin(){fbAuth.signOut();adminLogged=false;currentAdminUser=null;goToPublicSite()}
-function adminTab(tab){if(tab==='acceso'&&!(currentAdminUser&&currentAdminUser.canManageAccess))return;currentAdminTab=tab;renderAdmin()}
+function adminTab(tab){if(tab==='acceso'&&!(currentAdminUser&&currentAdminUser.canManageAccess))return;if(tab==='version'&&!(currentAdminUser&&currentAdminUser.locked))return;currentAdminTab=tab;renderAdmin()}
 function renderAdminNav(){
 const nav=document.querySelector('#admin .admin-nav');
 if(!nav)return;
@@ -1749,6 +1782,7 @@ return `<button class="${cls}${currentAdminTab===key?' active':''}" onclick="adm
 }).join('');
 h+=`<button class="admin-tab-c4${currentAdminTab==='acceso'?' active':''}" onclick="adminTab('acceso')" data-tab="acceso">Acceso</button>`;
 h+=`<button class="admin-tab-warn${currentAdminTab==='almacenamiento'?' active':''}" onclick="adminTab('almacenamiento')" data-tab="almacenamiento">Almacenamiento</button>`;
+h+=`<button class="admin-tab-ver${currentAdminTab==='version'?' active':''}" onclick="adminTab('version')" data-tab="version">Versión</button>`;
 nav.innerHTML=h;
 const canAccess=currentAdminUser&&currentAdminUser.canManageAccess;
 const btn=nav.querySelector('[data-tab="acceso"]');
@@ -1756,6 +1790,8 @@ if(btn)btn.style.display=canAccess?'':'none';
 const isProtected=currentAdminUser&&currentAdminUser.locked;
 const storageBtn=nav.querySelector('[data-tab="almacenamiento"]');
 if(storageBtn)storageBtn.style.display=isProtected?'':'none';
+const verBtn=nav.querySelector('[data-tab="version"]');
+if(verBtn)verBtn.style.display=isProtected?'':'none';
 }
 const RT_PALETTE=['#000000','#4d4d4d','#8a8a8a','#c0392b','#e0729a','#ff7518','#f2a541','#f7c600','#4fa662','#174f35','#0b8fa3','#3a8fc7','#8c1c24','#3d1f5c','#ffffff'];
 function cwpHsvToRgb(h,s,v){
@@ -1944,11 +1980,15 @@ const RT_COLORS=['#000000','#343a40','#6c757d','#adb5bd','#dee2e6','#ffffff','#7
 '#0b8fa3','#26a69a','#4fa662','#8bc34a','#174f35','#0b3d25','#556b2f','#8d6e63',
 '#8c1c24','#b71c1c','#e91e63','#ff9a3c','#795548','#607d8b','#00695c','#1565c0'];
 const RT_FONT_GROUPS=[
-['Sistema',['Arial','Georgia','Verdana','Trebuchet MS','Courier New']],
-['Modernas',['Roboto','Open Sans','Lato','Montserrat','Poppins','Raleway','Nunito','Quicksand','Comfortaa','Baloo 2']],
-['Con serifa',['Merriweather','Playfair Display']],
-['Destacadas',['Oswald','Bebas Neue','Fjalla One','Titan One']],
-['Manuscritas y decorativas',['Patrick Hand','Caveat','Pacifico','Grand Hotel','Creepster','Berkshire Swash','Rochester','Send Flowers','Dancing Script','Averia Serif Libre','Original Surfer','Parisienne','Cinzel','Marck Script','Almendra']]
+['Sistema (se ven en todos los dispositivos)',['Arial','Georgia','Verdana','Trebuchet MS','Tahoma','Times New Roman','Courier New','Comic Sans MS']],
+['Modernas y de lectura fácil',['Roboto','Open Sans','Lato','Montserrat','Poppins','Raleway','Nunito','Inter','Work Sans','Fira Sans','Noto Sans','PT Sans','Rubik','Karla','Barlow','Mulish','DM Sans','Ubuntu','Cabin','Archivo','Josefin Sans','Exo 2','Quicksand','Comfortaa','Baloo 2']],
+['Con serifa (clásicas)',['Merriweather','Playfair Display','Lora','Noto Serif','PT Serif','Libre Baskerville','EB Garamond','Crimson Text','Bitter','Arvo']],
+['Titulares y llamativas',['Oswald','Bebas Neue','Fjalla One','Anton','Staatliches','Russo One','Passion One','Bungee','Fugaz One','Chango','Black Ops One','Titan One','Abril Fatface','Alfa Slab One','Righteous','Luckiest Guy','Bangers']],
+['Manuscritas y caligráficas',['Patrick Hand','Caveat','Caveat Brush','Dancing Script','Pacifico','Parisienne','Marck Script','Grand Hotel','Rochester','Send Flowers','Satisfy','Great Vibes','Sacramento','Kaushan Script','Courgette','Cookie','Yellowtail','Lobster','Lobster Two','Merienda','Indie Flower','Shadows Into Light','Gloria Hallelujah','Architects Daughter','Handlee','Kalam','Gochi Hand','Permanent Marker','Rock Salt','Homemade Apple','Reenie Beanie','Zeyada']],
+['Divertidas e infantiles',['Fredoka','Chewy','Amatic SC','Original Surfer','Berkshire Swash','Averia Serif Libre']],
+['Aventura, medievales y rústicas',['Cinzel','Cinzel Decorative','Almendra','Pirata One','MedievalSharp','Uncial Antiqua','Metamorphous','IM Fell English','Rye','Sancreek']],
+['Halloween y terror',['Creepster','Nosifer','Eater','Butcherman','Metal Mania','Frijole','Henny Penny','Fontdiner Swanky']],
+['Máquina de escribir, código y retro',['Special Elite','Courier Prime','Space Mono','Share Tech Mono','VT323','Press Start 2P','Orbitron','Audiowide','Monoton']]
 ];
 const RT_ALL_FONTS=[].concat(...RT_FONT_GROUPS.map(g=>g[1]));
 const RT_SIZES=[10,11,12,13,14,15,16,18,20,22,24,28,32,36,42,48,60,72];
@@ -2331,7 +2371,21 @@ const n=cells[back?Math.max(0,i-1):i+1];if(n)rtPlaceCaret(n)}
 /* ---- Emojis y fuentes ---- */
 function rtEmojiPopHTML(id){return RT_EMOJI.map(g=>`<p class="rt-label">${g[0]}</p><div class="rt-emoji-grid">${g[1].map(e=>`<button type="button" class="rt-emoji" onclick="rtInsertEmoji('${id}','${e}')">${e}</button>`).join('')}</div>`).join('')}
 function rtInsertEmoji(id,e){rtRestore(id);document.execCommand('insertText',false,e);rtAfter(id)}
-function rtFontPopHTML(id){return `<button type="button" class="rt-fontitem" onclick="rtSetFont('${id}','')">Predeterminada</button>`+RT_FONT_GROUPS.map(g=>`<p class="rt-label">${g[0]}</p>`+g[1].map(f=>`<button type="button" class="rt-fontitem" style="font-family:'${f}',sans-serif" onclick="rtSetFont('${id}','${f}')">${f}</button>`).join('')).join('')}
+function rtFontPopHTML(id){return `<div class="rt-fontsearch-wrap"><input type="text" class="rt-fontsearch" placeholder="Buscar tipo de letra…" autocomplete="off" aria-label="Buscar tipo de letra" oninput="rtFilterFonts(this)"></div><button type="button" class="rt-fontitem" data-name="predeterminada" onclick="rtSetFont('${id}','')">Predeterminada</button>`+RT_FONT_GROUPS.map(g=>`<p class="rt-label" data-group="1">${g[0]}</p>`+g[1].map(f=>`<button type="button" class="rt-fontitem" data-font="${f}" data-name="${f.toLowerCase()}" style="font-family:'${f}',sans-serif" onclick="rtSetFont('${id}','${f}')">${f}</button>`).join('')).join('')+'<p class="rt-label rt-nofont" hidden>No hay ninguna fuente con ese nombre</p>'}
+function rtFilterFonts(inp){
+const q=inp.value.trim().toLowerCase(),pop=inp.closest('.rt-pop');let any=false,label=null,has=false;
+[...pop.children].forEach(el=>{
+if(el.classList.contains('rt-fontsearch-wrap')||el.classList.contains('rt-nofont'))return;
+if(el.dataset.group){if(label)label.hidden=!has;label=el;has=false;return}
+const show=!q||el.dataset.name.includes(q);el.hidden=!show;if(show){has=true;any=true}});
+if(label)label.hidden=!has;
+const nf=pop.querySelector('.rt-nofont');if(nf)nf.hidden=any}
+function rtObserveFonts(pop){
+if(pop.dataset.obs)return;pop.dataset.obs='1';
+const items=[...pop.querySelectorAll('.rt-fontitem[data-font]')];
+if(!('IntersectionObserver' in window)){ensureGoogleFontsLoaded(items.slice(0,24).map(i=>i.dataset.font));return}
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){try{ensureGoogleFontsLoaded([e.target.dataset.font])}catch(x){}io.unobserve(e.target)}})},{root:pop,rootMargin:'120px'});
+items.forEach(i=>io.observe(i))}
 
 /* ---- Ventanas desplegables ---- */
 function rtPopHTML(id,name){
@@ -2358,9 +2412,9 @@ rtSaveRange(id);
 if(!pop.dataset.built){pop.innerHTML=rtPopHTML(id,name);pop.dataset.built='1'}
 if(name==='fore'||name==='back'||name==='stroke')rtRenderRecent(id,name);
 if(name==='link')rtLinkPrefill(id);
-if(name==='font')try{ensureGoogleFontsLoaded(RT_ALL_FONTS)}catch(e){}
 pop.classList.add('open');
 rtPlace(pop,btn);
+if(name==='font'){const si=pop.querySelector('.rt-fontsearch');if(si&&si.value){si.value='';rtFilterFonts(si)}pop.scrollTop=0;rtObserveFonts(pop);if(si&&!('ontouchstart' in window))setTimeout(()=>si.focus(),30)}
 if(name==='image'||name==='table'){const f=pop.querySelector('input');if(f)setTimeout(()=>f.focus(),30)}}
 function rtPopDown(e){if(!e.target.closest('input,select,textarea,label'))e.preventDefault()}
 function rtTbDown(e){if(e.target.closest('button'))e.preventDefault()}
@@ -2970,18 +3024,19 @@ otono:{label:'Otoño',previewColor:'#fbf4ec',previewImage:'https://raw.githubuse
 invierno:{label:'Invierno',previewColor:'#f2f8fc',previewImage:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/invierno-bg.jpg',footerLogo:'https://raw.githubusercontent.com/xbc76/grupo-scout/main/skin-assets/invierno-logo.jpg'}
 };
 const SKIN_BASE_FONTS={halloween:'Creepster',navidad:'Grand Hotel'};
-const GOOGLE_FONT_BOLD_FAMILIES=new Set(['Roboto','Open Sans','Lato','Montserrat','Poppins','Merriweather','Playfair Display','Oswald','Raleway','Nunito','Quicksand','Comfortaa','Baloo 2','Caveat','Dancing Script','Cinzel','Almendra']);
-const SYSTEM_FONT_FAMILIES=new Set(['Arial','Georgia','Verdana','Trebuchet MS','Courier New']);
+const GOOGLE_FONT_BOLD_FAMILIES=new Set(['Roboto','Open Sans','Lato','Montserrat','Poppins','Merriweather','Playfair Display','Oswald','Raleway','Nunito','Quicksand','Comfortaa','Baloo 2','Caveat','Dancing Script','Cinzel','Almendra','Inter','Work Sans','Fira Sans','Noto Sans','PT Sans','Josefin Sans','Rubik','Karla','Barlow','Mulish','DM Sans','Ubuntu','Cabin','Exo 2','Archivo','Lora','Noto Serif','PT Serif','Libre Baskerville','EB Garamond','Crimson Text','Bitter','Arvo','Fredoka','Amatic SC','Kalam','Lobster Two','Cinzel Decorative','Space Mono','Courier Prime','Orbitron','Merienda','Passion One']);
+const SYSTEM_FONT_FAMILIES=new Set(['Arial','Georgia','Verdana','Trebuchet MS','Courier New','Tahoma','Times New Roman','Comic Sans MS']);
 const _loadedGoogleFonts=new Set();
 function ensureGoogleFontsLoaded(families){
-const toLoad=(families||[]).filter(f=>f&&!SYSTEM_FONT_FAMILIES.has(f)&&!_loadedGoogleFonts.has(f));
-if(!toLoad.length)return;
-toLoad.forEach(f=>_loadedGoogleFonts.add(f));
-const params=toLoad.map(f=>'family='+f.trim().split(/\s+/).join('+')+(GOOGLE_FONT_BOLD_FAMILIES.has(f)?':wght@400;700':'')).join('&');
-const link=document.createElement('link');
-link.rel='stylesheet';
-link.href='https://fonts.googleapis.com/css2?'+params+'&display=swap';
-document.head.appendChild(link);
+(families||[]).forEach(f=>{
+if(!f||SYSTEM_FONT_FAMILIES.has(f)||_loadedGoogleFonts.has(f))return;
+_loadedGoogleFonts.add(f);
+const slug=f.trim().split(/\s+/).join('+');
+const add=spec=>{const link=document.createElement('link');link.rel='stylesheet';link.href='https://fonts.googleapis.com/css2?family='+slug+spec+'&display=swap';document.head.appendChild(link);return link};
+const bold=GOOGLE_FONT_BOLD_FAMILIES.has(f);
+const l=add(bold?':wght@400;700':'');
+if(bold)l.onerror=()=>{l.onerror=null;l.remove();add('')};
+});
 }
 function applySkin(skinKey){
 const key=SKIN_DEFS[skinKey]?skinKey:'personalizado';
@@ -3132,7 +3187,34 @@ else if(currentAdminTab==='almacenamiento'){
 if(currentAdminUser&&currentAdminUser.locked){c.innerHTML=renderAlmacenamientoPanel();loadGithubConfigIntoForm();}
 else{c.innerHTML='<div class="admin-panel"><p class="muted">No tienes permiso para ver esta sección.</p></div>';}
 }
+else if(currentAdminTab==='version'){
+if(currentAdminUser&&currentAdminUser.locked){c.innerHTML=renderVersionPanel();}
+else{c.innerHTML='<div class="admin-panel"><p class="muted">No tienes permiso para ver esta sección.</p></div>';}
+}
 else c.innerHTML=renderAccesoPanel();}
+/* ====== HISTORIAL DE VERSIONES (pestaña «Versión») ====== */
+const APP_VERSIONS=[{"v":"3.3","d":"16/11/2026","ap":0,"t":"Nueva pestaña «Versión»","c":[["nuevo","Pestaña «Versión» en Administración: historial de versiones desplegable, con el número, la fecha y los cambios de cada una."],["nuevo","Solo la cuenta propietaria puede verla (mismos permisos que «Almacenamiento»); ningún otro administrador la ve."],["nuevo","Buscador por palabra y botones para desplegar o recoger todas las versiones."],["info","Las versiones anteriores se han reconstruido a partir del historial de trabajo y de la fecha de los archivos conservados. Las fechas marcadas «aprox.» son estimaciones."]]},{"v":"3.2","d":"13/11/2026","ap":0,"t":"Más tipos de letra en los skins","c":[["mejora","La lista de tipos de letra para los títulos y subtítulos de cada skin pasa de 35 a 125 fuentes, ordenadas en las mismas 9 categorías que el editor de texto."],["mejora","Es la misma lista que usa el editor: si se amplía una, se amplía la otra."],["info","Las fuentes que ya tenías elegidas en los skins se mantienen."]]},{"v":"3.1","d":"06/11/2026","ap":1,"t":"125 tipos de letra en el editor","c":[["nuevo","125 tipos de letra (antes 35), en 9 categorías: Sistema, Modernas, Con serifa, Titulares, Manuscritas, Divertidas, Aventura y medievales, Halloween y terror, y Máquina de escribir y retro."],["nuevo","Buscador dentro de la lista y cada fuente escrita con su propio estilo."],["nuevo","Tahoma, Times New Roman y Comic Sans MS como fuentes de sistema (se ven en cualquier dispositivo)."],["mejora","Solo se descargan las fuentes que se ven en pantalla, no las 125 de golpe; cada fuente se pide por separado y, si falla, se reintenta."]]},{"v":"3.0","d":"Entre octubre y noviembre de 2026","ap":1,"t":"Editor de texto rediseñado","c":[["nuevo","Barra de herramientas moderna con iconos agrupados, que marca el formato del texto donde está el cursor; en el móvil se reparte en varias filas."],["nuevo","Estilos de párrafo (título grande, mediano y pequeño, cita y código), tamaño de letra en píxeles con botones − y +, tipo de letra, subíndice, superíndice, código en línea y mayúsculas o minúsculas."],["nuevo","Colores: aplicación rápida del último color usado, paleta de 40 colores, colores recientes y selector libre; resaltado y contorno de las letras."],["nuevo","Alineación (con justificado), listas con viñetas y numeradas, y sangrías."],["nuevo","Enlaces con ventana propia (texto, dirección, correo o teléfono y pestaña nueva), tablas con sus herramientas, imágenes por enlace, línea separadora y emojis."],["nuevo","Pegado limpio desde Word y Google Docs, deshacer y rehacer propios, ver y editar el código HTML, pantalla completa, contador de palabras y atajos de teclado."],["fix","Las listas ya no se rompen con varios párrafos y, al quitar la viñeta, solo cambia el elemento seleccionado."],["fix","Las fuentes elegidas dentro de un texto se cargan también para los visitantes (con la optimización de la v1.8 podían no cargarse)."],["mejora","«Quitar formato» solo afecta al texto seleccionado, y escribir en un editor vacío crea párrafos."]]},{"v":"2.5","d":"14/10/2026","ap":1,"t":"Color de los enlaces","c":[["fix","Se puede cambiar el color del texto de un enlace: los botones de la barra de formato ya no hacen perder la selección del texto."],["mejora","El mismo arreglo hace más fiables el resto de botones de formato (colores, negrita, listas…)."]]},{"v":"2.4","d":"Octubre de 2026","ap":1,"t":"Visor de fotos y botón «atrás»","c":[["fix","Al pulsar fuera de una foto ampliada solo se cierra el visor y se queda abierta la ficha de la acampada (antes se salía a la galería)."],["mejora","El botón «atrás» del móvil cierra primero el visor y, después, la ficha."]]},{"v":"2.3","d":"Octubre de 2026","ap":1,"t":"Enlaces con texto personalizado","c":[["nuevo","Al insertar un enlace en un texto se puede elegir el texto que se ve (por ejemplo «Más información») y la dirección a la que lleva."],["mejora","Los enlaces creados desde el editor se abren en una pestaña nueva."]]},{"v":"2.2","d":"02/10/2026","ap":0,"t":"Casillas de verificación","c":[["fix","La casilla «Mostrar el icono de reproducir encima de la imagen» (y cualquier otra casilla del panel) vuelve a tener su tamaño normal; antes ocupaba todo el ancho."]]},{"v":"2.1","d":"01/10/2026","ap":1,"t":"Juegos: 16:9 y tipografía del título","c":[["fix","Los banners de Juegos miden siempre 16:9 en ordenador, tablet y móvil (unas reglas antiguas les forzaban una altura fija)."],["fix","El título de Juegos cambia con la tipografía y el color elegidos en la personalización del skin."]]},{"v":"2.0","d":"30/09/2026","ap":1,"t":"Nueva pestaña «Juegos»","c":[["nuevo","Pestaña «Juegos» en la web con banners 16:9 que, al pulsarlos, abren una dirección web en una pestaña nueva."],["nuevo","En Administración: añadir, editar, reordenar y eliminar banners (imagen y dirección web); la imagen se aloja en GitHub como el resto."],["nuevo","Elección de 1, 2, 3 o 4 columnas (la opción de 1 columna es exclusiva de Juegos)."],["mejora","Título y texto de introducción editables desde «Textos»; se puede ocultar o reordenar desde «Menú»; sus visitas aparecen en «Estadísticas»."]]},{"v":"1.26","d":"29/09/2026","ap":0,"t":"Vídeo y fotos del mismo tamaño","c":[["mejora","En ordenador, el banner del vídeo y las fotos de la galería tienen la misma proporción 16:9 y el mismo tamaño."],["mejora","En móvil el vídeo sigue como banner ancho."]]},{"v":"1.25","d":"28/09/2026","ap":1,"t":"Visor de fotos con flechas","c":[["nuevo","Flechas anterior y siguiente, contador (por ejemplo 2 / 5) y teclado (← →, Esc) en el visor de fotos."],["fix","Pulsar la foto ya no cierra el visor; se cierra pulsando fuera o con la ✕."],["mejora","Botones de navegación y de cierre más visibles (círculo oscuro con borde blanco)."]]},{"v":"1.24","d":"28/09/2026","ap":1,"t":"Limpieza interna","c":[["fix","Un visor de fotos antiguo y duplicado interceptaba los clics de la galería (era el causante del visor «raro» con flechas que salía al pulsar los vídeos); eliminado."],["mejora","Eliminados estilos y funciones que ya no se usaban y un proceso que se ejecutaba cada segundo sin hacer nada."]]},{"v":"1.23","d":"28/09/2026","ap":0,"t":"Contador de mensajes en móvil","c":[["fix","En el móvil, el contador rojo ya no tapa el texto de la pestaña «Mensajes»."]]},{"v":"1.22","d":"27/09/2026","ap":0,"t":"Mensajes sin leer","c":[["nuevo","Rectángulo rojo con el número de mensajes sin leer en la pestaña «Mensajes» de Administración."],["mejora","Se actualiza en tiempo real y solo baja al abrir cada mensaje (no por abrir la pestaña)."]]},{"v":"1.21","d":"27/09/2026","ap":0,"t":"Imagen propia por vídeo","c":[["nuevo","Cada vídeo de una acampada tiene un desplegable «Opciones» para subir su propia imagen de banner (se aloja en GitHub)."],["nuevo","Opción de mostrar u ocultar el icono de reproducir encima de la imagen."],["mejora","Regla de imagen del banner, igual para YouTube, Vimeo y TikTok: imagen propia → imagen genérica → miniatura del propio vídeo (YouTube) → fondo oscuro."]]},{"v":"1.20","d":"27/09/2026","ap":0,"t":"Banner de vídeo en 16:9","c":[["mejora","El vídeo de la galería se muestra en formato 16:9."],["mejora","Si el vídeo tiene imagen, ya no se superponen el icono ni la palabra «VÍDEO»."],["mejora","En móvil el vídeo ocupa todo el ancho; en ordenador, el mismo tamaño que las fotos."]]},{"v":"1.19","d":"27/09/2026","ap":0,"t":"Imagen genérica para los vídeos","c":[["nuevo","En Administración → Galería, un campo para subir una imagen de fondo que se usa en los vídeos sin miniatura propia (Vimeo y TikTok)."],["mejora","La imagen se aloja en GitHub, así que no pesa en el archivo de la web."]]},{"v":"1.18","d":"26/09/2026","ap":0,"t":"Formulario sin datos personales por correo","c":[["mejora","El correo de aviso del formulario solo informa de que ha llegado una solicitud (con la fecha), sin nombre, teléfono, edad ni mensaje."],["info","Los datos completos se consultan en Administración → Mensajes. La plantilla del correo en EmailJS se modificó a mano en su propia página."]]},{"v":"1.17","d":"26/09/2026","ap":0,"t":"Cookies y contador de visitas","c":[["fix","El contador de visitas solo cuenta cuando el visitante pulsa «Aceptar»; si no elige nada o rechaza, no se cuenta."],["info","Se entregaron aparte, como archivo, los textos de Aviso legal, Política de privacidad y Política de cookies."]]},{"v":"1.16","d":"25/09/2026","ap":0,"t":"Móvil: cerrar vídeos y fichas","c":[["nuevo","Botón ✕ visible en la ventana de vídeos e imágenes ampliadas."],["mejora","El botón «atrás» del móvil cierra el vídeo, la imagen o la ficha en vez de salir de la web."]]},{"v":"1.15","d":"25/09/2026","ap":0,"t":"Negrita y color","c":[["fix","Aplicar negrita después de poner color (o al revés) ya no hace perder el color del texto."]]},{"v":"1.14","d":"25/09/2026","ap":0,"t":"Texto gris en Inicio y páginas","c":[["fix","Causa real del texto grisáceo en Inicio y en las páginas de texto: una regla antigua de la web lo forzaba en todos los skins. Ahora es negro por defecto y blanco en Halloween."],["mejora","Sombra del texto más fina en Halloween para que el blanco se vea limpio."]]},{"v":"1.13","d":"24/09/2026","ap":0,"t":"Halloween: blanco y «Limpiar formato»","c":[["mejora","El texto sin formato del skin Halloween es blanco puro (antes blanco crema)."],["fix","«Limpiar formato» elimina de verdad los colores y estilos residuales del texto."]]},{"v":"1.12","d":"24/09/2026","ap":0,"t":"Colores propios en Halloween","c":[["fix","En el skin Halloween, los textos de Inicio, páginas, aviso legal y formulario respetan el color que elijas en el editor (antes se forzaba siempre el mismo)."],["mejora","Si no eliges color, el texto se ve legible por defecto: negro en los demás skins y claro en Halloween."]]},{"v":"1.11","d":"24/09/2026","ap":0,"t":"Vídeos: reproducción automática","c":[["fix","Los vídeos empiezan a reproducirse al abrir la ventana (antes quedaba parada la miniatura de YouTube)."],["fix","La miniatura del vídeo pasa a ser un fondo de imagen para que no la intercepten visores de imágenes del navegador."],["info","El «Error 153» de YouTube solo aparece al abrir el archivo desde el ordenador (sin dirección web); en la web publicada funciona."]]},{"v":"1.10","d":"24/09/2026","ap":0,"t":"Fechas de inicio y de fin","c":[["nuevo","Las acampadas tienen fecha de inicio y de finalización, como la Agenda."],["mejora","Cuando hay inicio y fin se muestra «Desde … hasta …» en Agenda y Acampadas (fichas, ventanas y listas del panel)."]]},{"v":"1.9","d":"24/09/2026","ap":0,"t":"Vídeos en las acampadas","c":[["nuevo","Los vídeos de YouTube, Vimeo y TikTok aparecen como una miniatura más de la galería de la acampada, siempre las primeras, con icono de reproducción."],["nuevo","Al pulsar la miniatura el vídeo se abre en una ventana y se detiene al cerrarla."],["nuevo","Cada acampada puede tener varios vídeos (botón «+ Añadir otro vídeo»)."],["mejora","Los vídeos que ya estaban guardados se convierten automáticamente al nuevo formato."]]},{"v":"1.8","d":"24/09/2026","ap":0,"t":"Revisión general y 6 mejoras","c":[["mejora","Los documentos (PDF, Word, Excel…) también se suben a GitHub y se borran de allí al eliminarlos; ya no consumen el límite de espacio de la web."],["fix","Las fotos verticales hechas con el móvil ya no salen giradas."],["mejora","Limpiador de textos más robusto frente a código malicioso."],["fix","Si subes una imagen justo al iniciar sesión, se espera a que cargue la configuración de GitHub (antes podía guardarse dentro de la web)."],["mejora","Las tipografías de Google se cargan bajo demanda (solo las del skin activo), con lo que la web carga más rápido."],["mejora","Texto alternativo en las imágenes visibles (accesibilidad y buscadores)."]]},{"v":"1.7","d":"24/09/2026","ap":0,"t":"Reiniciar el contador de visitas","c":[["nuevo","Botón «Reiniciar contador de visitas» en Estadísticas (pide confirmación)."]]},{"v":"1.6","d":"24/09/2026","ap":0,"t":"Barras de espacio en Estadísticas","c":[["nuevo","El espacio usado (Firebase y GitHub) se muestra como una barra de progreso de lado a lado, con el porcentaje."],["nuevo","La barra de Firebase se despliega para ver lo que ocupa cada sección; la de GitHub, el desglose por tipo de imagen."]]},{"v":"1.5","d":"24/09/2026","ap":0,"t":"Imágenes y GitHub en todas las secciones","c":[["mejora","Revisadas todas las secciones: cualquier imagen que se sube va a GitHub y se borra de GitHub al quitarla, sustituirla o eliminar la ficha."],["fix","Si borras una imagen mientras se está subiendo, ya no queda suelta en el repositorio (imágenes, logos y fondos de skins, y galería)."]]},{"v":"1.4","d":"24/09/2026","ap":0,"t":"Subida de varias fotos a la vez","c":[["fix","Al subir varias fotos a la vez a la galería, las subidas a GitHub se hacen una tras otra y dejan de fallar."]]},{"v":"1.3","d":"24/09/2026","ap":0,"t":"Línea amarilla en la introducción","c":[["fix","Desaparece la línea amarilla que salía a la izquierda del texto de introducción de la Galería; las citas se ven como texto normal."]]},{"v":"1.2","d":"24/09/2026","ap":0,"t":"Texto de introducción de la Galería","c":[["fix","El texto bajo el título de la Galería empezaba más a la derecha que el título; ahora queda alineado a la izquierda."],["mejora","El mismo arreglo se aplica a las introducciones de Agenda, Scouters, Descargas, FAQ y Secciones."]]},{"v":"1.1","d":"23/09/2026","ap":0,"t":"Primeros ajustes","c":[["fix","Skin Halloween: el texto de las pestañas del menú (Agenda, Galería, Secciones, Scouters, Descargas y FAQ) se ve sobre el fondo oscuro."],["fix","El texto que se escribe en el editor sale en negro por defecto, no en gris."],["nuevo","Agenda: los eventos que ya han pasado se muestran con la imagen en gris y la ficha atenuada."]]},{"v":"1.0","d":"23/09/2026","ap":0,"t":"Punto de partida","c":[["info","Archivo original recibido, base de todos los cambios posteriores."],["info","Incluía la web pública (Inicio, Grupo, Valores, Agenda, Galería, Secciones, Scouters, Descargas, FAQ y Formulario), los skins (Halloween, Navidad, Primavera, Verano, Otoño, Invierno y Personalizado) y el banner de cookies."],["info","Y el panel de administración con Textos, Agenda, Galería, Scouters, Secciones, Descargas, FAQ, Mensajes, Notificación, Estadísticas, Menú, Datos, Colaboradores, Skins, Acceso y Almacenamiento, con sincronización en Firebase, imágenes en GitHub y formulario por EmailJS."]]}];
+function renderVersionPanel(){
+const tag={nuevo:'Nuevo',mejora:'Mejora',fix:'Corrección',info:'Información'};
+const last=APP_VERSIONS[0];
+const chev='<svg class="ver-chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>';
+const items=APP_VERSIONS.map(x=>{
+const search=(x.v+' '+x.d+' '+x.t+' '+x.c.map(c=>c[1]).join(' ')).toLowerCase();
+const n=x.c.length;
+return `<details class="ver-item" data-search="${esc(search)}"><summary><span class="ver-num">v${esc(x.v)}</span><span class="ver-title">${esc(x.t)}</span><span class="ver-date">${esc(x.d)}${x.ap?' <span class="ver-approx" title="Fecha reconstruida a partir del historial de trabajo">aprox.</span>':''}</span><span class="ver-count">${n} ${n===1?'cambio':'cambios'}</span>${chev}</summary><div class="ver-body"><ul>${x.c.map(c=>`<li><span class="ver-tag ${c[0]}">${tag[c[0]]||''}</span><span>${esc(c[1])}</span></li>`).join('')}</ul></div></details>`}).join('');
+return `<div class="admin-panel"><h3>Versión</h3>
+<p class="field-help">Historial de cambios de la web. Pulsa una versión para ver lo que se cambió en ella. Esta pestaña solo la ve la cuenta propietaria.</p>
+<div class="ver-head"><div class="ver-current"><span>Versión actual</span><b>v${esc(last.v)}</b><span class="ver-date">${esc(last.d)}</span></div>
+<div class="ver-tools"><input type="text" class="ver-search" placeholder="Buscar en los cambios…" aria-label="Buscar en los cambios" oninput="verFilter(this)"><button type="button" class="btn btn-secondary" onclick="verToggleAll(true)">Desplegar todas</button><button type="button" class="btn btn-secondary" onclick="verToggleAll(false)">Recoger todas</button></div></div>
+<p class="small muted" style="margin:0 0 10px">${APP_VERSIONS.length} versiones registradas · de la más reciente a la más antigua</p>
+<div id="verList">${items}</div>
+<p id="verEmpty" class="muted" hidden>No hay ningún cambio con esa palabra.</p>
+<p class="field-help" style="margin-top:14px">Las versiones anteriores a esta pestaña se han reconstruido a partir del historial de trabajo y de la fecha de los archivos conservados; las fechas marcadas «aprox.» son estimaciones.</p></div>`}
+function verFilter(inp){
+const q=inp.value.trim().toLowerCase();let n=0;
+document.querySelectorAll('#verList .ver-item').forEach(el=>{const ok=!q||el.dataset.search.includes(q);el.hidden=!ok;if(ok)n++;if(q)el.open=ok});
+const e=document.getElementById('verEmpty');if(e)e.hidden=n>0}
+function verToggleAll(open){document.querySelectorAll('#verList .ver-item').forEach(el=>{if(!el.hidden)el.open=open})}
 function addAdminUser(){
 openModal(`<div><h2>Nuevo administrador</h2><p class="field-help">Se creará una cuenta de acceso real (Firebase). La contraseña que pongas aquí será la que use esa persona para entrar.</p><label>Nombre</label><input id="newAdminName"><label>Correo</label><input id="newAdminEmail" type="email"><label>Contraseña (mínimo 6 caracteres)</label><input id="newAdminPass" type="text"><label class="access-toggle" style="margin-top:14px"><input type="checkbox" id="newAdminManage"> Puede gestionar el acceso</label><div style="margin-top:18px"><button class="btn btn-primary" id="createAdminBtn" onclick="createAdminUser()">Crear administrador</button></div></div>`);
 }
@@ -3229,12 +3311,7 @@ const custom=data.settings.skinCustomizations[key]||{bgImage:'',logo:'',navColor
 const hasCustom=!!(custom.bgImage||custom.logo||custom.navColor||custom.footerColor||custom.bgColor||custom.titleEnabled||custom.titleFont||custom.titleSize||custom.titleBold||custom.titleUnderline||custom.titleColor||custom.titleStroke||custom.subEnabled||custom.subFont||custom.subSize||custom.subBold||custom.subUnderline||custom.subColor||custom.subStroke);
 const bgInitial=custom.bgImage==='__REMOVED__'?'':(custom.bgImage||def.previewImage||'');
 const logoInitial=custom.logo==='__REMOVED__'?'':(custom.logo||def.footerLogo||'');
-const fontOptions=`<option value="">(el del skin)</option>
-<optgroup label="Sistema"><option>Arial</option><option>Georgia</option><option>Verdana</option><option>Trebuchet MS</option><option>Courier New</option></optgroup>
-<optgroup label="Modernas"><option>Roboto</option><option>Open Sans</option><option>Lato</option><option>Montserrat</option><option>Poppins</option><option>Raleway</option><option>Nunito</option><option>Quicksand</option><option>Comfortaa</option><option>Baloo 2</option></optgroup>
-<optgroup label="Con serifa"><option>Merriweather</option><option>Playfair Display</option></optgroup>
-<optgroup label="Destacadas"><option>Oswald</option><option>Bebas Neue</option><option>Fjalla One</option><option>Titan One</option></optgroup>
-<optgroup label="Manuscritas y decorativas"><option>Patrick Hand</option><option>Caveat</option><option>Pacifico</option><option>Grand Hotel</option><option>Creepster</option><option>Berkshire Swash</option><option>Rochester</option><option>Send Flowers</option><option>Dancing Script</option><option>Averia Serif Libre</option><option>Original Surfer</option><option>Parisienne</option><option>Cinzel</option><option>Marck Script</option><option>Almendra</option></optgroup>`;
+const fontOptions='<option value="">(el del skin)</option>'+RT_FONT_GROUPS.map(g=>`<optgroup label="${esc(g[0])}">${g[1].map(f=>`<option>${f}</option>`).join('')}</optgroup>`).join('');
 openModal(`<div>
 <h2>Personalizar: ${esc(def.label)}</h2>
 
